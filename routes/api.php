@@ -1,0 +1,117 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\EmpresaController;
+use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Api\CiudadController;
+use App\Http\Controllers\Api\PlanController;
+use App\Http\Controllers\Api\ResenaController;
+use App\Http\Controllers\Api\NotificationController;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes - ServiLocal
+|--------------------------------------------------------------------------
+*/
+
+// ==================== RUTAS PÚBLICAS ====================
+
+// Autenticación
+Route::post('/auth/register/cliente', [AuthController::class, 'registerCliente']);
+Route::post('/auth/register/empresa', [AuthController::class, 'registerEmpresa']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+
+// Categorías
+Route::get('/categorias', [CategoriaController::class, 'index']);
+Route::get('/categorias/{id}', [CategoriaController::class, 'show']);
+
+// Ciudades
+Route::get('/ciudades', [CiudadController::class, 'index']);
+Route::get('/ciudades/{id}', [CiudadController::class, 'show']);
+
+// Municipios
+Route::get('/municipios/{ciudadId}', [CiudadController::class, 'getMunicipios']);
+
+// Planes
+Route::get('/planes', [PlanController::class, 'index']);
+Route::get('/planes/{id}', [PlanController::class, 'show']);
+
+// Empresas
+Route::get('/empresas', [EmpresaController::class, 'index']);
+Route::get('/empresas/{id}', [EmpresaController::class, 'show']);
+Route::post('/empresas/{id}/clic', [EmpresaController::class, 'registrarClic']);
+
+// Reseñas
+Route::get('/empresas/{empresaId}/resenas', [ResenaController::class, 'index']);
+
+// ==================== RUTAS PROTEGIDAS ====================
+
+Route::middleware('auth:sanctum')->group(function () {
+    
+    // Autenticación
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
+    Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
+
+    // Empresas (solo propietario)
+    Route::put('/empresas/{id}', [EmpresaController::class, 'update']);
+    Route::get('/empresas/{id}/metricas', [EmpresaController::class, 'metricas']);
+    
+    // Suscripciones (empresa solicita plan)
+    Route::post('/suscripciones/solicitar', [EmpresaController::class, 'solicitarSuscripcion']);
+
+    // Horarios de Empresa
+    Route::get('/empresas/{id}/horarios', [EmpresaController::class, 'getHorarios']);
+    Route::post('/empresas/{id}/horarios', [EmpresaController::class, 'saveHorarios']);
+
+    // Logo de Empresa
+    Route::post('/empresas/{id}/logo', [EmpresaController::class, 'uploadLogo']);
+    Route::delete('/empresas/{id}/logo', [EmpresaController::class, 'deleteLogo']);
+
+    // Banner de Empresa
+    Route::post('/empresas/{id}/banner', [EmpresaController::class, 'uploadBanner']);
+    Route::delete('/empresas/{id}/banner', [EmpresaController::class, 'deleteBanner']);
+
+    // Galería de Empresa
+    Route::get('/empresas/{id}/fotos', [EmpresaController::class, 'getFotos']);
+    Route::post('/empresas/{id}/fotos', [EmpresaController::class, 'uploadFoto']);
+    Route::delete('/empresas/{id}/fotos/{fotoId}', [EmpresaController::class, 'deleteFoto']);
+
+    // Servicios de Empresa
+    Route::get('/empresas/{id}/servicios', [EmpresaController::class, 'getServicios']);
+    Route::post('/empresas/{id}/servicios', [EmpresaController::class, 'createServicio']);
+    Route::put('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'updateServicio']);
+    Route::delete('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'deleteServicio']);
+
+    // Reseñas (cliente autenticado)
+    Route::post('/empresas/{empresaId}/resenas', [ResenaController::class, 'store']);
+    Route::post('/resenas/{id}/responder', [ResenaController::class, 'responder']);
+
+    // Admin - Verificación de Empresas
+    Route::post('/admin/empresas/{id}/verificar', [EmpresaController::class, 'verificarEmpresa']);
+    
+    // Admin - Aprobación de Empresas
+    Route::get('/admin/empresas/pendientes', [EmpresaController::class, 'empresasPendientes']);
+    Route::post('/admin/empresas/{id}/aprobar', [EmpresaController::class, 'aprobarEmpresa']);
+
+    // Notificaciones
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/marcar-leida', [NotificationController::class, 'marcarLeida']);
+    Route::post('/notifications/marcar-todas-leidas', [NotificationController::class, 'marcarTodasLeidas']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
+});
+
+// Ruta de prueba
+Route::get('/ping', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'ServiLocal API funcionando correctamente',
+        'version' => '1.0.0',
+        'timestamp' => now()
+    ]);
+});
+

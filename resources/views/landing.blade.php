@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiLocal - Conecta tu Negocio con la Visibilidad que Necesita</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .gradient-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gradient-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(102, 126, 234, 0.4);
+        }
+        .card-benefit {
+            transition: all 0.3s ease;
+        }
+        .card-benefit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .price-toggle {
+            position: relative;
+            display: inline-flex;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 0.25rem;
+        }
+        .price-toggle button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #6b7280;
+        }
+        .price-toggle button.active {
+            background-color: white;
+            color: #667eea;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .plan-card {
+            transition: all 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        .plan-card.featured {
+            position: relative;
+            transform: scale(1.05);
+        }
+        .plan-card.featured:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+        .badge-top {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            color: #667eea;
+        }
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+        .scroll-animation {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .main-bg {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="main-bg">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <a href="/" class="text-2xl font-bold gradient-hero bg-clip-text text-transparent">
+                    ServiLocal
+                </a>
+                <div class="flex items-center gap-4">
+                    <a href="/registro" class="hidden sm:inline-block text-gray-600 hover:text-gray-900 font-medium">
+                        Registrarse
+                    </a>
+                    <a href="/login" class="gradient-cta text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:shadow-lg">
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <header class="gradient-hero text-white py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Contenido del Hero -->
+                <div class="space-y-6">
+                    <div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+                            ServiLocal: Conecta con la Visibilidad que tu Negocio Necesita.
+                        </h1>
+                        <p class="text-lg sm:text-xl text-purple-100">
+                            Clientes: Encuentra servicios locales verificados. Empresas: Domina tu ciudad con el mejor posicionamiento.
+                        </p>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button onclick="window.location.href='#planes'" class="gradient-cta text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl cursor-pointer">
+                            Ver Planes de Posicionamiento
+                        </button>
+                        <button onclick="window.location.href='/marketplace'" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-8 rounded-lg backdrop-blur-sm transition-all duration-300 border border-white border-opacity-30 cursor-pointer">
+                            Buscar Servicios Ahora
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mockup de Aplicación -->
+                <div class="hidden lg:flex justify-center">
+                    <div class="relative w-full max-w-sm">
+                        <!-- Simulación de Mockup Desktop -->
+                        <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg shadow-2xl overflow-hidden border-8 border-gray-700">
+                            <div class="bg-gray-700 p-3 flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div class="bg-gradient-to-b from-purple-900 to-purple-800 p-6 text-center">
+                                <p class="text-white text-sm font-semibold mb-2">ServiLocal Dashboard</p>
+                                <div class="space-y-2">
+                                    <div class="bg-white bg-opacity-10 h-2 rounded"></div>
+                                    <div class="bg-white bg-opacity-10 h-2 rounded w-4/5 mx-auto"></div>
+                                    <div class="bg-white bg-opacity-10 h-2 rounded w-3/5 mx-auto"></div>
+                                </div>
+                                <div class="mt-4 text-purple-200 text-xs">Tus leads en tiempo real</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== SECCIÓN DE VALOR PARA EMPRESAS ==================== -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    ¿Por qué ServiLocal funciona para tu PYME?
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Obtén resultados reales con herramientas diseñadas para pequeños y medianos negocios.
+                </p>
+            </div>
+
+            <!-- Tarjetas de Beneficios -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Tarjeta 1: Posicionamiento -->
+                <div class="card-benefit bg-white rounded-xl shadow-md p-8">
+                    <div class="icon-box mb-6">
+                        <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Posicionamiento Garantizado</h3>
+                    <p class="text-gray-600">
+                        Los planes Premium y Básico posicionan tu negocio en los primeros lugares de búsqueda, superando a la competencia gratuita y aumentando tu visibilidad instantáneamente.
+                    </p>
+                </div>
+
+                <!-- Tarjeta 2: ROI -->
+                <div class="card-benefit bg-white rounded-xl shadow-md p-8">
+                    <div class="icon-box mb-6">
+                        <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Retorno de Inversión (ROI)</h3>
+                    <p class="text-gray-600">
+                        Accede a un panel de control con métricas detalladas: vistas, clics de contacto y conversiones. Justifica cada peso invertido en tu suscripción mensual.
+                    </p>
+                </div>
+
+                <!-- Tarjeta 3: Desktop App -->
+                <div class="card-benefit bg-white rounded-xl shadow-md p-8">
+                    <div class="icon-box mb-6">
+                        <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Herramienta de Escritorio</h3>
+                    <p class="text-gray-600">
+                        Recibe notificaciones push instantáneas en tu desktop. Responde a tus leads en tiempo real y nunca pierdas una oportunidad de negocio.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECCIÓN DE PLANES ==================== -->
+    <section id="planes" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+                    Elige tu Plan de Posicionamiento
+                </h2>
+
+                <!-- Toggle Mensual / Anual -->
+                <div class="flex justify-center mb-8">
+                    <div class="price-toggle">
+                        <button class="active" onclick="togglePricing('monthly')">
+                            Mensual
+                        </button>
+                        <button onclick="togglePricing('annual')">
+                            Anual (10% Descuento)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Planes -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-6">
+                
+                <!-- Plan Gratis -->
+                <div class="plan-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Gratis</h3>
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-gray-900">$0</span>
+                            <span class="text-gray-600 text-sm">/mes</span>
+                        </div>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Perfil básico</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Posición: Al final de búsqueda</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">1 foto</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-400">Panel de métricas</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-400">Notificaciones Push</span>
+                            </li>
+                        </ul>
+
+                        <button onclick="window.location.href='/registro'" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-colors duration-300 cursor-pointer">
+                            Comenzar Gratis
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plan Básico -->
+                <div class="plan-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Básico</h3>
+                        <div class="mb-6">
+                            <div class="pricing-monthly">
+                                <span class="text-3xl font-bold text-gray-900">$5</span>
+                                <span class="text-gray-600 text-sm">/mes</span>
+                            </div>
+                            <div class="pricing-annual hidden">
+                                <span class="text-3xl font-bold text-gray-900">$54</span>
+                                <span class="text-gray-600 text-sm">/año</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Perfil completo</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700 font-semibold">Posición: Intermedia (Destacado)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Hasta 10 fotos</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Panel de métricas básico</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-400">Notificaciones Push</span>
+                            </li>
+                        </ul>
+
+                        <button onclick="window.location.href='/registro'" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-colors duration-300 cursor-pointer">
+                            Comenzar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plan Premium -->
+                <div class="plan-card featured bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-lg overflow-hidden border-2 border-purple-500">
+                    <div class="badge-top text-white text-center py-2 text-sm font-bold">
+                        ⭐ MÁS POPULAR
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
+                        <div class="mb-6">
+                            <div class="pricing-monthly">
+                                <span class="text-3xl font-bold text-gray-900">$10</span>
+                                <span class="text-gray-600 text-sm">/mes</span>
+                            </div>
+                            <div class="pricing-annual hidden">
+                                <span class="text-3xl font-bold text-gray-900">$108</span>
+                                <span class="text-gray-600 text-sm">/año</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Perfil premium verificado</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700 font-semibold">🔥 Posición: TOP 3 (Dominante)</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Fotos ilimitadas</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Panel de métricas avanzado</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-gray-700">Notificaciones Push instantáneas</span>
+                            </li>
+                        </ul>
+
+                        <button onclick="window.location.href='/registro'" class="w-full gradient-cta text-white font-semibold py-3 px-6 rounded-lg cursor-pointer">
+                            Comenzar Ahora
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SECCIÓN DE VALOR PARA CLIENTES ==================== -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    Encuentra el servicio perfecto, sin fallar
+                </h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    ServiLocal te ofrece las herramientas para encontrar exactamente lo que buscas.
+                </p>
+            </div>
+
+            <!-- Características -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Característica 1 -->
+                <div class="card-benefit bg-white rounded-xl shadow-md p-8 text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="icon-box">
+                            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Perfiles Verificados</h3>
+                    <p class="text-gray-600">
+                        Todos los negocios en ServiLocal cuentan con documentos validados. Contrata con confianza.
+                    </p>
+                </div>
+
+                <!-- Característica 2 -->
+                <div class="card-benefit bg-white rounded-xl shadow-md p-8 text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="icon-box">
+                            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Opiniones Reales</h3>
+                    <p class="text-gray-600">
+                        Lee reseñas auténticas de clientes anteriores. Decisiones informadas, resultados satisfactorios.
+                    </p>
+                </div>
+
+                <!-- Característica 3 -->
+                <div class="card-benefit bg-white rounded-xl shadow-md p-8 text-center">
+                    <div class="flex justify-center mb-6">
+                        <div class="icon-box">
+                            <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Búsqueda Local Inteligente</h3>
+                    <p class="text-gray-600">
+                        Filtra por categoría, ciudad y especialidad. Encuentra el servicio exacto que necesitas a metros de ti.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-4">ServiLocal</h4>
+                    <p class="text-sm text-gray-400">
+                        Conecta tu negocio con la visibilidad que necesita.
+                    </p>
+                </div>
+
+                <!-- Enlaces Rápidos -->
+                <div>
+                    <h5 class="text-white font-semibold mb-4">Enlaces</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#planes" class="hover:text-white transition-colors">Planes</a></li>
+                        <li><a href="#empresas" class="hover:text-white transition-colors">Características</a></li>
+                        <li><a href="/marketplace" class="hover:text-white transition-colors">Buscar Servicios</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h5 class="text-white font-semibold mb-4">Legal</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Términos de Servicio</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h5 class="text-white font-semibold mb-4">¿Listo para empezar?</h5>
+                    <p class="text-sm text-gray-400 mb-4">
+                        Únete a ServiLocal y comienza a conectar con tu comunidad.
+                    </p>
+                    <button 
+                        onclick="window.location.href='/registro'"
+                        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition-colors cursor-pointer"
+                    >
+                        Registrarse Ahora
+                    </button>
+                </div>
+            </div>
+
+            <!-- Divisor -->
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+                    <p>&copy; 2024 ServiLocal. Todos los derechos reservados.</p>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="hover:text-white transition-colors">Facebook</a>
+                        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        // Toggle de Precios Mensual / Anual
+        function togglePricing(period) {
+            // Actualizar botones activos
+            document.querySelectorAll('.price-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Mostrar/Ocultar precios según el período
+            const isMonthly = period === 'monthly';
+            
+            document.querySelectorAll('.pricing-monthly').forEach(el => {
+                el.classList.toggle('hidden', !isMonthly);
+            });
+            
+            document.querySelectorAll('.pricing-annual').forEach(el => {
+                el.classList.toggle('hidden', isMonthly);
+            });
+        }
+
+
+        // Scroll suave para enlaces
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // CTA principal - Scroll a planes
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.includes('Ver Planes')) {
+                btn.addEventListener('click', () => {
+                    document.querySelector('.price-toggle').parentElement.parentElement.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
+

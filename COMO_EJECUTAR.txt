@@ -1,0 +1,73 @@
+╔═══════════════════════════════════════════════════════════════╗
+║        ServiLocal Landing Page - INSTRUCCIONES DE INICIO      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+🌐 URL: http://localhost:3004
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MÉTODO 1: Usar Python (RECOMENDADO - Sin dependencias)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Simplemente ejecuta:
+   start-server-python.bat
+
+O desde PowerShell:
+   python -m http.server 3004
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MÉTODO 2: Usar Node.js (Si tienes Node instalado)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+npm install -g http-server
+http-server -p 3004
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Una vez iniciado, abre tu navegador en:
+
+   http://localhost:3004
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 ARCHIVOS DISPONIBLES:
+
+   ✓ index.html                 ← Landing page (HTML puro)
+   ✓ resources/views/landing.blade.php  ← Landing page (versión Blade)
+   ✓ server.php                 ← Servidor PHP simple
+   
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎨 CARACTERÍSTICAS:
+
+   ✅ 100% Responsivo (Mobile, Tablet, Desktop)
+   ✅ Tailwind CSS (Vía CDN)
+   ✅ Diseño Moderno con Gradientes
+   ✅ Toggle de Precios Mensual/Anual
+   ✅ Formulario de Newsletter
+   ✅ Animaciones Suaves
+   ✅ Todo en Español
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🛑 PARA DETENER EL SERVIDOR:
+
+   Presiona: Ctrl + C
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 TIPS:
+
+   • Si el puerto 3004 está en uso, cambia a otro:
+     python -m http.server 3005
+
+   • El archivo index.html se abre automáticamente como home
+   • Todos los estilos están en el mismo archivo HTML
+   • No necesitas dependencias externas
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+¡Tu landing page profesional de ServiLocal está lista! 🚀
+
+

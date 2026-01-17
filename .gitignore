@@ -1,0 +1,59 @@
+# Laravel .gitignore
+
+# Environment files
+.env
+.env.backup
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build files
+/public/hot
+/public/storage
+/public/build
+/public/mix-manifest.json
+
+# Laravel specific
+/storage/*.key
+/vendor
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+# Logs
+*.log
+storage/logs/*.log
+
+# Testing
+.phpunit.result.cache
+coverage/
+
+# Database
+*.sqlite
+*.sqlite-journal
+database/*.sqlite
+database/*.sqlite-journal
+
+# Backups
+*.sql
+*.sql.gz
+backups/
+
+# Temporary files
+*.swp
+*.swo
+*~
+.tmp/
+
