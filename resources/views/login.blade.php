@@ -3,24 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - ServiLocal</title>
+    <title>Iniciar Sesión - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .main-bg {
             background-color: #f3f4f6;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-container img {
+            height: 40px;
+            width: auto;
         }
     </style>
 </head>
@@ -30,10 +55,11 @@
     <header class="bg-white shadow-sm">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center">
-                <a href="/" class="text-2xl font-bold gradient-text">
-                    ServiLocal
+                <a href="/" class="logo-container">
+                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo">
+                    <span class="text-2xl font-bold text-mercarof-navy">MERCAROF</span>
                 </a>
-                <a href="/" class="text-gray-600 hover:text-gray-900">
+                <a href="/" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors">
                     ← Volver al inicio
                 </a>
             </div>
@@ -46,8 +72,8 @@
             
             <!-- Título -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-gray-900 mb-2">Bienvenido de nuevo</h1>
-                <p class="text-gray-600">Inicia sesión en tu cuenta de ServiLocal</p>
+                <h1 class="text-4xl font-bold text-mercarof-navy mb-2">Bienvenido de nuevo</h1>
+                <p class="text-gray-600">Inicia sesión en tu cuenta de MERCAROF</p>
             </div>
 
             <!-- Card -->
@@ -67,7 +93,7 @@
                             name="email" 
                             required
                             placeholder="tu@email.com"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent transition-all"
                         >
                     </div>
 
@@ -80,16 +106,16 @@
                             name="password" 
                             required
                             placeholder="••••••••"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent transition-all"
                         >
                     </div>
 
                     <div class="flex items-center justify-between">
                         <label class="flex items-center">
-                            <input type="checkbox" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                            <input type="checkbox" class="rounded border-gray-300 text-mercarof-cyan focus:ring-mercarof-cyan">
                             <span class="ml-2 text-sm text-gray-600">Recordarme</span>
                         </label>
-                        <a href="#" class="text-sm text-purple-600 hover:text-purple-700 font-medium">
+                        <a href="#" class="text-sm text-mercarof-cyan hover:text-mercarof-cyan-dark font-medium">
                             ¿Olvidaste tu contraseña?
                         </a>
                     </div>
@@ -116,7 +142,7 @@
                 <div class="text-center">
                     <p class="text-gray-600">
                         ¿No tienes cuenta? 
-                        <a href="/registro" class="text-purple-600 hover:text-purple-700 font-semibold">
+                        <a href="/registro" class="text-mercarof-cyan hover:text-mercarof-cyan-dark font-semibold">
                             Regístrate aquí
                         </a>
                     </p>

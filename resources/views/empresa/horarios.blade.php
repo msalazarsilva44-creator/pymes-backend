@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horarios - ServiLocal Empresa</title>
+    <title>Horarios - MERCAROF Empresa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -21,11 +37,11 @@
 <body class="main-bg">
 
     <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/empresa" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">ServiLocal</a>
-                <a href="/dashboard/empresa" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">← Volver al Dashboard</a>
+                <a href="/dashboard/empresa" class="text-2xl font-bold text-mercarof-navy">MERCAROF</a>
+                <a href="/dashboard/empresa" class="text-gray-600 hover:text-mercarof-cyan transition-colors font-medium">← Volver al Dashboard</a>
             </div>
         </div>
     </header>
@@ -64,12 +80,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-lunes" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('lunes')">
+                        <input type="checkbox" id="activo-lunes" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('lunes')">
                         <label for="activo-lunes" class="text-lg font-semibold text-gray-900">Lunes</label>
                     </div>
                     <span id="status-lunes" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-lunes" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-lunes" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-lunes" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -85,12 +101,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-martes" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('martes')">
+                        <input type="checkbox" id="activo-martes" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('martes')">
                         <label for="activo-martes" class="text-lg font-semibold text-gray-900">Martes</label>
                     </div>
                     <span id="status-martes" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-martes" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-martes" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-martes" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -106,12 +122,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-miercoles" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('miercoles')">
+                        <input type="checkbox" id="activo-miercoles" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('miercoles')">
                         <label for="activo-miercoles" class="text-lg font-semibold text-gray-900">Miércoles</label>
                     </div>
                     <span id="status-miercoles" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-miercoles" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-miercoles" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-miercoles" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -127,12 +143,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-jueves" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('jueves')">
+                        <input type="checkbox" id="activo-jueves" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('jueves')">
                         <label for="activo-jueves" class="text-lg font-semibold text-gray-900">Jueves</label>
                     </div>
                     <span id="status-jueves" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-jueves" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-jueves" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-jueves" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -148,12 +164,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-viernes" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('viernes')">
+                        <input type="checkbox" id="activo-viernes" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('viernes')">
                         <label for="activo-viernes" class="text-lg font-semibold text-gray-900">Viernes</label>
                     </div>
                     <span id="status-viernes" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-viernes" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-viernes" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-viernes" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -169,12 +185,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-sabado" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('sabado')">
+                        <input type="checkbox" id="activo-sabado" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('sabado')">
                         <label for="activo-sabado" class="text-lg font-semibold text-gray-900">Sábado</label>
                     </div>
                     <span id="status-sabado" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-sabado" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-sabado" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-sabado" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -190,12 +206,12 @@
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
-                        <input type="checkbox" id="activo-domingo" class="w-5 h-5 text-purple-600 rounded" onchange="toggleDia('domingo')">
+                        <input type="checkbox" id="activo-domingo" class="w-5 h-5 text-mercarof-cyan rounded" onchange="toggleDia('domingo')">
                         <label for="activo-domingo" class="text-lg font-semibold text-gray-900">Domingo</label>
                     </div>
                     <span id="status-domingo" class="text-sm text-red-600 font-medium">Cerrado</span>
                 </div>
-                <div id="horarios-domingo" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="horarios-domingo" class="hidden grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Apertura</label>
                         <input type="time" id="apertura-domingo" value="08:00" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
@@ -258,11 +274,13 @@
 
             if (activo) {
                 horariosDiv.classList.remove('hidden');
+                horariosDiv.classList.add('grid');
                 status.textContent = 'Abierto';
                 status.classList.remove('text-red-600');
                 status.classList.add('text-green-600');
             } else {
                 horariosDiv.classList.add('hidden');
+                horariosDiv.classList.remove('grid');
                 status.textContent = 'Cerrado';
                 status.classList.remove('text-green-600');
                 status.classList.add('text-red-600');

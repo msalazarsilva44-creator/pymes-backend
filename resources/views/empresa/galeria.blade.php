@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería - ServiLocal Empresa</title>
+    <title>Galería - MERCAROF Empresa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .photo-item {
             position: relative;
@@ -49,11 +65,11 @@
 <body class="main-bg">
 
     <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/empresa" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">ServiLocal</a>
-                <a href="/dashboard/empresa" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">← Volver al Dashboard</a>
+                <a href="/dashboard/empresa" class="text-2xl font-bold text-mercarof-navy">MERCAROF</a>
+                <a href="/dashboard/empresa" class="text-gray-600 hover:text-mercarof-cyan transition-colors font-medium">← Volver al Dashboard</a>
             </div>
         </div>
     </header>
@@ -73,7 +89,7 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <h2 class="text-xl font-bold text-gray-900 mb-4">Subir Nueva Foto</h2>
             
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-purple-500 transition-colors cursor-pointer" id="upload-area">
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-mercarof-cyan transition-colors cursor-pointer" id="upload-area">
                 <input type="file" id="file-input" accept="image/*" class="hidden">
                 <div class="text-6xl mb-4">📷</div>
                 <p class="text-lg font-semibold text-gray-900 mb-2">Click para subir una foto</p>
@@ -93,7 +109,7 @@
                             id="foto-descripcion"
                             rows="3"
                             placeholder="Describe esta foto..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         ></textarea>
                         <div class="flex gap-3 mt-4">
                             <button 
@@ -115,19 +131,19 @@
         </div>
 
         <!-- Stats -->
-        <div class="bg-gradient-to-r from-purple-500 to-purple-700 rounded-lg p-6 text-white mb-8">
+        <div class="bg-gradient-to-r from-mercarof-navy to-mercarof-cyan rounded-lg p-6 text-white mb-8">
             <div class="grid grid-cols-3 gap-6 text-center">
                 <div>
                     <p class="text-3xl font-bold" id="total-fotos">0</p>
-                    <p class="text-purple-100 text-sm">Fotos subidas</p>
+                    <p class="text-mercarof-cyan-light text-sm">Fotos subidas</p>
                 </div>
                 <div>
                     <p class="text-3xl font-bold" id="total-vistas">0</p>
-                    <p class="text-purple-100 text-sm">Vistas de galería</p>
+                    <p class="text-mercarof-cyan-light text-sm">Vistas de galería</p>
                 </div>
                 <div>
                     <p class="text-3xl font-bold">10</p>
-                    <p class="text-purple-100 text-sm">Límite de fotos</p>
+                    <p class="text-mercarof-cyan-light text-sm">Límite de fotos</p>
                 </div>
             </div>
         </div>
@@ -149,7 +165,7 @@
     </div>
 
     <!-- Modal para ver foto completa -->
-    <div id="modal-foto" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4" onclick="cerrarModal()">
+    <div id="modal-foto" class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 items-center justify-center p-4" onclick="cerrarModal()">
         <div class="relative max-w-4xl w-full" onclick="event.stopPropagation()">
             <button onclick="cerrarModal()" class="absolute -top-10 right-0 text-white text-3xl hover:text-gray-300">×</button>
             <img id="modal-imagen" src="" alt="" class="w-full rounded-lg">
@@ -207,16 +223,16 @@
             // Drag & Drop
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                uploadArea.classList.add('border-purple-500', 'bg-purple-50');
+                uploadArea.classList.add('border-mercarof-cyan', 'bg-mercarof-cyan', 'bg-opacity-10');
             });
 
             uploadArea.addEventListener('dragleave', () => {
-                uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
+                uploadArea.classList.remove('border-mercarof-cyan', 'bg-mercarof-cyan', 'bg-opacity-10');
             });
 
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
-                uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
+                uploadArea.classList.remove('border-mercarof-cyan', 'bg-mercarof-cyan', 'bg-opacity-10');
                 
                 const file = e.dataTransfer.files[0];
                 if (file && file.type.startsWith('image/')) {
@@ -324,12 +340,16 @@
             currentPhotoId = id;
             document.getElementById('modal-imagen').src = url;
             document.getElementById('modal-descripcion').textContent = descripcion || 'Sin descripción';
-            document.getElementById('modal-foto').classList.remove('hidden');
+            const modal = document.getElementById('modal-foto');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         // Cerrar modal
         function cerrarModal() {
-            document.getElementById('modal-foto').classList.add('hidden');
+            const modal = document.getElementById('modal-foto');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             currentPhotoId = null;
         }
 

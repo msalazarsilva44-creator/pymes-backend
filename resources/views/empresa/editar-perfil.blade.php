@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil - ServiLocal Empresa</title>
+    <title>Editar Perfil - MERCAROF Empresa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -21,11 +37,11 @@
 <body class="main-bg">
 
     <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/empresa" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">ServiLocal</a>
-                <a href="/dashboard/empresa" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">← Volver al Dashboard</a>
+                <a href="/dashboard/empresa" class="text-2xl font-bold text-mercarof-navy">MERCAROF</a>
+                <a href="/dashboard/empresa" class="text-gray-600 hover:text-mercarof-cyan transition-colors font-medium">← Volver al Dashboard</a>
             </div>
         </div>
     </header>
@@ -67,7 +83,7 @@
                             type="file" 
                             id="logo-input"
                             accept="image/*"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         >
                         <p class="text-xs text-gray-500 mt-2">PNG, JPG, JPEG hasta 2MB. El logo aparecerá en tu perfil público.</p>
                         
@@ -108,7 +124,7 @@
                                 name="nombre_comercial" 
                                 id="nombre_comercial"
                                 required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                         <div>
@@ -119,7 +135,7 @@
                                 type="text" 
                                 name="rfc" 
                                 id="rfc"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                     </div>
@@ -133,7 +149,7 @@
                                 name="categoria_id" 
                                 id="categoria_id"
                                 required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                                 <option value="">Seleccionar categoría...</option>
                             </select>
@@ -146,7 +162,7 @@
                                 name="ciudad_id" 
                                 id="ciudad_id"
                                 required
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                                 <option value="">Seleccionar ciudad...</option>
                             </select>
@@ -163,7 +179,7 @@
                             rows="4"
                             required
                             placeholder="Describe tu empresa, servicios que ofreces, años de experiencia..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         ></textarea>
                         <p class="text-xs text-gray-500 mt-1">Una buena descripción ayuda a los clientes a conocerte mejor</p>
                     </div>
@@ -186,7 +202,7 @@
                                 id="telefono"
                                 required
                                 placeholder="+58 424 1234567"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                         <div>
@@ -199,7 +215,7 @@
                                 id="email_contacto"
                                 required
                                 placeholder="contacto@tuempresa.com"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                     </div>
@@ -214,7 +230,7 @@
                             rows="2"
                             required
                             placeholder="Calle, Número, Zona, Puntos de referencia..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         ></textarea>
                     </div>
 
@@ -227,7 +243,7 @@
                             name="sitio_web" 
                             id="sitio_web"
                             placeholder="https://www.tuempresa.com"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         >
                     </div>
                 </div>
@@ -248,7 +264,7 @@
                                 name="facebook" 
                                 id="facebook"
                                 placeholder="https://facebook.com/tuempresa"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                         <div>
@@ -260,7 +276,7 @@
                                 name="instagram" 
                                 id="instagram"
                                 placeholder="https://instagram.com/tuempresa"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                     </div>
@@ -274,7 +290,7 @@
                                 name="twitter" 
                                 id="twitter"
                                 placeholder="https://twitter.com/tuempresa"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                         <div>
@@ -286,7 +302,7 @@
                                 name="linkedin" 
                                 id="linkedin"
                                 placeholder="https://linkedin.com/company/tuempresa"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                         <div>
@@ -298,7 +314,7 @@
                                 name="youtube" 
                                 id="youtube"
                                 placeholder="https://youtube.com/@tucanal"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                         <div>
@@ -310,7 +326,7 @@
                                 name="tiktok" 
                                 id="tiktok"
                                 placeholder="https://tiktok.com/@tuusuario"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             >
                         </div>
                     </div>

@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Empresa - ServiLocal</title>
+    <title>Dashboard Proveedor - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-container img {
+            height: 32px;
+            width: auto;
         }
     </style>
 </head>
@@ -25,24 +50,27 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center gap-4">
-                    <a href="#" id="logo-home" class="text-2xl font-bold gradient-bg bg-clip-text text-transparent cursor-pointer">ServiLocal</a>
-                    <span class="text-sm text-gray-500">/ Dashboard Empresa</span>
+                    <div class="logo-container">
+                        <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo">
+                        <a href="#" id="logo-home" class="text-xl font-bold text-mercarof-navy cursor-pointer">MERCAROF</a>
+                    </div>
+                    <span class="text-sm text-gray-500">/ Dashboard Proveedor</span>
                 </div>
                 <div class="flex items-center gap-4">
                     <!-- Notificaciones -->
                     <div class="relative">
-                        <button onclick="toggleNotificaciones()" class="relative p-2 text-gray-600 hover:text-purple-600 transition-colors">
+                        <button onclick="toggleNotificaciones()" class="relative p-2 text-gray-600 hover:text-mercarof-cyan transition-colors">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                             </svg>
-                            <span id="badge-notificaciones" class="hidden absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"></span>
+                            <span id="badge-notificaciones" class="hidden absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 items-center justify-center"></span>
                         </button>
                         
                         <!-- Dropdown de notificaciones -->
                         <div id="dropdown-notificaciones" class="hidden absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-96 overflow-y-auto">
                             <div class="p-4 border-b border-gray-200 flex justify-between items-center">
                                 <h3 class="font-bold text-gray-900">Notificaciones</h3>
-                                <button onclick="marcarTodasLeidas()" class="text-xs text-purple-600 hover:text-purple-700 font-medium">
+                                <button onclick="marcarTodasLeidas()" class="text-xs text-mercarof-cyan hover:text-mercarof-cyan-dark font-medium">
                                     Marcar todas leídas
                                 </button>
                             </div>
@@ -69,10 +97,10 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h2 class="text-3xl font-bold mb-2">¡Hola! 👋</h2>
-                    <p class="text-purple-100" id="empresa-descripcion">Gestiona tu negocio en ServiLocal</p>
+                    <p class="text-mercarof-cyan-light" id="empresa-descripcion">Gestiona tu negocio en MERCAROF</p>
                 </div>
                 <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg px-6 py-4">
-                    <p class="text-sm text-purple-100 mb-1">Plan Actual</p>
+                    <p class="text-sm text-mercarof-cyan-light mb-1">Plan Actual</p>
                     <p class="text-2xl font-bold mb-2" id="plan-name">Gratis</p>
                     
                     <!-- Información de suscripción para planes pagos -->
@@ -84,17 +112,17 @@
                                     <span id="dias-restantes" class="text-base font-bold block"></span>
                                 </div>
                             </div>
-                            <div class="flex items-center gap-2 text-xs text-purple-100">
+                            <div class="flex items-center gap-2 text-xs text-mercarof-cyan-light">
                                 <span>📅</span>
                                 <span>Vence: <span id="fecha-vencimiento" class="font-semibold"></span></span>
                             </div>
                         </div>
-                        <a href="/empresa/solicitar-plan" class="text-xs text-white hover:text-purple-100 underline block text-center">
+                        <a href="/empresa/solicitar-plan" class="text-xs text-white hover:text-mercarof-cyan-light underline block text-center">
                             🔄 Renovar ahora
                         </a>
                     </div>
                     
-                    <a href="/planes" class="text-sm text-white hover:text-purple-100 underline inline-block">Mejorar Plan →</a>
+                    <a href="/planes" class="text-sm text-white hover:text-mercarof-cyan-light underline inline-block">Mejorar Plan →</a>
                 </div>
             </div>
         </div>
@@ -139,9 +167,9 @@
 
             <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-xl transition-all cursor-pointer" onclick="window.location.href='/empresa/resenas'">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center relative">
+                    <div class="w-12 h-12 bg-mercarof-cyan bg-opacity-10 rounded-lg flex items-center justify-center relative">
                         <span class="text-2xl">💬</span>
-                        <span id="badge-resenas-pendientes" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center"></span>
+                        <span id="badge-resenas-pendientes" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 items-center justify-center"></span>
                     </div>
                     <div>
                         <p class="text-gray-600 text-sm">Reseñas</p>
@@ -183,27 +211,27 @@
         </div>
 
         <!-- Métricas Destacadas (Solo para planes Básico y Premium) -->
-        <div id="seccion-metricas" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg shadow-lg p-6 mb-8 text-white" style="display: none;">
+        <div id="seccion-metricas" class="bg-gradient-to-r from-mercarof-navy via-mercarof-cyan to-mercarof-cyan-light rounded-lg shadow-lg p-6 mb-8 text-white" style="display: none;">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div class="flex-1">
                     <h3 class="text-2xl font-bold mb-2">📊 Analiza el Desempeño de tu Empresa</h3>
-                    <p class="text-purple-100 text-sm mb-4">Descubre cómo los clientes interactúan con tu perfil, obtén insights valiosos y toma decisiones basadas en datos.</p>
+                    <p class="text-mercarof-cyan-light text-sm mb-4">Descubre cómo los clientes interactúan con tu perfil, obtén insights valiosos y toma decisiones basadas en datos.</p>
                     <div class="flex gap-4 text-sm">
                         <div>
-                            <p class="text-purple-100">Vistas este mes</p>
+                            <p class="text-mercarof-cyan-light">Vistas este mes</p>
                             <p class="text-2xl font-bold" id="preview-vistas">-</p>
                         </div>
                         <div>
-                            <p class="text-purple-100">Clics este mes</p>
+                            <p class="text-mercarof-cyan-light">Clics este mes</p>
                             <p class="text-2xl font-bold" id="preview-clics">-</p>
                         </div>
                         <div>
-                            <p class="text-purple-100">Conversión</p>
+                            <p class="text-mercarof-cyan-light">Conversión</p>
                             <p class="text-2xl font-bold" id="preview-conversion">-%</p>
                         </div>
                     </div>
                 </div>
-                <a href="/empresa/metricas" class="bg-white text-purple-600 font-bold py-3 px-8 rounded-lg hover:bg-purple-50 transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
+                <a href="/empresa/metricas" class="bg-white text-mercarof-cyan font-bold py-3 px-8 rounded-lg border-2 border-mercarof-cyan hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
                     <span>📈</span>
                     Ver Métricas Completas
                 </a>
@@ -227,7 +255,7 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <h3 class="text-xl font-bold text-gray-900 mb-4">Gestión Rápida</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                <a href="/empresa/editar-perfil" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/empresa/editar-perfil" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">✏️</span>
                     <div class="text-left">
                         <p class="font-semibold text-gray-900">Editar Perfil</p>
@@ -235,7 +263,7 @@
                     </div>
                 </a>
 
-                <a href="/empresa/galeria" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/empresa/galeria" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">📸</span>
                     <div class="text-left">
                         <p class="font-semibold text-gray-900">Galería</p>
@@ -243,7 +271,7 @@
                     </div>
                 </a>
 
-                <button onclick="abrirModalBanner()" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all text-left">
+                <button onclick="abrirModalBanner()" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all text-left">
                     <span class="text-2xl">🖼️</span>
                     <div class="text-left">
                         <p class="font-semibold text-gray-900">Banner</p>
@@ -251,7 +279,7 @@
                     </div>
                 </button>
 
-                <a href="/empresa/horarios" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/empresa/horarios" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">🕐</span>
                     <div class="text-left">
                         <p class="font-semibold text-gray-900">Horarios</p>
@@ -259,7 +287,7 @@
                     </div>
                 </a>
 
-                <a href="/empresa/servicios" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/empresa/servicios" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">💼</span>
                     <div class="text-left">
                         <p class="font-semibold text-gray-900">Servicios</p>
@@ -267,7 +295,7 @@
                     </div>
                 </a>
 
-                <a href="/empresa/resenas" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all relative">
+                <a href="/empresa/resenas" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all relative">
                     <span class="text-2xl">💬</span>
                     <span id="badge-resenas-quick" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1"></span>
                     <div class="text-left">
@@ -294,10 +322,10 @@
             <div class="mb-6">
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-sm font-medium text-gray-700">Completitud del Perfil</span>
-                    <span class="text-sm font-bold text-purple-600" id="porcentaje-perfil">0%</span>
+                    <span class="text-sm font-bold text-mercarof-cyan" id="porcentaje-perfil">0%</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div id="barra-progreso" class="bg-gradient-to-r from-purple-500 to-purple-700 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div id="barra-progreso" class="bg-gradient-to-r from-mercarof-cyan to-mercarof-cyan-dark h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
             </div>
 
@@ -334,7 +362,7 @@
                     id="btn-ver-perfil"
                     href="#"
                     target="_blank"
-                    class="px-6 py-3 border-2 border-purple-600 text-purple-600 font-semibold rounded-lg hover:bg-purple-50 transition-all hidden"
+                    class="px-6 py-3 border-2 border-mercarof-cyan text-mercarof-cyan font-semibold rounded-lg hover:bg-mercarof-cyan bg-opacity-5 transition-all hidden"
                 >
                     👁️ Ver Perfil Público
                 </a>
@@ -383,7 +411,7 @@
     </div>
 
     <!-- Modal para subir Banner -->
-    <div id="modal-banner" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="cerrarModalBanner()">
+    <div id="modal-banner" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4" onclick="cerrarModalBanner()">
         <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-6" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold text-gray-900">🖼️ Personalizar Banner</h3>
@@ -395,7 +423,7 @@
             <!-- Vista previa del banner actual -->
             <div id="banner-preview-container" class="mb-6">
                 <p class="text-sm font-medium text-gray-700 mb-2">Banner actual:</p>
-                <div id="banner-preview" class="h-32 rounded-lg overflow-hidden border-2 border-gray-200 bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center">
+                <div id="banner-preview" class="h-32 rounded-lg overflow-hidden border-2 border-gray-200 bg-gradient-to-r from-mercarof-navy to-mercarof-cyan flex items-center justify-center">
                     <p class="text-white text-sm">Sin banner (degradado por defecto)</p>
                 </div>
             </div>
@@ -410,7 +438,7 @@
                         type="file" 
                         id="input-banner" 
                         accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         onchange="previewBanner(event)"
                     >
                     <p class="text-xs text-gray-500 mt-1">Formatos: JPG, PNG, GIF, WEBP. Máximo 5MB</p>
@@ -688,6 +716,7 @@
                         const badgeStat = document.getElementById('badge-resenas-pendientes');
                         badgeStat.textContent = pendientes;
                         badgeStat.classList.remove('hidden');
+                        badgeStat.classList.add('flex');
                         
                         // Mostrar texto de pendientes
                         const textPendientes = document.getElementById('text-pendientes');
@@ -723,8 +752,10 @@
                     if (noLeidas > 0) {
                         badge.textContent = noLeidas > 9 ? '9+' : noLeidas;
                         badge.classList.remove('hidden');
+                        badge.classList.add('flex');
                     } else {
                         badge.classList.add('hidden');
+                        badge.classList.remove('flex');
                     }
                     
                     // Renderizar lista de notificaciones
@@ -738,7 +769,7 @@
                         `;
                     } else {
                         lista.innerHTML = notificaciones.map(n => `
-                            <div class="p-4 hover:bg-gray-50 transition-colors ${!n.leida ? 'bg-purple-50' : ''}">
+                            <div class="p-4 hover:bg-gray-50 transition-colors ${!n.leida ? 'bg-mercarof-cyan bg-opacity-5' : ''}">
                                 <div class="flex items-start gap-3">
                                     <div class="flex-1">
                                         <h4 class="font-semibold text-gray-900 text-sm">${n.titulo}</h4>
@@ -747,7 +778,7 @@
                                     </div>
                                     <div class="flex gap-2">
                                         ${!n.leida ? `
-                                            <button onclick="marcarLeida(${n.id})" class="text-purple-600 hover:text-purple-700 text-xs font-medium">
+                                            <button onclick="marcarLeida(${n.id})" class="text-mercarof-cyan hover:text-mercarof-cyan-dark text-xs font-medium">
                                                 ✓
                                             </button>
                                         ` : ''}
@@ -1022,11 +1053,11 @@
 
         // Mostrar badge de boost
         function mostrarBadgeBoost(diasRestantes) {
-            const planContainer = document.querySelector('.bg-purple-600.rounded-lg.shadow-md.text-white');
+            const planContainer = document.querySelector('.bg-mercarof-cyan.rounded-lg.shadow-md.text-white');
             if (planContainer && !document.getElementById('boost-badge')) {
                 const badge = document.createElement('div');
                 badge.id = 'boost-badge';
-                badge.className = 'mt-2 bg-yellow-400 text-purple-900 px-3 py-1 rounded-full text-xs font-bold inline-block';
+                badge.className = 'mt-2 bg-yellow-400 text-mercarof-navy px-3 py-1 rounded-full text-xs font-bold inline-block';
                 badge.innerHTML = `🔥 Boost activo (${diasRestantes} día${diasRestantes !== 1 ? 's' : ''} restante${diasRestantes !== 1 ? 's' : ''})`;
                 planContainer.appendChild(badge);
             }
@@ -1219,6 +1250,7 @@
         function abrirModalBanner() {
             const modal = document.getElementById('modal-banner');
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
             
             // Cargar banner actual si existe
             const empresaData = JSON.parse(localStorage.getItem('empresa_data') || '{}');
@@ -1232,7 +1264,9 @@
         }
 
         function cerrarModalBanner() {
-            document.getElementById('modal-banner').classList.add('hidden');
+            const modal = document.getElementById('modal-banner');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             document.getElementById('input-banner').value = '';
             document.getElementById('preview-nueva-imagen').classList.add('hidden');
         }

@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServiLocal - Encuentra los mejores servicios</title>
+    <title>MERCAROF - Encuentra los mejores servicios</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -65,15 +81,15 @@
 <body class="main-bg">
 
     <!-- Header Principal -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Top Bar -->
             <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                <a href="#" id="logo-home" class="text-2xl font-bold gradient-bg bg-clip-text text-transparent cursor-pointer">
-                    ServiLocal
+                <a href="#" id="logo-home" class="text-2xl font-bold text-mercarof-navy cursor-pointer">
+                    MERCAROF
                 </a>
                 <div class="flex items-center gap-4 text-sm">
-                    <span class="text-gray-700">¡Hola, <strong id="user-name" class="text-purple-600">Cliente</strong>!</span>
+                    <span class="text-gray-700">¡Hola, <strong id="user-name" class="text-mercarof-navy">Cliente</strong>!</span>
                     <button onclick="cerrarSesion()" class="text-gray-600 hover:text-red-600 font-medium transition-colors">
                         Salir
                     </button>
@@ -88,7 +104,7 @@
                         id="search-input"
                         placeholder="Buscar servicios, empresas..." 
                         onkeyup="filtrarEmpresas()"
-                        class="flex-1 px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-purple-500 focus:outline-none shadow-sm"
+                        class="flex-1 px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-mercarof-cyan focus:outline-none shadow-sm"
                     >
                     <button class="gradient-bg text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
                         🔍 Buscar
@@ -104,13 +120,13 @@
             <div class="flex items-center justify-between py-3">
                 <!-- Links de navegación - Ocultos en móvil -->
                 <div class="hidden md:flex items-center gap-6">
-                    <button onclick="filtrarPorCategoria(null)" class="text-gray-700 hover:text-purple-600 font-medium">
+                    <button onclick="filtrarPorCategoria(null)" class="text-gray-700 hover:text-mercarof-cyan font-medium">
                         Todas las Categorías
                     </button>
-                    <a href="/ofertas" class="text-gray-700 hover:text-purple-600 font-medium">
+                    <a href="/ofertas" class="text-gray-700 hover:text-mercarof-cyan font-medium">
                         🔥 Ofertas
                     </a>
-                    <a href="/ayuda" class="text-gray-700 hover:text-purple-600 font-medium">
+                    <a href="/ayuda" class="text-gray-700 hover:text-mercarof-cyan font-medium">
                         ❓ Ayuda
                     </a>
                 </div>
@@ -122,19 +138,19 @@
 
                 <!-- Iconos de usuario - Simplificados en móvil -->
                 <div class="flex items-center gap-3 md:gap-6">
-                    <a href="/perfil" class="flex items-center gap-2 text-gray-700 hover:text-purple-600">
+                    <a href="/perfil" class="flex items-center gap-2 text-gray-700 hover:text-mercarof-cyan">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
                         <span class="font-medium hidden sm:inline">Mi Perfil</span>
                     </a>
-                    <a href="/mis-compras" class="flex items-center gap-2 text-gray-700 hover:text-purple-600">
+                    <a href="/mis-compras" class="flex items-center gap-2 text-gray-700 hover:text-mercarof-cyan">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
                         <span class="font-medium hidden sm:inline">Mis Compras</span>
                     </a>
-                    <a href="/favoritos" class="flex items-center gap-2 text-gray-700 hover:text-purple-600 relative">
+                    <a href="/favoritos" class="flex items-center gap-2 text-gray-700 hover:text-mercarof-cyan relative">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                         </svg>
@@ -149,7 +165,7 @@
     <nav class="bg-white shadow-sm border-b sticky top-[64px] z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex overflow-x-auto py-4 gap-3 scrollbar-hide" id="categorias-nav">
-                <button onclick="filtrarPorCategoria(null)" class="categoria-btn whitespace-nowrap px-4 py-2 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-all text-sm">
+                <button onclick="filtrarPorCategoria(null)" class="categoria-btn whitespace-nowrap px-4 py-2 bg-mercarof-navy text-white rounded-full font-medium hover:bg-mercarof-navy-dark transition-all text-sm">
                     Todas
                 </button>
                 <!-- Se llenarán dinámicamente -->
@@ -163,7 +179,7 @@
         <!-- Banner de Bienvenida -->
         <div class="gradient-bg rounded-xl p-4 sm:p-6 text-white mb-8 shadow-lg">
             <h1 class="text-2xl sm:text-3xl font-bold mb-2">¡Encuentra el servicio perfecto! 🎯</h1>
-            <p class="text-sm sm:text-base text-purple-100">Miles de empresas verificadas listas para ayudarte</p>
+            <p class="text-sm sm:text-base text-mercarof-cyan-light">Miles de empresas verificadas listas para ayudarte</p>
         </div>
 
         <!-- Filtros -->
@@ -171,14 +187,14 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Filtrar por Estado:</label>
-                    <select id="filtro-estado" onchange="filtrarPorEstado()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <select id="filtro-estado" onchange="filtrarPorEstado()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         <option value="">Todos los estados</option>
                         <!-- Se llenará dinámicamente con los estados disponibles -->
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Ordenar por:</label>
-                    <select id="orden" onchange="ordenarEmpresas()" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <select id="orden" onchange="ordenarEmpresas()" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         <option value="plan">Plan (Premium primero)</option>
                         <option value="nombre">Nombre (A-Z)</option>
                         <option value="recientes">Más recientes</option>
@@ -204,7 +220,7 @@
 
         <!-- Loading -->
         <div id="loading" class="text-center py-16">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mercarof-cyan"></div>
             <p class="text-gray-600 mt-4">Cargando empresas...</p>
         </div>
 
@@ -215,7 +231,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <h3 class="font-bold text-lg mb-4">ServiLocal</h3>
+                    <h3 class="font-bold text-lg mb-4">MERCAROF</h3>
                     <p class="text-gray-400 text-sm">Conectando negocios locales con clientes</p>
                 </div>
                 <div>
@@ -239,7 +255,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
-                © 2024 ServiLocal. Todos los derechos reservados.
+                © 2024 MERCAROF. Todos los derechos reservados.
             </div>
         </div>
     </footer>
@@ -316,7 +332,7 @@
                 document.getElementById('loading').innerHTML = `
                     <div class="text-center">
                         <p class="text-red-600">❌ Error al cargar las empresas</p>
-                        <button onclick="cargarEmpresas()" class="mt-4 text-purple-600 hover:underline">Reintentar</button>
+                        <button onclick="cargarEmpresas()" class="mt-4 text-mercarof-cyan hover:underline">Reintentar</button>
                     </div>
                 `;
             }
@@ -328,7 +344,7 @@
             categorias.forEach(cat => {
                 const btn = document.createElement('button');
                 btn.onclick = () => filtrarPorCategoria(cat.id);
-                btn.className = 'categoria-btn whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-purple-100 hover:text-purple-700 transition-all text-sm';
+                btn.className = 'categoria-btn whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-mercarof-cyan hover:bg-opacity-10 hover:text-mercarof-cyan transition-all text-sm';
                 btn.innerHTML = cat.nombre;
                 nav.appendChild(btn);
             });
@@ -364,7 +380,7 @@
                     ${planSlug === 'basico' ? '<div class="bg-blue-500 text-white text-xs font-bold px-3 py-1 absolute top-2 right-2 rounded-full shadow-md z-10">✓ Verificado</div>' : ''}
                     
                     <!-- Logo/Imagen -->
-                    <div class="relative h-48 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+                    <div class="relative h-48 bg-gradient-to-br from-mercarof-cyan from-opacity-10 to-mercarof-navy to-opacity-10 flex items-center justify-center">
                         ${logoUrl ? 
                             `<img src="${logoUrl}" alt="${nombreEmpresa}" class="w-full h-full object-cover">` :
                             `<span class="text-6xl">${categoriaIcono}</span>`
@@ -374,13 +390,13 @@
                     <!-- Contenido -->
                     <div class="p-5">
                         <h3 class="font-bold text-lg text-gray-900 mb-2 truncate">${nombreEmpresa}</h3>
-                        <p class="text-sm text-purple-600 font-medium mb-2">${categoriaNombre}</p>
+                        <p class="text-sm text-mercarof-cyan font-medium mb-2">${categoriaNombre}</p>
                         <p class="text-gray-600 text-sm mb-4 line-clamp-2">${empresa.descripcion || 'Sin descripción disponible'}</p>
                         
                         <!-- Footer -->
                         <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                             <span class="text-sm text-gray-500">📍 ${ciudadNombre}</span>
-                            <span class="text-purple-600 font-semibold text-sm">Ver más →</span>
+                            <span class="text-mercarof-cyan font-semibold text-sm">Ver más →</span>
                         </div>
                     </div>
                 </div>
@@ -394,11 +410,11 @@
             
             // Actualizar botones
             document.querySelectorAll('.categoria-btn').forEach(btn => {
-                btn.classList.remove('bg-purple-600', 'text-white');
+                btn.classList.remove('bg-mercarof-navy', 'text-white');
                 btn.classList.add('bg-gray-100', 'text-gray-700');
             });
             event.target.classList.remove('bg-gray-100', 'text-gray-700');
-            event.target.classList.add('bg-purple-600', 'text-white');
+            event.target.classList.add('bg-mercarof-navy', 'text-white');
 
             aplicarFiltros();
         }
@@ -534,13 +550,17 @@
 
         // Cerrar sesión - Mostrar modal
         function cerrarSesion() {
-            document.getElementById('modal-logout').classList.remove('hidden');
+            const modal = document.getElementById('modal-logout');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
         }
         
         // Cancelar logout
         function cancelarLogout() {
-            document.getElementById('modal-logout').classList.add('hidden');
+            const modal = document.getElementById('modal-logout');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             document.body.style.overflow = '';
         }
         
@@ -580,16 +600,16 @@
     </script>
 
     <!-- Modal Cerrar Sesión -->
-    <div id="modal-logout" class="hidden fixed inset-0 z-[9999] modal-overlay flex items-center justify-center p-4">
+    <div id="modal-logout" class="hidden fixed inset-0 z-[9999] modal-overlay items-center justify-center p-4">
         <div class="modal-content bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden">
             <!-- Gradiente superior animado -->
-            <div class="h-3 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"></div>
+            <div class="h-3 bg-gradient-to-r from-mercarof-navy to-mercarof-cyan"></div>
             
             <!-- Contenido -->
             <div class="p-8 text-center">
                 <!-- Icono con animación -->
                 <div class="modal-icon-container mb-6">
-                    <div class="w-24 h-24 mx-auto bg-gradient-to-br from-red-500 via-pink-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl">
+                    <div class="w-24 h-24 mx-auto bg-gradient-to-br from-mercarof-navy to-mercarof-cyan rounded-full flex items-center justify-center shadow-2xl">
                         <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                         </svg>
@@ -619,7 +639,7 @@
                     </button>
                     <button 
                         onclick="confirmarLogout()" 
-                        class="btn-hover-scale flex-1 bg-gradient-to-r from-red-500 via-pink-500 to-purple-600 hover:from-red-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl shadow-xl transition-all"
+                        class="btn-hover-scale flex-1 bg-gradient-to-r from-mercarof-navy to-mercarof-cyan hover:from-mercarof-navy-dark hover:to-mercarof-cyan-dark text-white font-bold py-4 px-6 rounded-xl shadow-xl transition-all"
                     >
                         Sí, Cerrar Sesión →
                     </button>

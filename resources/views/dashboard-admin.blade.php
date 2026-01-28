@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - ServiLocal</title>
+    <title>Dashboard Admin - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Notyf CSS -->
@@ -15,7 +31,7 @@
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -83,12 +99,12 @@
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center gap-3">
                     <a href="#" id="logo-home" class="text-2xl font-bold text-white cursor-pointer">
-                        🛡️ ServiLocal Admin
+                        MERCAROF Admin
                     </a>
                 </div>
                 <div class="flex items-center gap-4">
                     <span class="text-white text-sm" id="admin-name">Admin</span>
-                    <button onclick="cerrarSesion()" class="bg-white text-purple-700 hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
+                    <button onclick="cerrarSesion()" class="bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
                         Cerrar Sesión
                     </button>
                 </div>
@@ -102,7 +118,7 @@
         <!-- Welcome Section -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Panel de Administración</h1>
-            <p class="text-gray-600">Gestiona todas las empresas, usuarios y contenido de ServiLocal</p>
+            <p class="text-gray-600">Gestiona todas las empresas, usuarios y contenido de MERCAROF</p>
         </div>
 
         <!-- Stats Cards -->
@@ -144,7 +160,7 @@
                     <h3 class="text-gray-500 text-sm font-medium">Suscripciones</h3>
                     <span class="text-2xl">💳</span>
                 </div>
-                <p class="text-3xl font-bold text-purple-600" id="suscripciones-pendientes">0</p>
+                <p class="text-3xl font-bold text-mercarof-cyan" id="suscripciones-pendientes">0</p>
             </div>
         </div>
 
@@ -177,13 +193,13 @@
                         </div>
                     </a>
                     
-                    <a href="/admin/suscripciones-pendientes" class="block p-4 border border-purple-200 rounded-lg hover:bg-purple-50 transition-all">
+                    <a href="/admin/suscripciones-pendientes" class="block p-4 border border-mercarof-cyan border-opacity-30 rounded-lg hover:bg-mercarof-cyan hover:bg-opacity-5 transition-all">
                         <div class="flex items-center justify-between">
                             <div>
                                 <h3 class="font-semibold text-gray-900">Aprobar Suscripciones</h3>
                                 <p class="text-sm text-gray-600">Revisar pagos de planes Básico/Premium</p>
                             </div>
-                            <span class="text-2xl text-purple-600">💳</span>
+                            <span class="text-2xl text-mercarof-cyan">💳</span>
                         </div>
                     </a>
                     
@@ -401,7 +417,7 @@
                             <h4 class="font-semibold text-gray-900">${empresa.nombre_comercial}</h4>
                             <p class="text-sm text-gray-600">RIF: ${empresa.rfc || 'N/A'}</p>
                         </div>
-                        <button onclick="window.location.href='/admin/empresas-pendientes'" class="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                        <button onclick="window.location.href='/admin/empresas-pendientes'" class="text-mercarof-cyan hover:text-mercarof-cyan-dark text-sm font-medium">
                             Ver →
                         </button>
                     </div>
@@ -428,13 +444,17 @@
 
         // Cerrar sesión - Mostrar modal
         function cerrarSesion() {
-            document.getElementById('modal-logout').classList.remove('hidden');
+            const modal = document.getElementById('modal-logout');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
         }
         
         // Cancelar logout
         function cancelarLogout() {
-            document.getElementById('modal-logout').classList.add('hidden');
+            const modal = document.getElementById('modal-logout');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             document.body.style.overflow = '';
         }
         
@@ -503,10 +523,10 @@
     </script>
 
     <!-- Modal Cerrar Sesión -->
-    <div id="modal-logout" class="hidden fixed inset-0 z-50 modal-overlay flex items-center justify-center p-4">
+    <div id="modal-logout" class="hidden fixed inset-0 z-50 modal-overlay items-center justify-center p-4">
         <div class="modal-content bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden">
             <!-- Gradiente superior -->
-            <div class="h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500"></div>
+            <div class="h-2 bg-gradient-to-r from-mercarof-navy via-mercarof-cyan to-mercarof-cyan-light"></div>
             
             <!-- Contenido -->
             <div class="p-8 text-center">

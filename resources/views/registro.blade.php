@@ -3,22 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - ServiLocal</title>
+    <title>Registro - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .tab-active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00A3E0 0%, #0082B8 100%);
             color: white;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-container img {
+            height: 40px;
+            width: auto;
         }
     </style>
 </head>
@@ -28,10 +53,11 @@
     <header class="bg-white shadow-sm">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center">
-                <a href="/" class="text-2xl font-bold gradient-bg bg-clip-text text-transparent">
-                    ServiLocal
+                <a href="/" class="logo-container">
+                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo">
+                    <span class="text-2xl font-bold text-mercarof-navy">MERCAROF</span>
                 </a>
-                <a href="/" class="text-gray-600 hover:text-gray-900">
+                <a href="/" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors">
                     ← Volver al inicio
                 </a>
             </div>
@@ -44,8 +70,8 @@
             
             <!-- Título -->
             <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold text-gray-900 mb-2">Crear Cuenta</h1>
-                <p class="text-gray-600">Únete a ServiLocal y empieza a conectar</p>
+                <h1 class="text-4xl font-bold text-mercarof-navy mb-2">Crear Cuenta</h1>
+                <p class="text-gray-600">Únete a MERCAROF y empieza a conectar</p>
             </div>
 
             <!-- Tabs -->
@@ -76,19 +102,19 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Nombre *</label>
                             <input type="text" name="nombre" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Apellido *</label>
                             <input type="text" name="apellido" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Cédula * <span class="text-xs text-gray-500">(11 dígitos)</span></label>
                         <input type="text" name="cedula" id="cedula-cliente" required placeholder="12345678901" maxlength="11" pattern="\d{11}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             title="La cédula debe tener exactamente 11 dígitos numéricos">
                         <p id="error-cedula" class="text-xs text-red-600 mt-1 hidden">La cédula debe tener exactamente 11 dígitos</p>
@@ -97,32 +123,32 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
                         <input type="email" name="email" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Teléfono *</label>
                         <input type="tel" name="telefono" required placeholder="0414-1234567"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Dirección *</label>
                         <textarea name="direccion" required rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"></textarea>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña *</label>
                         <input type="password" name="password" required minlength="8"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         <p class="text-sm text-gray-500 mt-1">Mínimo 8 caracteres</p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Contraseña *</label>
                         <input type="password" name="password_confirmation" required minlength="8"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <button type="submit" 
@@ -138,14 +164,14 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Nombre de la Empresa *</label>
                         <input type="text" name="nombre_empresa" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">RIF * <span class="text-xs text-gray-500">(Máximo 10 dígitos)</span></label>
                         <input type="text" name="rif" required placeholder="J-12345678" maxlength="10" pattern="[A-Za-z]-?\d{7,9}"
                             title="Formato: J-12345678 (máximo 10 caracteres)"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         <p class="text-xs text-gray-500 mt-1">Ejemplo: J-12345678 o V-12345678</p>
                     </div>
 
@@ -155,7 +181,7 @@
                             <span class="text-xs text-gray-500">(Para verificación - Máx. 5MB)</span>
                         </label>
                         <input type="file" name="documento_rif" required accept=".pdf" id="documento-rif-input"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-mercarof-cyan file:bg-opacity-10 file:text-mercarof-cyan hover:file:bg-opacity-20">
                         <p class="text-xs text-gray-500 mt-1">
                             🔒 <strong>Importante:</strong> Suba el documento RIF de su empresa en formato PDF. Este documento será revisado por nuestro equipo para verificar la autenticidad de su empresa y evitar fraudes.
                         </p>
@@ -164,7 +190,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Categoría de la Empresa *</label>
                         <select name="categoria" required id="categoria-select"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                             <option value="">Seleccione una categoría...</option>
                         </select>
                     </div>
@@ -173,14 +199,14 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Estado *</label>
                             <select name="ciudad" required id="ciudad-select" onchange="cargarMunicipios()"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                                 <option value="">Seleccione un estado...</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Municipio *</label>
                             <select name="municipio" required id="municipio-select"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                                 <option value="">Primero seleccione un estado...</option>
                             </select>
                         </div>
@@ -189,51 +215,51 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Dirección *</label>
                         <textarea name="direccion_empresa" required rows="2"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"></textarea>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Reseña - ¿A qué se dedica? *</label>
                         <textarea name="resena" required rows="4" placeholder="Describa los servicios que ofrece su empresa..."
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"></textarea>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Responsable *</label>
                             <input type="text" name="nombre_responsable" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Apellido del Responsable *</label>
                             <input type="text" name="apellido_responsable" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Email de Contacto *</label>
                         <input type="email" name="email_empresa" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Teléfono de Contacto *</label>
                         <input type="tel" name="telefono_empresa" required placeholder="0212-1234567"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña *</label>
                         <input type="password" name="password_empresa" required minlength="8"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         <p class="text-sm text-gray-500 mt-1">Mínimo 8 caracteres</p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Confirmar Contraseña *</label>
                         <input type="password" name="password_confirmation_empresa" required minlength="8"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     </div>
 
                     <button type="submit" 
@@ -248,7 +274,7 @@
             <div class="text-center mt-6">
                 <p class="text-gray-600">
                     ¿Ya tienes cuenta? 
-                    <a href="/login" class="text-purple-600 hover:text-purple-700 font-semibold">Inicia sesión aquí</a>
+                    <a href="/login" class="text-mercarof-cyan hover:text-mercarof-cyan-dark font-semibold">Inicia sesión aquí</a>
                 </p>
             </div>
 

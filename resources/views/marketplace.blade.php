@@ -3,24 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace - ServiLocal</title>
+    <title>Marketplace - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .gradient-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .gradient-cta {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00A3E0 0%, #0082B8 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-container img {
+            height: 40px;
+            width: auto;
         }
     </style>
 </head>
@@ -31,8 +56,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
-                <a href="/" class="flex items-center gap-2">
-                    <span class="text-2xl font-bold text-white">ServiLocal</span>
+                <a href="/" class="logo-container">
+                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo" class="h-10">
+                    <span class="text-2xl font-bold text-white">MERCAROF</span>
                 </a>
 
                 <!-- Buscador -->
@@ -42,7 +68,7 @@
                             type="text" 
                             id="buscador"
                             placeholder="Buscar servicios, empresas..."
-                            class="w-full px-4 py-3 pl-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300"
+                            class="w-full px-4 py-3 pl-12 rounded-lg focus:outline-none focus:ring-2 focus:ring-mercarof-cyan"
                             onkeyup="filtrarEmpresas()"
                         >
                         <svg class="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +82,7 @@
                     <a href="/login" class="hidden sm:inline-block text-white hover:text-gray-200 font-medium px-4 py-2 rounded-lg transition-all">
                         Iniciar Sesión
                     </a>
-                    <a href="/registro" class="bg-white text-purple-700 hover:bg-gray-100 font-semibold px-6 py-2 rounded-lg transition-all shadow-md">
+                    <a href="/registro" class="bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-6 py-2 rounded-lg transition-all shadow-md">
                         Registrarse
                     </a>
                 </div>
@@ -69,7 +95,7 @@
                         type="text" 
                         id="buscador-mobile"
                         placeholder="Buscar servicios..."
-                        class="w-full px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-300"
+                        class="w-full px-4 py-2 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-mercarof-cyan"
                         onkeyup="filtrarEmpresas()"
                     >
                     <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +110,7 @@
     <nav class="bg-white shadow-sm sticky top-16 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex overflow-x-auto py-4 gap-3 scrollbar-hide" id="categorias-nav">
-                <button onclick="filtrarPorCategoria(null)" class="categoria-btn whitespace-nowrap px-4 py-2 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-all text-sm">
+                <button onclick="filtrarPorCategoria(null)" class="categoria-btn whitespace-nowrap px-4 py-2 bg-mercarof-cyan text-white rounded-full font-medium hover:bg-mercarof-cyan-dark transition-all text-sm">
                     Todas las Categorías
                 </button>
                 <!-- Se llenarán dinámicamente -->
@@ -96,13 +122,13 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
         <!-- Banner de registro -->
-        <div class="bg-gradient-to-r from-purple-600 to-purple-800 rounded-lg shadow-lg p-4 sm:p-6 mb-8 text-white">
+        <div class="bg-gradient-to-r from-mercarof-navy to-mercarof-cyan rounded-lg shadow-lg p-4 sm:p-6 mb-8 text-white">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
                 <div class="flex-1">
                     <h2 class="text-xl sm:text-2xl font-bold mb-2">¿Quieres ver los perfiles completos?</h2>
-                    <p class="text-sm sm:text-base text-purple-100">Regístrate gratis y accede a información detallada, contacta empresas y más.</p>
+                    <p class="text-sm sm:text-base text-mercarof-cyan-light">Regístrate gratis y accede a información detallada, contacta empresas y más.</p>
                 </div>
-                <a href="/registro" class="w-full md:w-auto bg-white text-purple-700 hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-all shadow-md text-center">
+                <a href="/registro" class="w-full md:w-auto bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition-all shadow-md text-center">
                     Crear Cuenta Gratis
                 </a>
             </div>
@@ -113,7 +139,7 @@
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                 <div class="w-full sm:w-auto">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Ordenar por:</label>
-                    <select id="orden" onchange="ordenarEmpresas()" class="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                    <select id="orden" onchange="ordenarEmpresas()" class="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                         <option value="plan">Plan (Premium primero)</option>
                         <option value="nombre">Nombre (A-Z)</option>
                         <option value="recientes">Más recientes</option>
@@ -139,14 +165,14 @@
 
         <!-- Loading -->
         <div id="loading" class="text-center py-16">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mercarof-cyan"></div>
             <p class="text-gray-600 mt-4">Cargando empresas...</p>
         </div>
 
     </main>
 
     <!-- Modal de restricción -->
-    <div id="modal-restriccion" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div id="modal-restriccion" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 relative">
             <button onclick="cerrarModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,7 +226,7 @@
                 document.getElementById('loading').innerHTML = `
                     <div class="text-center">
                         <p class="text-red-600">❌ Error al cargar las empresas</p>
-                        <button onclick="cargarEmpresas()" class="mt-4 text-purple-600 hover:underline">Reintentar</button>
+                        <button onclick="cargarEmpresas()" class="mt-4 text-mercarof-cyan hover:underline">Reintentar</button>
                     </div>
                 `;
             }
@@ -212,7 +238,7 @@
             categorias.forEach(cat => {
                 const btn = document.createElement('button');
                 btn.onclick = () => filtrarPorCategoria(cat.id);
-                btn.className = 'categoria-btn whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-purple-100 hover:text-purple-700 transition-all text-sm';
+                btn.className = 'categoria-btn whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-medium hover:bg-mercarof-cyan hover:bg-opacity-10 hover:text-mercarof-navy transition-all text-sm';
                 btn.innerHTML = cat.nombre; // Sin emoji
                 nav.appendChild(btn);
             });
@@ -249,7 +275,7 @@
         ${planSlug === 'basico' ? '<div class="bg-blue-500 text-white text-xs font-bold px-3 py-1 absolute top-2 right-2 rounded-full shadow-md z-10">✓ Verificado</div>' : ''}
         
         <!-- Logo/Imagen -->
-        <div class="relative h-48 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center overflow-hidden">
+        <div class="relative h-48 bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center overflow-hidden">
             ${logoUrl ? 
                 `<img src="${logoUrl}" alt="${nombreEmpresa}" class="w-full h-full object-cover" onerror="this.onerror=null; this.style.display='none'; this.parentElement.innerHTML='<span class=\\'text-6xl\\'>${categoriaIcono}</span>';">` :
                 `<span class="text-6xl">${categoriaIcono}</span>`
@@ -259,13 +285,13 @@
         <!-- Contenido -->
         <div class="p-5">
             <h3 class="font-bold text-lg text-gray-900 mb-2 truncate">${nombreEmpresa}</h3>
-            <p class="text-sm text-purple-600 font-medium mb-2">${categoriaNombre}</p>
+            <p class="text-sm text-mercarof-cyan font-medium mb-2">${categoriaNombre}</p>
             <p class="text-gray-600 text-sm mb-4 line-clamp-2">${empresa.descripcion || 'Sin descripción disponible'}</p>
             
             <!-- Footer -->
             <div class="flex items-center justify-between pt-3 border-t border-gray-100">
                 <span class="text-sm text-gray-500">📍 ${ciudadNombre}</span>
-                <span class="text-purple-600 font-semibold text-sm">Ver más →</span>
+                <span class="text-mercarof-cyan font-semibold text-sm">Ver más →</span>
             </div>
         </div>
     </div>
@@ -279,11 +305,11 @@
             
             // Actualizar botones
             document.querySelectorAll('.categoria-btn').forEach(btn => {
-                btn.classList.remove('bg-purple-600', 'text-white');
+                btn.classList.remove('bg-mercarof-cyan', 'text-white');
                 btn.classList.add('bg-gray-100', 'text-gray-700');
             });
             event.target.classList.remove('bg-gray-100', 'text-gray-700');
-            event.target.classList.add('bg-purple-600', 'text-white');
+            event.target.classList.add('bg-mercarof-cyan', 'text-white');
 
             aplicarFiltros();
         }
@@ -350,12 +376,16 @@
         // Ver perfil de empresa (restringido)
         function verPerfilEmpresa(id) {
             // Mostrar modal de restricción
-            document.getElementById('modal-restriccion').classList.remove('hidden');
+            const modal = document.getElementById('modal-restriccion');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         // Cerrar modal
         function cerrarModal() {
-            document.getElementById('modal-restriccion').classList.add('hidden');
+            const modal = document.getElementById('modal-restriccion');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         // Sincronizar buscadores

@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Reseñas - ServiLocal</title>
+    <title>Gestión de Reseñas - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-bg { background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%); }
         .main-bg { background-color: #f3f4f6; }
         .star-filled { color: #fbbf24; }
         .star-empty { color: #d1d5db; }
@@ -17,11 +33,11 @@
 <body class="main-bg">
 
     <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/empresa" class="text-2xl font-bold gradient-bg bg-clip-text text-transparent">ServiLocal</a>
-                <a href="/dashboard/empresa" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">← Volver al Dashboard</a>
+                <a href="/dashboard/empresa" class="text-2xl font-bold text-mercarof-navy">MERCAROF</a>
+                <a href="/dashboard/empresa" class="text-gray-600 hover:text-mercarof-cyan transition-colors font-medium">← Volver al Dashboard</a>
             </div>
         </div>
     </header>
@@ -120,7 +136,7 @@
         <!-- Filtros -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <div class="flex flex-wrap gap-3">
-                <button onclick="filtrarResenas('todas')" id="btn-todas" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-all">
+                <button onclick="filtrarResenas('todas')" id="btn-todas" class="px-4 py-2 bg-mercarof-navy text-white font-semibold rounded-lg hover:bg-mercarof-navy-dark transition-all">
                     Todas
                 </button>
                 <button onclick="filtrarResenas('pendientes')" id="btn-pendientes" class="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-all">
@@ -158,7 +174,7 @@
     </div>
 
     <!-- Modal de Respuesta -->
-    <div id="modal-respuesta" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="cerrarModal()">
+    <div id="modal-respuesta" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4" onclick="cerrarModal()">
         <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-6" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold text-gray-900">💬 Responder a Reseña</h3>
@@ -166,7 +182,7 @@
             </div>
             
             <!-- Reseña Original -->
-            <div id="resena-original" class="bg-gray-50 rounded-lg p-4 mb-6 border-l-4 border-purple-500">
+            <div id="resena-original" class="bg-gray-50 rounded-lg p-4 mb-6 border-l-4 border-mercarof-cyan">
                 <!-- Se llena dinámicamente -->
             </div>
             
@@ -181,7 +197,7 @@
                         rows="5"
                         maxlength="500"
                         placeholder="Escribe tu respuesta profesional aquí..."
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent resize-none"
                         required
                     ></textarea>
                     <div class="flex justify-between items-center mt-1">
@@ -354,7 +370,7 @@
 
             if (sugerencias.length > 0) {
                 container.innerHTML = `
-                    <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg shadow-md p-6 border-2 border-purple-200">
+                    <div class="bg-white rounded-lg shadow-md p-6 border-2 border-mercarof-cyan border-opacity-20">
                         <h3 class="text-lg font-bold text-gray-900 mb-3">💡 Sugerencias</h3>
                         <div class="space-y-3">
                             ${sugerencias.map(s => `
@@ -396,7 +412,7 @@
                     <!-- Header de la reseña -->
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex items-start gap-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            <div class="w-12 h-12 bg-gradient-to-br from-mercarof-navy to-mercarof-cyan rounded-full flex items-center justify-center text-white font-bold text-lg">
                                 ${(resena.user?.name || 'Usuario').charAt(0).toUpperCase()}
                             </div>
                             <div>
@@ -420,9 +436,9 @@
 
                     <!-- Respuesta de la empresa (si existe) -->
                     ${resena.respuesta_empresa ? `
-                        <div class="bg-purple-50 rounded-lg p-4 border-l-4 border-purple-500 mb-4">
+                        <div class="bg-mercarof-cyan bg-opacity-10 rounded-lg p-4 border-l-4 border-mercarof-cyan mb-4">
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="text-sm font-semibold text-purple-700">📢 Tu respuesta</span>
+                                <span class="text-sm font-semibold text-mercarof-navy">📢 Tu respuesta</span>
                                 <span class="text-xs text-gray-500">• ${formatFecha(resena.respondido_at)}</span>
                             </div>
                             <p class="text-gray-700 text-sm">${resena.respuesta_empresa}</p>
@@ -434,7 +450,7 @@
                         ${!resena.respuesta_empresa ? `
                             <button 
                                 onclick="abrirModalRespuesta(${resena.id})"
-                                class="flex-1 bg-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-purple-700 transition-all"
+                                class="flex-1 bg-mercarof-navy text-white font-semibold py-2 px-4 rounded-lg hover:bg-mercarof-navy-dark transition-all"
                             >
                                 💬 Responder
                             </button>
@@ -461,14 +477,14 @@
             });
             
             if (filtro === 'todas') {
-                document.getElementById('btn-todas').className = 'px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-all';
+                document.getElementById('btn-todas').className = 'px-4 py-2 bg-mercarof-navy text-white font-semibold rounded-lg hover:bg-mercarof-navy-dark transition-all';
                 mostrarResenas(todasLasResenas);
             } else if (filtro === 'pendientes') {
-                document.getElementById('btn-pendientes').className = 'px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-all';
+                document.getElementById('btn-pendientes').className = 'px-4 py-2 bg-mercarof-navy text-white font-semibold rounded-lg hover:bg-mercarof-navy-dark transition-all';
                 const filtradas = todasLasResenas.filter(r => !r.respuesta_empresa);
                 mostrarResenas(filtradas);
             } else {
-                document.getElementById(`btn-${filtro}-estrellas`).className = 'px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-all';
+                document.getElementById(`btn-${filtro}-estrellas`).className = 'px-4 py-2 bg-mercarof-navy text-white font-semibold rounded-lg hover:bg-mercarof-navy-dark transition-all';
                 const filtradas = todasLasResenas.filter(r => r.calificacion === filtro);
                 mostrarResenas(filtradas);
             }
@@ -481,7 +497,7 @@
 
             document.getElementById('resena-original').innerHTML = `
                 <div class="flex items-start gap-3 mb-2">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                    <div class="w-10 h-10 bg-gradient-to-br from-mercarof-navy to-mercarof-cyan rounded-full flex items-center justify-center text-white font-bold">
                         ${(resenaActual.user?.name || 'U').charAt(0).toUpperCase()}
                     </div>
                     <div class="flex-1">
@@ -503,7 +519,9 @@
                 document.getElementById('contador-caracteres').textContent = '0';
             }
 
-            document.getElementById('modal-respuesta').classList.remove('hidden');
+            const modal = document.getElementById('modal-respuesta');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         // Alias para editar
@@ -513,7 +531,9 @@
 
         // Cerrar modal
         function cerrarModal() {
-            document.getElementById('modal-respuesta').classList.add('hidden');
+            const modal = document.getElementById('modal-respuesta');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             resenaActual = null;
         }
 

@@ -1,0 +1,69 @@
+/* Variables CSS de MERCAROF */
+:root {
+  /* Colores principales */
+  --mercarof-navy: #003B5C;
+  --mercarof-navy-dark: #002942;
+  --mercarof-navy-light: #004D73;
+  
+  --mercarof-cyan: #00A3E0;
+  --mercarof-cyan-dark: #0082B8;
+  --mercarof-cyan-light: #33B8E8;
+  
+  /* Aliases */
+  --color-primary: var(--mercarof-navy);
+  --color-secondary: var(--mercarof-cyan);
+  --color-accent: var(--mercarof-cyan);
+  
+  /* Colores neutros recomendados */
+  --color-white: #FFFFFF;
+  --color-gray-light: #F5F5F5;
+  --color-gray: #E0E0E0;
+  --color-gray-dark: #757575;
+  --color-black: #212121;
+}
+
+/* Clases de utilidad */
+.bg-mercarof-navy {
+  background-color: var(--mercarof-navy);
+}
+
+.bg-mercarof-cyan {
+  background-color: var(--mercarof-cyan);
+}
+
+.text-mercarof-navy {
+  color: var(--mercarof-navy);
+}
+
+.text-mercarof-cyan {
+  color: var(--mercarof-cyan);
+}
+
+.border-mercarof-navy {
+  border-color: var(--mercarof-navy);
+}
+
+.border-mercarof-cyan {
+  border-color: var(--mercarof-cyan);
+}
+
+/* Botones con los colores de marca */
+.btn-primary {
+  background-color: var(--mercarof-navy);
+  color: var(--color-white);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--mercarof-navy-light);
+}
+
+.btn-secondary {
+  background-color: var(--mercarof-cyan);
+  color: var(--color-white);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--mercarof-cyan-dark);
+}

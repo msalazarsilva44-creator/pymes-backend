@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Ejecutivo - ServiLocal</title>
+    <title>Dashboard Ejecutivo - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Chart.js -->
@@ -18,7 +34,7 @@
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -75,7 +91,7 @@
                     <button onclick="exportarPDF()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-4 py-2 rounded-lg transition-all border border-white border-opacity-30">
                         📄 Exportar PDF
                     </button>
-                    <button onclick="cerrarSesion()" class="bg-white text-purple-700 hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
+                    <button onclick="cerrarSesion()" class="bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
                         Cerrar Sesión
                     </button>
                 </div>
@@ -100,7 +116,7 @@
                         <input 
                             type="date" 
                             id="fecha-inicio"
-                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan"
                         >
                     </div>
                     <div>
@@ -108,7 +124,7 @@
                         <input 
                             type="date" 
                             id="fecha-fin"
-                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan"
                         >
                     </div>
                     <div class="flex items-end">
@@ -129,7 +145,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             
             <!-- KPI: MRR -->
-            <div class="kpi-card bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <div class="kpi-card bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-gray-600 text-sm font-medium">MRR (Ingresos Mensuales)</h3>
                     <span class="text-2xl">💰</span>
@@ -139,7 +155,7 @@
             </div>
 
             <!-- KPI: Empresas Activas -->
-            <div class="kpi-card bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <div class="kpi-card bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-gray-600 text-sm font-medium">Empresas Activas</h3>
                     <span class="text-2xl">🏢</span>
@@ -151,7 +167,7 @@
             </div>
 
             <!-- KPI: Tasa de Conversión -->
-            <div class="kpi-card bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+            <div class="kpi-card bg-white rounded-lg shadow-md p-6 border-l-4 border-mercarof-cyan">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-gray-600 text-sm font-medium">Tasa de Conversión</h3>
                     <span class="text-2xl">🎯</span>
@@ -161,7 +177,7 @@
             </div>
 
             <!-- KPI: Ingresos del Período -->
-            <div class="kpi-card bg-gradient-to-br from-yellow-50 to-orange-50 rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+            <div class="kpi-card bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="text-gray-600 text-sm font-medium">Ingresos del Período</h3>
                     <span class="text-2xl">💵</span>
@@ -255,7 +271,7 @@
             </div>
 
             <!-- Resumen de Ingresos Totales -->
-            <div class="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg shadow-lg p-8 text-white">
+            <div class="bg-gradient-to-br from-mercarof-navy to-mercarof-cyan rounded-lg shadow-lg p-8 text-white">
                 <h3 class="text-xl font-bold mb-4">💰 Resumen Financiero</h3>
                 <div class="space-y-4">
                     <div class="flex justify-between items-center">

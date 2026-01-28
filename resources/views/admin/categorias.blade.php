@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Gestión de Categorías - Admin ServiLocal</title>
+    <title>Gestión de Categorías - Admin MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Notyf CSS -->
@@ -16,7 +32,7 @@
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -52,7 +68,7 @@
                         📁 Gestión de Categorías
                     </h1>
                 </div>
-                <button onclick="cerrarSesion()" class="bg-white text-purple-700 hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
+                <button onclick="cerrarSesion()" class="bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
                     Cerrar Sesión
                 </button>
             </div>
@@ -83,7 +99,7 @@
             <div class="bg-white rounded-lg shadow-md p-6 flex items-center justify-center">
                 <button 
                     onclick="mostrarModalCrear()" 
-                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2"
+                    class="w-full bg-mercarof-navy hover:bg-mercarof-navy-dark text-white font-semibold px-6 py-3 rounded-lg transition-all flex items-center justify-center gap-2"
                 >
                     <span class="text-xl">+</span>
                     Nueva Categoría
@@ -100,7 +116,7 @@
                         type="text" 
                         id="search"
                         placeholder="Nombre o descripción..." 
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-mercarof-cyan"
                     />
                 </div>
 
@@ -108,7 +124,7 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Estado</label>
                     <select 
                         id="filter-estado"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-mercarof-cyan"
                     >
                         <option value="">Todas</option>
                         <option value="1">Activas</option>
@@ -119,7 +135,7 @@
                 <div class="flex items-end gap-2">
                     <button 
                         onclick="aplicarFiltros()" 
-                        class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-2 rounded-lg transition-all"
+                        class="flex-1 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white font-semibold px-6 py-2 rounded-lg transition-all"
                     >
                         Aplicar Filtros
                     </button>
@@ -164,7 +180,7 @@
 
             <!-- Loading -->
             <div id="loading" class="text-center py-16">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mercarof-cyan"></div>
                 <p class="text-gray-600 mt-4">Cargando categorías...</p>
             </div>
 
@@ -206,7 +222,7 @@
                             required
                             maxlength="100"
                             placeholder="Ej: Plomería"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-mercarof-cyan"
                         />
                     </div>
 
@@ -218,14 +234,14 @@
                             rows="3"
                             maxlength="500"
                             placeholder="Describe brevemente esta categoría..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-mercarof-cyan"
                         ></textarea>
                     </div>
 
                     <div class="flex gap-4 mt-6">
                         <button 
                             type="submit"
-                            class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                            class="flex-1 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white font-semibold px-6 py-3 rounded-lg transition-all"
                         >
                             Guardar
                         </button>
@@ -437,7 +453,7 @@
             // Páginas
             for (let i = 1; i <= paginacion.last_page; i++) {
                 if (i === paginacion.current_page) {
-                    html += `<button class="px-4 py-2 bg-purple-600 text-white rounded-lg">${i}</button>`;
+                    html += `<button class="px-4 py-2 bg-mercarof-navy text-white rounded-lg">${i}</button>`;
                 } else {
                     html += `<button onclick="cargarCategorias(${i})" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">${i}</button>`;
                 }

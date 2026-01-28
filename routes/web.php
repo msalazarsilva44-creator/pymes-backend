@@ -43,36 +43,34 @@ Route::get('/dashboard/empresa', function () {
     return view('dashboard-empresa');
 });
 
-// ==================== RUTAS DE ADMIN (PROTEGIDAS) ====================
-Route::middleware(['auth', 'admin'])->group(function () {
-    
-    // Dashboard Admin
-    Route::get('/dashboard/admin', function () {
-        return view('dashboard-admin');
-    })->name('admin.dashboard');
-    
-    // Módulos de Admin
-    Route::get('/admin/empresas-pendientes', function () {
-        return view('admin.empresas-pendientes');
-    })->name('admin.empresas-pendientes');
-    
-    Route::get('/admin/empresas', function () {
-        return view('admin.empresas');
-    })->name('admin.empresas');
-    
-    Route::get('/admin/suscripciones-pendientes', function () {
-        return view('admin.suscripciones-pendientes');
-    })->name('admin.suscripciones-pendientes');
-    
-    Route::get('/admin/categorias', function () {
-        return view('admin.categorias');
-    })->name('admin.categorias');
-    
-    Route::get('/admin/reportes', function () {
-        return view('admin.reportes');
-    })->name('admin.reportes');
-    
-});
+// ==================== RUTAS DE ADMIN ====================
+// NOTA: La autenticación se maneja en el frontend con tokens (localStorage)
+
+// Dashboard Admin
+Route::get('/dashboard/admin', function () {
+    return view('dashboard-admin');
+})->name('admin.dashboard');
+
+// Módulos de Admin
+Route::get('/admin/empresas-pendientes', function () {
+    return view('admin.empresas-pendientes');
+})->name('admin.empresas-pendientes');
+
+Route::get('/admin/empresas', function () {
+    return view('admin.empresas');
+})->name('admin.empresas');
+
+Route::get('/admin/suscripciones-pendientes', function () {
+    return view('admin.suscripciones-pendientes');
+})->name('admin.suscripciones-pendientes');
+
+Route::get('/admin/categorias', function () {
+    return view('admin.categorias');
+})->name('admin.categorias');
+
+Route::get('/admin/reportes', function () {
+    return view('admin.reportes');
+})->name('admin.reportes');
 
 // ==================== API ADMIN CON SANCTUM (Bearer Token) ====================
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin/api')->name('admin.api.')->group(function () {

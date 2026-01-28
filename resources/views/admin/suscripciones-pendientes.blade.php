@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Suscripciones Pendientes - Admin ServiLocal</title>
+    <title>Suscripciones Pendientes - Admin MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Notyf CSS -->
@@ -16,7 +32,7 @@
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         @keyframes fadeIn {
             from {
@@ -65,7 +81,7 @@
                         💳 Suscripciones Pendientes de Aprobación
                     </h1>
                 </div>
-                <button onclick="cerrarSesion()" class="bg-white text-purple-700 hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
+                <button onclick="cerrarSesion()" class="bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
                     Cerrar Sesión
                 </button>
             </div>
@@ -93,7 +109,7 @@
 
         <!-- Loading -->
         <div id="loading" class="text-center py-16">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mercarof-cyan"></div>
             <p class="text-gray-600 mt-4">Cargando suscripciones...</p>
         </div>
 
@@ -102,7 +118,7 @@
             <div class="text-6xl mb-4">✅</div>
             <h3 class="text-xl font-bold text-gray-900 mb-2">¡Todo al día!</h3>
             <p class="text-gray-600">No hay suscripciones pendientes de aprobación</p>
-            <a href="/dashboard/admin" class="mt-4 inline-block text-purple-600 hover:text-purple-800 font-medium">
+            <a href="/dashboard/admin" class="mt-4 inline-block text-mercarof-cyan hover:text-mercarof-cyan-dark font-medium">
                 ← Volver al dashboard
             </a>
         </div>
@@ -215,7 +231,7 @@
                 'zelle': {
                     icono: '💸',
                     nombre: 'Zelle',
-                    color: 'bg-purple-100 text-purple-800 border-purple-300'
+                    color: 'bg-mercarof-cyan bg-opacity-20 text-mercarof-navy border-mercarof-cyan'
                 }
             };
 
@@ -378,7 +394,7 @@
                     <div class="ml-4">
                         <button 
                             onclick='verDetalle(${JSON.stringify(suscripcion).replace(/'/g, "\\'")})' 
-                            class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                            class="bg-mercarof-navy hover:bg-mercarof-navy-dark text-white font-semibold px-6 py-3 rounded-lg transition-all"
                         >
                             Ver Detalle y Aprobar
                         </button>
@@ -401,7 +417,7 @@
 
             content.innerHTML = `
                 <!-- Información de la Empresa -->
-                <div class="bg-purple-50 rounded-lg p-6">
+                <div class="bg-mercarof-cyan bg-opacity-10 rounded-lg p-6">
                     <h4 class="font-bold text-lg text-gray-900 mb-4">🏢 Información de la Empresa</h4>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -476,7 +492,7 @@
                             <img 
                                 src="/storage/${suscripcion.capture_pago}" 
                                 alt="Capture de pago"
-                                class="max-w-full h-auto rounded-lg border-2 border-gray-300 cursor-pointer hover:border-purple-500 transition-all"
+                                class="max-w-full h-auto rounded-lg border-2 border-gray-300 cursor-pointer hover:border-mercarof-cyan transition-all"
                                 onclick="window.open('/storage/${suscripcion.capture_pago}', '_blank')"
                             />
                             <p class="text-xs text-gray-500 mt-2">Haz clic en la imagen para verla en tamaño completo</p>
@@ -510,6 +526,7 @@
             // Mostrar modal
             const modal = document.getElementById('modal-confirmar-aprobacion');
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
             modal.classList.add('animate-fadeIn');
         }
 
@@ -517,6 +534,7 @@
         function cerrarModalAprobacion() {
             const modal = document.getElementById('modal-confirmar-aprobacion');
             modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         // Confirmar aprobación (ejecutar la aprobación real)
@@ -629,7 +647,7 @@
     </script>
 
     <!-- Modal de Confirmación Mejorado -->
-    <div id="modal-confirmar-aprobacion" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="if(event.target === this) cerrarModalAprobacion()">
+    <div id="modal-confirmar-aprobacion" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4" onclick="if(event.target === this) cerrarModalAprobacion()">
         <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all">
             <!-- Header -->
             <div class="bg-gradient-to-r from-green-500 to-green-600 p-6 rounded-t-2xl">
@@ -655,7 +673,7 @@
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-gray-600">Plan:</span>
-                        <span id="modal-plan-nombre" class="font-semibold text-purple-600"></span>
+                        <span id="modal-plan-nombre" class="font-semibold text-mercarof-cyan"></span>
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-sm text-gray-600">Monto:</span>

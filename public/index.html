@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERCAROF - Inicio</title>
+    
+    <!-- Tailwind CSS CDN (reemplaza con tu build local) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- CSS personalizado de MERCAROF -->
+    <link rel="stylesheet" href="mercarof-colors.css">
+    
+    <!-- Configuración de Tailwind inline para colores personalizados -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof': {
+                            'navy': '#003B5C',
+                            'navy-dark': '#002942',
+                            'navy-light': '#004D73',
+                            'cyan': '#00A3E0',
+                            'cyan-dark': '#0082B8',
+                            'cyan-light': '#33B8E8',
+                        },
+                        'primary': '#003B5C',
+                        'secondary': '#00A3E0',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Animación sutil para el header */
+        .header-shadow {
+            box-shadow: 0 2px 10px rgba(0, 59, 92, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Header Principal -->
+    <header class="bg-white header-shadow sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="logo-mercarof.jpeg" alt="MERCAROF Logo" class="h-12 w-auto">
+                </div>
+                
+                <!-- Navegación Desktop -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Inicio
+                    </a>
+                    <a href="#servicios" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Servicios
+                    </a>
+                    <a href="#nosotros" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Nosotros
+                    </a>
+                    <a href="#contacto" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Contacto
+                    </a>
+                </div>
+                
+                <!-- Botón CTA -->
+                <div class="hidden md:block">
+                    <button class="bg-mercarof-cyan hover:bg-mercarof-cyan-dark text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-md hover:shadow-lg">
+                        Comenzar
+                    </button>
+                </div>
+                
+                <!-- Botón Menú Mobile -->
+                <button id="mobile-menu-button" class="md:hidden text-mercarof-navy">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Menú Mobile -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#inicio" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Inicio
+                    </a>
+                    <a href="#servicios" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Servicios
+                    </a>
+                    <a href="#nosotros" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Nosotros
+                    </a>
+                    <a href="#contacto" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors font-medium">
+                        Contacto
+                    </a>
+                    <button class="bg-mercarof-cyan hover:bg-mercarof-cyan-dark text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium w-full">
+                        Comenzar
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Hero Section - Ejemplo -->
+    <section class="bg-gradient-to-br from-mercarof-navy to-mercarof-navy-light text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                Bienvenido a MERCAROF
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-mercarof-cyan-light">
+                Soluciones innovadoras para tu negocio
+            </p>
+            <button class="bg-mercarof-cyan hover:bg-mercarof-cyan-light text-white px-8 py-3 rounded-lg text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl">
+                Explorar Servicios
+            </button>
+        </div>
+    </section>
+    
+    <!-- Sección de Contenido - Ejemplo -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-mercarof-navy mb-8 text-center">
+                Nuestros Servicios
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow border-t-4 border-mercarof-cyan">
+                    <div class="w-12 h-12 bg-mercarof-cyan rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-mercarof-navy mb-2">Servicio 1</h3>
+                    <p class="text-gray-600">Descripción del servicio con los colores de marca MERCAROF.</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow border-t-4 border-mercarof-navy">
+                    <div class="w-12 h-12 bg-mercarof-navy rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-mercarof-navy mb-2">Servicio 2</h3>
+                    <p class="text-gray-600">Descripción del servicio con los colores de marca MERCAROF.</p>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow border-t-4 border-mercarof-cyan">
+                    <div class="w-12 h-12 bg-mercarof-cyan rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-mercarof-navy mb-2">Servicio 3</h3>
+                    <p class="text-gray-600">Descripción del servicio con los colores de marca MERCAROF.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-mercarof-navy text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-mercarof-cyan-light">&copy; 2025 MERCAROF. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- JavaScript para menú mobile -->
+    <script>
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+    
+</body>
+</html>

@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Cliente - ServiLocal</title>
+    <title>Dashboard Cliente - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -25,7 +41,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center gap-4">
-                    <a href="#" id="logo-home" class="text-2xl font-bold gradient-bg bg-clip-text text-transparent cursor-pointer">ServiLocal</a>
+                    <a href="#" id="logo-home" class="text-2xl font-bold text-mercarof-navy cursor-pointer">MERCAROF</a>
                     <span class="text-sm text-gray-500">/ Dashboard Cliente</span>
                 </div>
                 <div class="flex items-center gap-4">
@@ -44,7 +60,7 @@
         <!-- Bienvenida -->
         <div class="gradient-bg rounded-lg p-6 text-white mb-8">
             <h2 class="text-3xl font-bold mb-2">¡Bienvenido de vuelta! 👋</h2>
-            <p class="text-purple-100">Encuentra los mejores servicios locales en tu ciudad</p>
+            <p class="text-mercarof-cyan-light">Encuentra los mejores servicios locales en tu ciudad</p>
         </div>
 
         <!-- Stats Cards -->
@@ -75,7 +91,7 @@
 
             <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <div class="w-12 h-12 bg-mercarof-cyan bg-opacity-10 rounded-lg flex items-center justify-center">
                         <span class="text-2xl">❤️</span>
                     </div>
                     <div>
@@ -90,7 +106,7 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <h3 class="text-xl font-bold text-gray-900 mb-4">Acciones Rápidas</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="/buscar" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/buscar" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">🔍</span>
                     <div>
                         <p class="font-semibold text-gray-900">Buscar Servicios</p>
@@ -98,7 +114,7 @@
                     </div>
                 </a>
 
-                <a href="/categorias" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/categorias" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">📂</span>
                     <div>
                         <p class="font-semibold text-gray-900">Ver Categorías</p>
@@ -106,7 +122,7 @@
                     </div>
                 </a>
 
-                <a href="/mis-resenas" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/mis-resenas" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">⭐</span>
                     <div>
                         <p class="font-semibold text-gray-900">Mis Reseñas</p>
@@ -114,7 +130,7 @@
                     </div>
                 </a>
 
-                <a href="/perfil" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition-all">
+                <a href="/perfil" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
                     <span class="text-2xl">👤</span>
                     <div>
                         <p class="font-semibold text-gray-900">Mi Perfil</p>
@@ -202,7 +218,7 @@
                     container.innerHTML = result.data.data.map(empresa => `
                         <div class="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all">
                             <div class="flex items-start gap-3 mb-3">
-                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <div class="w-12 h-12 bg-mercarof-cyan bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
                                     <span class="text-xl">${empresa.categoria?.icono || '🏢'}</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
@@ -217,7 +233,7 @@
                                     <span class="text-sm font-semibold">${empresa.calificacion_promedio || '0.0'}</span>
                                     <span class="text-xs text-gray-500">(${empresa.total_resenas || 0})</span>
                                 </div>
-                                <a href="/empresa/${empresa.id}" class="text-sm text-purple-600 hover:text-purple-700 font-medium">
+                                <a href="/empresa/${empresa.id}" class="text-sm text-mercarof-cyan hover:text-mercarof-cyan-dark font-medium">
                                     Ver más →
                                 </a>
                             </div>

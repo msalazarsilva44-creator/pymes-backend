@@ -3,23 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ServiLocal - Conecta tu Negocio con la Visibilidad que Necesita</title>
+    <title>MERCAROF - Marketplace de Servicios y Productos</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .gradient-cta {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00A3E0 0%, #0082B8 100%);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .gradient-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(0, 163, 224, 0.4);
         }
         .card-benefit {
             transition: all 0.3s ease;
@@ -47,7 +63,7 @@
         }
         .price-toggle button.active {
             background-color: white;
-            color: #667eea;
+            color: #00A3E0;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         .plan-card {
@@ -65,7 +81,7 @@
             transform: translateY(-8px) scale(1.05);
         }
         .badge-top {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00A3E0 0%, #0082B8 100%);
         }
         .icon-box {
             display: flex;
@@ -74,8 +90,17 @@
             width: 3.5rem;
             height: 3.5rem;
             border-radius: 0.75rem;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            color: #667eea;
+            background: rgba(0, 163, 224, 0.1);
+            color: #00A3E0;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-container img {
+            height: 40px;
+            width: auto;
         }
         .feature-icon {
             font-size: 1.5rem;
@@ -105,11 +130,18 @@
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/" class="text-2xl font-bold gradient-hero bg-clip-text text-transparent">
-                    ServiLocal
-                </a>
+                <div class="logo-container">
+                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo" class="h-10">
+                    <span class="text-2xl font-bold text-mercarof-navy">MERCAROF</span>
+                </div>
                 <div class="flex items-center gap-4">
-                    <a href="/registro" class="hidden sm:inline-block text-gray-600 hover:text-gray-900 font-medium">
+                    <a href="#" class="hidden sm:inline-block text-mercarof-navy hover:text-mercarof-cyan font-medium transition-colors">
+                        ¿Cómo funciona?
+                    </a>
+                    <a href="#planes" class="hidden sm:inline-block text-mercarof-navy hover:text-mercarof-cyan font-medium transition-colors">
+                        Planes
+                    </a>
+                    <a href="/registro" class="hidden sm:inline-block text-mercarof-navy hover:text-mercarof-cyan font-medium transition-colors">
                         Registrarse
                     </a>
                     <a href="/login" class="gradient-cta text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:shadow-lg">
@@ -128,20 +160,20 @@
                 <div class="space-y-6">
                     <div>
                         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-4">
-                            ServiLocal: Conecta con la Visibilidad que tu Negocio Necesita.
+                            MERCAROF: Tu Marketplace de Servicios y Productos
                         </h1>
-                        <p class="text-lg sm:text-xl text-purple-100">
-                            Clientes: Encuentra servicios locales verificados. Empresas: Domina tu ciudad con el mejor posicionamiento.
+                        <p class="text-lg sm:text-xl text-mercarof-cyan-light">
+                            Conectamos consumidores con proveedores locales. Compra productos, contrata servicios y haz crecer tu negocio en una sola plataforma.
                         </p>
                     </div>
 
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 pt-4">
                         <button onclick="window.location.href='#planes'" class="gradient-cta text-white font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl cursor-pointer">
-                            Ver Planes de Posicionamiento
+                            Ver Planes para Proveedores
                         </button>
                         <button onclick="window.location.href='/marketplace'" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold py-3 px-8 rounded-lg backdrop-blur-sm transition-all duration-300 border border-white border-opacity-30 cursor-pointer">
-                            Buscar Servicios Ahora
+                            Explorar Marketplace
                         </button>
                     </div>
                 </div>
@@ -156,14 +188,14 @@
                                 <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500"></div>
                             </div>
-                            <div class="bg-gradient-to-b from-purple-900 to-purple-800 p-6 text-center">
-                                <p class="text-white text-sm font-semibold mb-2">ServiLocal Dashboard</p>
+                            <div class="bg-gradient-to-b from-mercarof-navy to-mercarof-navy-dark p-6 text-center">
+                                <p class="text-white text-sm font-semibold mb-2">MERCAROF Dashboard</p>
                                 <div class="space-y-2">
                                     <div class="bg-white bg-opacity-10 h-2 rounded"></div>
                                     <div class="bg-white bg-opacity-10 h-2 rounded w-4/5 mx-auto"></div>
                                     <div class="bg-white bg-opacity-10 h-2 rounded w-3/5 mx-auto"></div>
                                 </div>
-                                <div class="mt-4 text-purple-200 text-xs">Tus leads en tiempo real</div>
+                                <div class="mt-4 text-mercarof-cyan-light text-xs">Tus ventas en tiempo real</div>
                             </div>
                         </div>
                     </div>
@@ -177,7 +209,7 @@
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-12">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                    ¿Por qué ServiLocal funciona para tu PYME?
+                    ¿Por qué MERCAROF funciona para tu PYME?
                 </h2>
                 <p class="text-gray-600 text-lg max-w-2xl mx-auto">
                     Obtén resultados reales con herramientas diseñadas para pequeños y medianos negocios.
@@ -355,7 +387,7 @@
                 </div>
 
                 <!-- Plan Premium -->
-                <div class="plan-card featured bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-lg overflow-hidden border-2 border-purple-500">
+                <div class="plan-card featured bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl shadow-lg overflow-hidden border-2 border-mercarof-cyan">
                     <div class="badge-top text-white text-center py-2 text-sm font-bold">
                         ⭐ MÁS POPULAR
                     </div>
@@ -423,7 +455,7 @@
                     Encuentra el servicio perfecto, sin fallar
                 </h2>
                 <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                    ServiLocal te ofrece las herramientas para encontrar exactamente lo que buscas.
+                    MERCAROF te ofrece las herramientas para encontrar exactamente lo que buscas.
                 </p>
             </div>
 
@@ -440,7 +472,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-3">Perfiles Verificados</h3>
                     <p class="text-gray-600">
-                        Todos los negocios en ServiLocal cuentan con documentos validados. Contrata con confianza.
+                        Todos los negocios en MERCAROF cuentan con documentos validados. Contrata con confianza.
                     </p>
                 </div>
 
@@ -483,7 +515,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <!-- Brand -->
                 <div>
-                    <h4 class="text-white font-bold text-lg mb-4">ServiLocal</h4>
+                    <h4 class="text-white font-bold text-lg mb-4">MERCAROF</h4>
                     <p class="text-sm text-gray-400">
                         Conecta tu negocio con la visibilidad que necesita.
                     </p>
@@ -513,11 +545,11 @@
                 <div>
                     <h5 class="text-white font-semibold mb-4">¿Listo para empezar?</h5>
                     <p class="text-sm text-gray-400 mb-4">
-                        Únete a ServiLocal y comienza a conectar con tu comunidad.
+                        Únete a MERCAROF y comienza a conectar con tu comunidad.
                     </p>
                     <button 
                         onclick="window.location.href='/registro'"
-                        class="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 rounded-lg transition-colors cursor-pointer"
+                        class="w-full bg-mercarof-cyan hover:bg-mercarof-cyan-dark text-white font-semibold py-2 rounded-lg transition-colors cursor-pointer"
                     >
                         Registrarse Ahora
                     </button>
@@ -527,7 +559,7 @@
             <!-- Divisor -->
             <div class="border-t border-gray-800 pt-8">
                 <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-                    <p>&copy; 2024 ServiLocal. Todos los derechos reservados.</p>
+                    <p>&copy; 2024 MERCAROF. Todos los derechos reservados.</p>
                     <div class="flex gap-6 mt-4 md:mt-0">
                         <a href="#" class="hover:text-white transition-colors">Facebook</a>
                         <a href="#" class="hover:text-white transition-colors">Instagram</a>

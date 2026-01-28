@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Gestión de Empresas - Admin ServiLocal</title>
+    <title>Gestión de Empresas - Admin MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Notyf CSS -->
@@ -16,7 +32,7 @@
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -59,7 +75,7 @@
                         🏢 Gestión de Empresas
                     </h1>
                 </div>
-                <button onclick="cerrarSesion()" class="bg-white text-purple-700 hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
+                <button onclick="cerrarSesion()" class="bg-white text-mercarof-navy hover:bg-gray-100 font-semibold px-4 py-2 rounded-lg transition-all">
                     Cerrar Sesión
                 </button>
             </div>
@@ -101,14 +117,14 @@
                         type="text" 
                         id="search-input"
                         placeholder="Nombre, RIF o email..."
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                     >
                 </div>
 
                 <!-- Filtro por Categoría -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-                    <select id="filter-categoria" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <select id="filter-categoria" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan">
                         <option value="">Todas las categorías</option>
                         <!-- Se llenará dinámicamente -->
                     </select>
@@ -117,7 +133,7 @@
                 <!-- Filtro por Ciudad -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
-                    <select id="filter-ciudad" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <select id="filter-ciudad" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan">
                         <option value="">Todas las ciudades</option>
                         <!-- Se llenará dinámicamente -->
                     </select>
@@ -126,7 +142,7 @@
                 <!-- Filtro por Plan -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Plan</label>
-                    <select id="filter-plan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <select id="filter-plan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan">
                         <option value="">Todos los planes</option>
                         <!-- Se llenará dinámicamente -->
                     </select>
@@ -137,7 +153,7 @@
                 <!-- Filtro por Estado -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-                    <select id="filter-estado" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <select id="filter-estado" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan">
                         <option value="">Todos los estados</option>
                         <option value="activa">Activas</option>
                         <option value="inactiva">Inactivas</option>
@@ -149,7 +165,7 @@
                 <!-- Ordenar por -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Ordenar por</label>
-                    <select id="sort-by" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                    <select id="sort-by" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan">
                         <option value="created_at">Fecha de registro</option>
                         <option value="nombre_comercial">Nombre</option>
                         <option value="calificacion_promedio">Calificación</option>
@@ -179,7 +195,7 @@
 
             <!-- Loading -->
             <div id="loading" class="text-center py-12">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-mercarof-cyan"></div>
                 <p class="text-gray-600 mt-4">Cargando empresas...</p>
             </div>
 
@@ -343,6 +359,22 @@
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
     <script>
+        // Verificar autenticación ANTES de todo
+        (function() {
+            const authToken = localStorage.getItem('auth_token');
+            const userRole = localStorage.getItem('user_role');
+            
+            console.log('🔒 Verificando autenticación...', { token: !!authToken, role: userRole });
+            
+            if (!authToken || userRole !== 'admin') {
+                console.log('❌ No autenticado o no es admin, redirigiendo...');
+                window.location.href = '/login';
+                return;
+            }
+            
+            console.log('✅ Usuario admin autenticado');
+        })();
+
         // Inicializar Notyf
         const notyf = new Notyf({
             duration: 4000,
@@ -373,8 +405,14 @@
 
         // Cargar datos iniciales
         document.addEventListener('DOMContentLoaded', async () => {
-            await cargarFiltros();
-            await cargarEmpresas();
+            console.log('📄 DOM Cargado, iniciando carga de datos...');
+            try {
+                await cargarFiltros();
+                await cargarEmpresas();
+                console.log('✅ Datos cargados exitosamente');
+            } catch (error) {
+                console.error('❌ Error en carga inicial:', error);
+            }
         });
 
         // Cargar opciones de filtros
@@ -417,6 +455,7 @@
         // Cargar empresas con filtros y paginación
         async function cargarEmpresas(pagina = 1) {
             try {
+                console.log('🔄 Cargando empresas, página:', pagina);
                 document.getElementById('loading').classList.remove('hidden');
                 document.getElementById('empresas-table-container').classList.add('hidden');
                 document.getElementById('no-results').classList.add('hidden');
@@ -427,6 +466,7 @@
                     ...filtrosActuales
                 });
 
+                console.log('📡 Haciendo petición a:', `${ADMIN_API_URL}/empresas/lista?${params}`);
                 const response = await fetch(`${ADMIN_API_URL}/empresas/lista?${params}`, {
                     headers: {
                         'Authorization': `Bearer ${authToken}`,
@@ -434,7 +474,13 @@
                     }
                 });
 
-                if (!response.ok) throw new Error('Error al cargar empresas');
+                console.log('📥 Respuesta recibida:', response.status, response.statusText);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('❌ Error en respuesta:', errorText);
+                    throw new Error(`Error al cargar empresas: ${response.status}`);
+                }
 
                 const data = await response.json();
                 
@@ -542,7 +588,7 @@
             const colors = {
                 'gratis': 'bg-gray-100 text-gray-800',
                 'basico': 'bg-blue-100 text-blue-800',
-                'premium': 'bg-purple-100 text-purple-800'
+                'premium': 'bg-mercarof-cyan bg-opacity-20 text-mercarof-navy'
             };
             const color = colors[empresa.plan.slug] || 'bg-gray-100 text-gray-800';
             return `<span class="px-2 py-1 text-xs font-semibold rounded-full ${color}">${empresa.plan.nombre}</span>`;
@@ -585,7 +631,7 @@
             // Páginas
             for (let i = 1; i <= paginacion.last_page; i++) {
                 if (i === paginacion.current_page) {
-                    html += `<button class="px-3 py-1 bg-purple-600 text-white rounded">${i}</button>`;
+                    html += `<button class="px-3 py-1 bg-mercarof-navy text-white rounded">${i}</button>`;
                 } else if (Math.abs(i - paginacion.current_page) <= 2) {
                     html += `<button onclick="cargarEmpresas(${i})" class="px-3 py-1 border rounded hover:bg-gray-100">${i}</button>`;
                 } else if (i === 1 || i === paginacion.last_page) {
@@ -715,8 +761,8 @@
                                 <div class="text-2xl font-bold text-blue-600">${empresa.total_vistas || 0}</div>
                                 <div class="text-sm text-gray-600">Vistas</div>
                             </div>
-                            <div class="bg-purple-50 p-3 rounded-lg text-center">
-                                <div class="text-2xl font-bold text-purple-600">${empresa.total_clics || 0}</div>
+                            <div class="bg-mercarof-cyan bg-opacity-10 p-3 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-mercarof-cyan">${empresa.total_clics || 0}</div>
                                 <div class="text-sm text-gray-600">Clics</div>
                             </div>
                             <div class="bg-yellow-50 p-3 rounded-lg text-center">

@@ -3,15 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios - ServiLocal Empresa</title>
+    <title>Servicios - MERCAROF Empresa</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * {
             font-family: 'Inter', sans-serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%);
         }
         .main-bg {
             background-color: #f3f4f6;
@@ -21,11 +37,11 @@
 <body class="main-bg">
 
     <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/empresa" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">ServiLocal</a>
-                <a href="/dashboard/empresa" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">← Volver al Dashboard</a>
+                <a href="/dashboard/empresa" class="text-2xl font-bold text-mercarof-navy">MERCAROF</a>
+                <a href="/dashboard/empresa" class="text-gray-600 hover:text-mercarof-cyan transition-colors font-medium">← Volver al Dashboard</a>
             </div>
         </div>
     </header>
@@ -57,7 +73,7 @@
                             id="nombre"
                             required
                             placeholder="Ej: Reparación de fugas"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         >
                     </div>
                     <div>
@@ -69,7 +85,7 @@
                             name="precio" 
                             id="precio"
                             placeholder="Ej: $50 o A consultar"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent"
                         >
                     </div>
                 </div>
@@ -113,7 +129,7 @@
     </div>
 
     <!-- Modal Editar Servicio -->
-    <div id="modal-editar" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div id="modal-editar" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center p-4">
         <div class="bg-white rounded-lg max-w-2xl w-full p-6">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-900">✏️ Editar Servicio</h2>
@@ -279,12 +295,16 @@
             document.getElementById('edit-nombre').value = nombre;
             document.getElementById('edit-precio').value = precio;
             document.getElementById('edit-descripcion').value = descripcion;
-            document.getElementById('modal-editar').classList.remove('hidden');
+            const modal = document.getElementById('modal-editar');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         // Cerrar modal
         function cerrarModal() {
-            document.getElementById('modal-editar').classList.add('hidden');
+            const modal = document.getElementById('modal-editar');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             document.getElementById('form-editar').reset();
         }
 

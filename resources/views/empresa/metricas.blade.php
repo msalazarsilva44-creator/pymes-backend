@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Métricas y Analíticas - ServiLocal</title>
+    <title>Métricas y Analíticas - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mercarof-navy': '#003B5C',
+                        'mercarof-navy-dark': '#002942',
+                        'mercarof-navy-light': '#004D73',
+                        'mercarof-cyan': '#00A3E0',
+                        'mercarof-cyan-dark': '#0082B8',
+                        'mercarof-cyan-light': '#33B8E8',
+                    }
+                }
+            }
+        }
+    </script>
     
     <!-- Chart.js para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -12,18 +28,18 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         * { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-bg { background: linear-gradient(135deg, #003B5C 0%, #00A3E0 100%); }
         .main-bg { background-color: #f3f4f6; }
     </style>
 </head>
 <body class="main-bg">
 
     <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <header class="bg-white shadow-md border-b-2 border-mercarof-cyan border-opacity-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/empresa" class="text-2xl font-bold gradient-bg bg-clip-text text-transparent">ServiLocal</a>
-                <a href="/dashboard/empresa" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">← Volver al Dashboard</a>
+                <a href="/dashboard/empresa" class="text-2xl font-bold text-mercarof-navy">MERCAROF</a>
+                <a href="/dashboard/empresa" class="text-gray-600 hover:text-mercarof-cyan transition-colors font-medium">← Volver al Dashboard</a>
             </div>
         </div>
     </header>
@@ -40,7 +56,7 @@
             
             <!-- Filtros y Acciones -->
             <div class="flex flex-wrap gap-3">
-                <select id="filtro-periodo" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                <select id="filtro-periodo" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-mercarof-cyan focus:border-transparent">
                     <option value="7">Últimos 7 días</option>
                     <option value="30" selected>Últimos 30 días</option>
                     <option value="90">Últimos 3 meses</option>
@@ -148,7 +164,7 @@
                 </a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-purple-50 rounded-lg p-4 border-l-4 border-purple-500">
+                <div class="bg-mercarof-cyan bg-opacity-10 rounded-lg p-4 border-l-4 border-mercarof-cyan">
                     <p class="text-sm text-gray-600 mb-1">Reseñas Totales</p>
                     <p class="text-2xl font-bold text-gray-900" id="resenas-total">0</p>
                 </div>
@@ -164,10 +180,10 @@
         </div>
 
         <!-- Sugerencias Inteligentes -->
-        <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg shadow-md p-6 border-2 border-purple-200 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6 border-2 border-mercarof-cyan border-opacity-20 mb-8">
             <h2 class="text-xl font-bold text-gray-900 mb-4">💡 Sugerencias Basadas en tus Datos</h2>
             <div class="space-y-3" id="sugerencias-container">
-                <div class="flex items-start gap-3 p-4 bg-white rounded-lg border-l-4 border-blue-500">
+                <div class="flex items-start gap-3 p-4 bg-mercarof-cyan bg-opacity-5 rounded-lg border-l-4 border-mercarof-cyan">
                     <span class="text-2xl">📊</span>
                     <p class="text-sm text-gray-700">Analizando tus métricas para darte recomendaciones personalizadas...</p>
                 </div>
@@ -381,7 +397,7 @@
                         <span class="text-sm font-bold text-gray-900">${web} (${porcentajeWeb}%)</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-3">
-                        <div class="bg-purple-600 h-3 rounded-full transition-all duration-500" style="width: ${porcentajeWeb}%"></div>
+                        <div class="bg-mercarof-navy h-3 rounded-full transition-all duration-500" style="width: ${porcentajeWeb}%"></div>
                     </div>
                 </div>
             `;
@@ -610,7 +626,7 @@
                     s.type === 'success' ? 'border-green-500' :
                     s.type === 'warning' ? 'border-yellow-500' :
                     s.type === 'error' ? 'border-red-500' :
-                    'border-blue-500'
+                    'border-mercarof-cyan'
                 }">
                     <span class="text-2xl flex-shrink-0">${s.icon}</span>
                     <p class="text-sm text-gray-700">${s.text}</p>
@@ -696,7 +712,7 @@
             // TODO: Implementar exportación con jsPDF o backend endpoint
             // const { jsPDF } = window.jspdf;
             // const doc = new jsPDF();
-            // doc.text('Reporte de Métricas - ServiLocal', 10, 10);
+            // doc.text('Reporte de Métricas - MERCAROF', 10, 10);
             // doc.save('reporte-metricas.pdf');
         }
 
