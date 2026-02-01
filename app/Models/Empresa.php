@@ -121,6 +121,22 @@ class Empresa extends Model
     }
 
     /**
+     * Métodos de pago de la empresa
+     */
+    public function metodosPago()
+    {
+        return $this->hasMany(MetodoPagoEmpresa::class);
+    }
+
+    /**
+     * Órdenes recibidas
+     */
+    public function ordenes()
+    {
+        return $this->hasMany(Orden::class);
+    }
+
+    /**
      * Suscripción activa actual
      */
     public function suscripcionActiva()

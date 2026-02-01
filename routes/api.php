@@ -9,6 +9,9 @@ use App\Http\Controllers\Api\CiudadController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\ResenaController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\CarritoController;
+use App\Http\Controllers\Api\OrdenController;
+use App\Http\Controllers\Api\MetodoPagoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +48,9 @@ Route::post('/empresas/{id}/clic', [EmpresaController::class, 'registrarClic']);
 
 // Reseñas
 Route::get('/empresas/{empresaId}/resenas', [ResenaController::class, 'index']);
+
+// Métodos de pago de empresa (público - para checkout)
+Route::get('/empresas/{empresaId}/metodos-pago', [MetodoPagoController::class, 'getByEmpresa']);
 
 // ==================== RUTAS PROTEGIDAS ====================
 
@@ -102,6 +108,36 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notifications/{id}/marcar-leida', [NotificationController::class, 'marcarLeida']);
     Route::post('/notifications/marcar-todas-leidas', [NotificationController::class, 'marcarTodasLeidas']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
+    // ==================== CARRITO DE COMPRAS ====================
+    
+    // Carrito (clientes)
+    Route::get('/carrito', [CarritoController::class, 'index']);
+    Route::get('/carrito/count', [CarritoController::class, 'count']);
+    Route::post('/carrito', [CarritoController::class, 'store']);
+    Route::delete('/carrito/{id}', [CarritoController::class, 'destroy']);
+    Route::delete('/carrito', [CarritoController::class, 'clear']);
+    Route::delete('/carrito/empresa/{empresaId}', [CarritoController::class, 'clearEmpresa']);
+
+    // Órdenes (clientes)
+    Route::post('/ordenes', [OrdenController::class, 'store']);
+    Route::get('/mis-ordenes', [OrdenController::class, 'misOrdenes']);
+    Route::get('/ordenes/{id}', [OrdenController::class, 'show']);
+    Route::post('/ordenes/{id}/comprobante', [OrdenController::class, 'subirComprobante']);
+    Route::put('/ordenes/{id}/cancelar', [OrdenController::class, 'cancelar']);
+
+    // Órdenes (empresa)
+    Route::get('/empresa/ordenes', [OrdenController::class, 'ordenesEmpresa']);
+    Route::put('/empresa/ordenes/{id}/confirmar', [OrdenController::class, 'confirmar']);
+    Route::put('/empresa/ordenes/{id}/completar', [OrdenController::class, 'completar']);
+
+    // Métodos de Pago (empresa)
+    Route::get('/empresa/metodos-pago', [MetodoPagoController::class, 'index']);
+    Route::post('/empresa/metodos-pago', [MetodoPagoController::class, 'store']);
+    Route::delete('/empresa/metodos-pago/{tipo}', [MetodoPagoController::class, 'destroy']);
+
+    // Reportes Admin
+    Route::get('/admin/reportes/ventas', [OrdenController::class, 'reportesAdmin']);
 
 });
 

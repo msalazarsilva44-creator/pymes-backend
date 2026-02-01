@@ -3,17 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Empresa - ServiLocal</title>
+    <title id="page-title">Empresa - MERCAROF</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="/mercarof-colors.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --mercarof-navy: #003B5C;
+            --mercarof-navy-dark: #002942;
+            --mercarof-navy-light: #004D73;
+            --mercarof-cyan: #00A3E0;
+            --mercarof-cyan-dark: #0082B8;
+            --mercarof-cyan-light: #33B8E8;
+        }
+        
         * {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
         }
+        
         .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--mercarof-navy) 0%, var(--mercarof-cyan) 100%);
         }
+        
+        .gradient-bg-hero {
+            background: linear-gradient(135deg, var(--mercarof-navy) 0%, var(--mercarof-navy-light) 50%, var(--mercarof-cyan) 100%);
+        }
+        
+        .text-gradient-brand {
+            background: linear-gradient(135deg, var(--mercarof-navy) 0%, var(--mercarof-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
         .gallery-img {
             cursor: pointer;
             transition: transform 0.3s ease;
@@ -22,8 +46,27 @@
             transform: scale(1.05);
         }
         .main-bg {
-            background-color: #f3f4f6;
+            background-color: #f8fafc;
         }
+        
+        .btn-primary-brand {
+            background-color: var(--mercarof-navy);
+            transition: all 0.2s ease;
+        }
+        .btn-primary-brand:hover {
+            background-color: var(--mercarof-navy-light);
+            box-shadow: 0 4px 12px rgba(0, 59, 92, 0.25);
+        }
+        
+        .btn-secondary-brand {
+            background-color: var(--mercarof-cyan);
+            transition: all 0.2s ease;
+        }
+        .btn-secondary-brand:hover {
+            background-color: var(--mercarof-cyan-dark);
+            box-shadow: 0 4px 12px rgba(0, 163, 224, 0.3);
+        }
+        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -37,67 +80,89 @@
         .animate-fadeIn {
             animation: fadeIn 0.3s ease-out;
         }
+        
+        /* Header mejorado */
+        .header-shadow {
+            box-shadow: 0 2px 8px rgba(0, 59, 92, 0.08);
+        }
     </style>
 </head>
 <body class="main-bg">
 
-    <!-- Header -->
-    <header class="bg-white shadow-md border-b-2 border-purple-100">
+    <!-- Header Mejorado -->
+    <header class="bg-white header-shadow sticky top-0 z-40 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <a href="/dashboard/cliente" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">ServiLocal</a>
-                <div class="flex items-center gap-4">
-                    <a id="btn-explorar-servicios" href="/dashboard/cliente" class="text-gray-600 hover:text-purple-600 transition-colors font-medium">Explorar Servicios</a>
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="/dashboard/cliente" class="flex items-center gap-2">
+                    <span class="text-2xl font-extrabold tracking-tight text-gradient-brand">MERCAROF</span>
+                </a>
+                
+                <!-- Navegación -->
+                <div class="flex items-center gap-6">
+                    <a id="btn-explorar-servicios" href="/dashboard/cliente" class="text-gray-600 hover:text-[#003B5C] transition-colors font-semibold text-sm tracking-wide">
+                        Explorar Servicios
+                    </a>
+                    
+                    <!-- Carrito de compras (solo para clientes) -->
+                    <a href="/mis-compras" id="cart-link" class="hidden relative p-2 text-gray-600 hover:text-[#00A3E0] transition-colors" title="Mi Carrito">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </a>
                     
                     <!-- Usuario Autenticado (Dinámico con JavaScript) -->
                     <div id="user-menu-container" class="hidden">
                         <div class="relative" x-data="{ open: false }">
-                            <button @click="open = !open" class="flex items-center gap-2 text-gray-700 hover:text-purple-600 font-medium transition-colors">
-                                <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white font-bold">
+                            <button @click="open = !open" class="flex items-center gap-2.5 text-gray-700 hover:text-[#003B5C] font-medium transition-colors py-2 px-3 rounded-lg hover:bg-gray-50">
+                                <div id="user-avatar" class="w-9 h-9 rounded-full bg-gradient-to-br from-[#003B5C] to-[#00A3E0] flex items-center justify-center text-white font-bold text-sm shadow-sm">
                                     U
                                 </div>
-                                <span id="user-name-display">Usuario</span>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <span id="user-name-display" class="font-semibold text-sm hidden sm:block">Usuario</span>
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
                             
                             <!-- Menú Desplegable -->
-                            <div x-show="open" @click.away="open = false" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl py-2 z-50 border border-gray-100">
                                 <div id="menu-empresa-links" class="hidden">
-                                    <a href="/dashboard/empresa" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                        📊 Mi Dashboard
+                                    <a href="/dashboard/empresa" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-[#003B5C]/5 hover:text-[#003B5C] transition-colors text-sm font-medium">
+                                        <span class="text-base">📊</span> Mi Dashboard
                                     </a>
-                                    <a href="/empresa/perfil" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                        🏢 Mi Empresa
+                                    <a href="/empresa/perfil" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-[#003B5C]/5 hover:text-[#003B5C] transition-colors text-sm font-medium">
+                                        <span class="text-base">🏢</span> Mi Empresa
                                     </a>
                                 </div>
                                 <div id="menu-cliente-links" class="hidden">
-                                    <a href="/dashboard/cliente" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                        🏠 Inicio
+                                    <a href="/dashboard/cliente" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-[#003B5C]/5 hover:text-[#003B5C] transition-colors text-sm font-medium">
+                                        <span class="text-base">🏠</span> Inicio
                                     </a>
-                                    <a href="/perfil/cliente" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                        👤 Mi Perfil
+                                    <a href="/perfil/cliente" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-[#003B5C]/5 hover:text-[#003B5C] transition-colors text-sm font-medium">
+                                        <span class="text-base">👤</span> Mi Perfil
                                     </a>
-                                    <a href="/favoritos" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                        ❤️ Favoritos
+                                    <a href="/favoritos" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-[#003B5C]/5 hover:text-[#003B5C] transition-colors text-sm font-medium">
+                                        <span class="text-base">❤️</span> Favoritos
                                     </a>
                                 </div>
                                 <div id="menu-admin-links" class="hidden">
-                                    <a href="/dashboard/admin" class="block px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors">
-                                        ⚙️ Panel Admin
+                                    <a href="/dashboard/admin" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-[#003B5C]/5 hover:text-[#003B5C] transition-colors text-sm font-medium">
+                                        <span class="text-base">⚙️</span> Panel Admin
                                     </a>
                                 </div>
-                                <hr class="my-2">
-                                <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
-                                    🚪 Cerrar Sesión
+                                <hr class="my-2 border-gray-100">
+                                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 transition-colors text-sm font-medium">
+                                    <span class="text-base">🚪</span> Cerrar Sesión
                                 </button>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Usuario No Autenticado -->
-                    <a id="login-button" href="/login" class="hidden gradient-bg text-white font-semibold py-2 px-6 rounded-lg hover:shadow-lg transition-all">Iniciar Sesión</a>
+                    <a id="login-button" href="/login" class="hidden btn-primary-brand text-white font-semibold py-2.5 px-5 rounded-lg text-sm tracking-wide">
+                        Iniciar Sesión
+                    </a>
                 </div>
             </div>
         </div>
@@ -106,73 +171,75 @@
     <!-- Main Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <!-- Hero Section -->
-        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden mb-8 border border-gray-100">
-            <!-- Cover/Header -->
-            <div id="empresa-banner-container" class="h-32 relative overflow-hidden">
+        <!-- Hero Section con info sobre el banner -->
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden mb-8 border border-gray-100/80">
+            <!-- Banner con contenido superpuesto -->
+            <div id="empresa-banner-container" class="relative">
                 <!-- Banner personalizado (si existe) -->
-                <img id="empresa-banner" src="" alt="Banner" class="hidden w-full h-full object-cover">
-                <!-- Degradado por defecto (si no hay banner) -->
-                <div id="empresa-banner-gradient" class="gradient-bg w-full h-full"></div>
-            </div>
-            
-            <!-- Información Principal -->
-            <div class="px-6 pb-6 -mt-16 relative">
-                <div class="flex flex-col md:flex-row gap-6">
-                    <!-- Logo/Icono -->
-                    <div class="w-32 h-32 bg-white rounded-lg shadow-lg flex items-center justify-center overflow-hidden border-4 border-white relative z-20">
-                        <img id="empresa-logo" src="" alt="Logo" class="w-full h-full object-cover hidden">
-                        <span id="empresa-icono" class="text-5xl">🏢</span>
-                    </div>
-                    
-                    <!-- Info Principal -->
-                    <div class="flex-1 mt-16 md:mt-0">
-                        <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
-                            <div class="flex-1">
-                                <h1 class="text-3xl font-bold text-gray-900 mb-2" id="empresa-nombre">Cargando...</h1>
-                                <p class="text-gray-600 mb-3" id="empresa-categoria">Categoría</p>
-                                <div class="flex items-center gap-4 flex-wrap">
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-yellow-500 text-xl">⭐</span>
-                                        <span class="font-bold text-lg" id="empresa-rating">0.0</span>
-                                        <span class="text-gray-600 text-sm">(<span id="empresa-resenas">0</span> reseñas)</span>
-                                    </div>
-                                    <span id="empresa-verificado" class="hidden bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">✓ Verificado</span>
-                                    <span id="empresa-plan" class="hidden px-3 py-1 rounded-full text-sm font-semibold"></span>
-                                </div>
-                            </div>
+                <img id="empresa-banner" src="" alt="Banner" class="hidden w-full h-full object-cover absolute inset-0">
+                <!-- Degradado por defecto con colores MERCAROF -->
+                <div id="empresa-banner-gradient" class="gradient-bg-hero absolute inset-0"></div>
+                <!-- Overlay para legibilidad -->
+                <div class="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
+                
+                <!-- Contenido sobre el banner -->
+                <div class="relative z-10 px-6 sm:px-8 py-8 sm:py-10">
+                    <div class="flex items-center gap-5">
+                        <!-- Logo/Icono -->
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-xl shadow-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <img id="empresa-logo" src="" alt="Logo" class="w-full h-full object-cover hidden">
+                            <span id="empresa-icono" class="text-3xl sm:text-4xl">🏢</span>
+                        </div>
+                        
+                        <!-- Info Principal sobre banner - texto blanco -->
+                        <div class="flex-1">
+                            <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight drop-shadow-sm" id="empresa-nombre">Cargando...</h1>
+                            <p class="text-white/80 font-medium text-sm mt-1" id="empresa-categoria">Categoría</p>
                             
-                           <!-- Botones de Acción -->
-                           <div class="flex flex-col gap-3 w-full lg:w-auto lg:min-w-[260px] flex-shrink-0 relative z-10">
-                               <!-- Botón WhatsApp -->
-                               <button onclick="contactarWhatsApp()" id="btn-whatsapp" class="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold py-3 px-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2.5 group w-full relative z-20">
-                                   <svg class="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                       <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                                   </svg>
-                                   <span class="font-semibold">WhatsApp</span>
-                               </button>
-                               <!-- Botón Llamar -->
-                               <button onclick="contactarTelefono()" class="bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-semibold py-3 px-5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2.5 group w-full">
-                                   <svg class="w-5 h-5 group-hover:rotate-12 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                   </svg>
-                                   <span class="font-semibold">Llamar</span>
-                               </button>
-                               <!-- Botón Guardar -->
-                               <button onclick="toggleFavorito()" class="border-2 border-gray-300 hover:border-red-400 text-gray-700 hover:text-red-500 font-semibold py-3 px-5 rounded-lg hover:bg-red-50 active:bg-red-100 transition-all duration-200 flex items-center justify-center gap-2.5 group w-full">
-                                   <svg class="w-5 h-5 group-hover:scale-110 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                   </svg>
-                                   <span class="font-semibold">Guardar</span>
-                               </button>
-                           </div>
+                            <!-- Badges -->
+                            <div class="flex items-center gap-2 flex-wrap mt-3">
+                                <div class="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-lg">
+                                    <span class="text-amber-400">⭐</span>
+                                    <span class="font-bold text-white text-sm" id="empresa-rating">0.0</span>
+                                    <span class="text-white/70 text-xs">(<span id="empresa-resenas">0</span>)</span>
+                                </div>
+                                <span id="empresa-verificado" class="hidden bg-white/20 backdrop-blur-sm text-white px-2.5 py-1 rounded-lg text-xs font-semibold">
+                                    ✓ Verificado
+                                </span>
+                                <span id="empresa-plan" class="hidden px-2.5 py-1 rounded-lg text-xs font-bold"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- Botones y descripción (fuera del banner) -->
+            <div class="px-6 sm:px-8 py-5">
+                <!-- Botones de Acción -->
+                <div class="flex flex-wrap items-center gap-2.5 mb-5">
+                    <button onclick="contactarWhatsApp()" id="btn-whatsapp" class="bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        <span class="text-sm">WhatsApp</span>
+                    </button>
+                    <button onclick="contactarTelefono()" class="bg-[#00A3E0] hover:bg-[#0082B8] text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex items-center gap-2">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        <span class="text-sm">Llamar</span>
+                    </button>
+                    <button onclick="toggleFavorito()" class="bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-[#003B5C] font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center gap-2">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                        <span class="text-sm">Guardar</span>
+                    </button>
+                </div>
                 
                 <!-- Descripción -->
-                <div class="mt-6">
-                    <p class="text-gray-700 leading-relaxed" id="empresa-descripcion">Descripción de la empresa...</p>
+                <div class="pt-4 border-t border-gray-100">
+                    <p class="text-gray-500 leading-relaxed text-sm" id="empresa-descripcion">Descripción de la empresa...</p>
                 </div>
             </div>
         </div>
@@ -183,53 +250,56 @@
             <div class="lg:col-span-2 space-y-8">
                 
                 <!-- Galería de Fotos -->
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="text-purple-600">📸</span> Galería
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
+                    <h2 class="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-[#00A3E0]/10 flex items-center justify-center text-lg">📸</span>
+                        <span>Galería</span>
                     </h2>
                     <div id="galeria" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        <div class="col-span-full text-center py-8 text-gray-500">
+                        <div class="col-span-full text-center py-10 text-gray-400">
                             No hay fotos disponibles
                         </div>
                     </div>
                 </div>
 
                 <!-- Servicios -->
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="text-purple-600">💼</span> Servicios
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
+                    <h2 class="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-[#003B5C]/10 flex items-center justify-center text-lg">💼</span>
+                        <span>Servicios</span>
                     </h2>
                     <div id="servicios" class="space-y-3">
-                        <div class="text-center py-8 text-gray-500">
+                        <div class="text-center py-10 text-gray-400">
                             No hay servicios registrados
                         </div>
                     </div>
                 </div>
 
                 <!-- Reseñas -->
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                            <span class="text-yellow-500">⭐</span> Reseñas
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
+                    <div class="flex items-center justify-between mb-5">
+                        <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-lg">⭐</span>
+                            <span>Reseñas</span>
                         </h2>
-                        <button id="btn-escribir-resena" onclick="toggleFormularioResena()" class="hidden bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
+                        <button id="btn-escribir-resena" onclick="toggleFormularioResena()" class="hidden btn-primary-brand text-white font-bold px-5 py-2.5 rounded-xl transition-all duration-200 hover:scale-[1.02] shadow-md text-sm">
                             ✍️ Escribir reseña
                         </button>
                     </div>
 
                     <!-- Formulario para escribir reseña -->
-                    <div id="formulario-resena" class="hidden mb-6 p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg border-2 border-purple-200">
+                    <div id="formulario-resena" class="hidden mb-6 p-6 bg-gradient-to-br from-[#003B5C]/5 to-[#00A3E0]/5 rounded-xl border border-[#00A3E0]/20">
                         <h3 class="text-lg font-bold text-gray-900 mb-4">Escribe tu reseña</h3>
                         
                         <!-- Calificación con estrellas -->
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Calificación *</label>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Calificación *</label>
                             <div class="flex gap-2" id="rating-stars">
-                                <button type="button" onclick="setRating(1)" class="text-3xl text-gray-300 hover:text-yellow-500 transition-colors">★</button>
-                                <button type="button" onclick="setRating(2)" class="text-3xl text-gray-300 hover:text-yellow-500 transition-colors">★</button>
-                                <button type="button" onclick="setRating(3)" class="text-3xl text-gray-300 hover:text-yellow-500 transition-colors">★</button>
-                                <button type="button" onclick="setRating(4)" class="text-3xl text-gray-300 hover:text-yellow-500 transition-colors">★</button>
-                                <button type="button" onclick="setRating(5)" class="text-3xl text-gray-300 hover:text-yellow-500 transition-colors">★</button>
+                                <button type="button" onclick="setRating(1)" class="text-3xl text-gray-300 hover:text-amber-500 transition-colors">★</button>
+                                <button type="button" onclick="setRating(2)" class="text-3xl text-gray-300 hover:text-amber-500 transition-colors">★</button>
+                                <button type="button" onclick="setRating(3)" class="text-3xl text-gray-300 hover:text-amber-500 transition-colors">★</button>
+                                <button type="button" onclick="setRating(4)" class="text-3xl text-gray-300 hover:text-amber-500 transition-colors">★</button>
+                                <button type="button" onclick="setRating(5)" class="text-3xl text-gray-300 hover:text-amber-500 transition-colors">★</button>
                             </div>
                             <input type="hidden" id="rating-value" value="0">
                             <p id="error-rating" class="text-xs text-red-600 mt-1 hidden">Debes seleccionar una calificación</p>
@@ -237,28 +307,28 @@
 
                         <!-- Campo de texto -->
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Tu reseña * <span class="text-xs text-gray-500">(máximo 100 caracteres)</span>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Tu reseña * <span class="text-xs text-gray-400 font-normal">(máximo 100 caracteres)</span>
                             </label>
                             <textarea 
                                 id="comentario-resena" 
                                 rows="3" 
                                 maxlength="100"
                                 placeholder="Comparte tu experiencia con esta empresa..."
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#00A3E0] focus:border-transparent resize-none transition-all"
                             ></textarea>
                             <div class="flex justify-between mt-1">
                                 <p id="error-comentario" class="text-xs text-red-600 hidden">Debes escribir algo en tu reseña</p>
-                                <p class="text-xs text-gray-500"><span id="char-count">0</span>/100 caracteres</p>
+                                <p class="text-xs text-gray-400"><span id="char-count">0</span>/100 caracteres</p>
                             </div>
                         </div>
 
                         <!-- Botones -->
                         <div class="flex gap-3">
-                            <button onclick="cancelarResena()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition-all">
+                            <button onclick="cancelarResena()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 px-4 rounded-xl transition-all">
                                 Cancelar
                             </button>
-                            <button onclick="enviarResena()" id="btn-enviar-resena" class="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition-all shadow-md">
+                            <button onclick="enviarResena()" id="btn-enviar-resena" class="flex-1 btn-primary-brand text-white font-bold py-2.5 px-4 rounded-xl transition-all shadow-md">
                                 Publicar reseña
                             </button>
                         </div>
@@ -277,48 +347,51 @@
             <div class="space-y-6">
                 
                 <!-- Información de Contacto -->
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="text-purple-600">📞</span> Contacto
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
+                    <h3 class="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-[#00A3E0]/10 flex items-center justify-center text-base">📞</span>
+                        <span>Contacto</span>
                     </h3>
-                    <div class="space-y-3">
-                        <div>
-                            <p class="text-sm text-gray-600 mb-1">Teléfono</p>
-                            <p class="font-semibold" id="contacto-telefono">-</p>
+                    <div class="space-y-4">
+                        <div class="group">
+                            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Teléfono</p>
+                            <p class="font-semibold text-gray-900" id="contacto-telefono">-</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-600 mb-1">Email</p>
-                            <p class="font-semibold text-sm break-words" id="contacto-email">-</p>
+                        <div class="group">
+                            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Email</p>
+                            <p class="font-semibold text-sm text-gray-900 break-words" id="contacto-email">-</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-600 mb-1">Dirección</p>
-                            <p class="font-semibold text-sm" id="contacto-direccion">-</p>
+                        <div class="group">
+                            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Dirección</p>
+                            <p class="font-semibold text-sm text-gray-900" id="contacto-direccion">-</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-gray-600 mb-1">Ciudad</p>
-                            <p class="font-semibold" id="contacto-ciudad">-</p>
+                        <div class="group">
+                            <p class="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Ciudad</p>
+                            <p class="font-semibold text-gray-900" id="contacto-ciudad">-</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Horarios -->
-                <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="text-blue-600">🕐</span> Horarios
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
+                    <h3 class="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-[#003B5C]/10 flex items-center justify-center text-base">🕐</span>
+                        <span>Horarios</span>
                     </h3>
-                    <div id="horarios" class="space-y-2">
-                        <div class="text-sm text-gray-500">
+                    <div id="horarios" class="space-y-2.5">
+                        <div class="text-sm text-gray-400">
                             No hay horarios configurados
                         </div>
                     </div>
                 </div>
 
                 <!-- Redes Sociales -->
-                <div id="redes-sociales" class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100 hidden">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <span class="text-green-600">🌐</span> Redes Sociales
+                <div id="redes-sociales" class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80 hidden">
+                    <h3 class="text-lg font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-base">🌐</span>
+                        <span>Redes Sociales</span>
                     </h3>
-                    <div class="flex flex-col gap-2" id="redes-links">
+                    <div class="flex flex-col gap-2.5" id="redes-links">
                         <!-- Se llenarán dinámicamente -->
                     </div>
                 </div>
@@ -378,6 +451,9 @@
                         document.getElementById('menu-empresa-links').classList.remove('hidden');
                     } else if (userRole === 'cliente') {
                         document.getElementById('menu-cliente-links').classList.remove('hidden');
+                        // Mostrar carrito para clientes
+                        document.getElementById('cart-link').classList.remove('hidden');
+                        cargarContadorCarrito();
                     } else if (userRole === 'admin') {
                         document.getElementById('menu-admin-links').classList.remove('hidden');
                     }
@@ -473,7 +549,7 @@
             // }
             
             // Título de la página
-            document.getElementById('page-title').textContent = `${empresa.nombre_comercial} - ServiLocal`;
+            document.getElementById('page-title').textContent = `${empresa.nombre_comercial} - MERCAROF`;
             
             // Banner personalizado
             if (empresa.banner) {
@@ -541,16 +617,28 @@
             }
             
             // Servicios
+            const userRole = localStorage.getItem('user_role');
+            const isCliente = userRole === 'cliente';
+            
             if (empresa.servicios && empresa.servicios.length > 0) {
                 const serviciosDiv = document.getElementById('servicios');
                 serviciosDiv.innerHTML = empresa.servicios.map(servicio => `
-                    <div class="border border-gray-200 rounded-lg p-4 hover:border-purple-300 hover:shadow-sm transition-all duration-200 bg-gray-50">
-                        <div class="flex justify-between items-start">
-                            <div class="flex-1">
-                                <h4 class="font-bold text-gray-900">${servicio.nombre}</h4>
-                                ${servicio.descripcion ? `<p class="text-sm text-gray-600 mt-1">${servicio.descripcion}</p>` : ''}
+                    <div class="border border-gray-100 rounded-xl p-4 hover:border-[#00A3E0]/30 hover:shadow-md transition-all duration-200 bg-gray-50/50 group">
+                        <div class="flex justify-between items-center gap-4">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-gray-900 group-hover:text-[#003B5C] transition-colors">${servicio.nombre}</h4>
+                                ${servicio.descripcion ? `<p class="text-sm text-gray-500 mt-1">${servicio.descripcion}</p>` : ''}
                             </div>
-                            ${servicio.precio ? `<span class="text-purple-600 font-bold ml-4 text-lg">${servicio.precio}</span>` : ''}
+                            <div class="flex items-center gap-3 flex-shrink-0">
+                                ${servicio.precio ? `<span class="text-[#00A3E0] font-bold text-lg whitespace-nowrap">${servicio.precio}</span>` : ''}
+                                ${isCliente ? `
+                                    <button onclick="addToCart(${servicio.id})" class="p-2 bg-[#003B5C] hover:bg-[#004D73] text-white rounded-lg transition-all duration-200 hover:scale-105" title="Agregar al carrito">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </button>
+                                ` : ''}
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -560,9 +648,9 @@
             if (empresa.horarios && empresa.horarios.length > 0) {
                 const horariosDiv = document.getElementById('horarios');
                 horariosDiv.innerHTML = empresa.horarios.map(h => `
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="font-medium text-gray-900">${h.dia_semana}</span>
-                        <span class="text-gray-600">${h.hora_apertura} - ${h.hora_cierre}</span>
+                    <div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
+                        <span class="font-semibold text-gray-900 text-sm">${h.dia_semana}</span>
+                        <span class="text-[#00A3E0] font-medium text-sm">${h.hora_apertura} - ${h.hora_cierre}</span>
                     </div>
                 `).join('');
             }
@@ -623,35 +711,35 @@
             if (empresa.resenas && empresa.resenas.length > 0) {
                 const resenasDiv = document.getElementById('resenas');
                 resenasDiv.innerHTML = empresa.resenas.map(resena => `
-                    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow">
-                        <div class="flex items-start justify-between mb-2">
-                            <div class="flex items-center gap-2">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center justify-center text-white font-bold">
+                    <div class="bg-gray-50/70 rounded-xl p-5 border border-gray-100 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-[#003B5C] to-[#00A3E0] flex items-center justify-center text-white font-bold shadow-sm">
                                     ${(resena.user?.name || 'U').charAt(0).toUpperCase()}
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-gray-900">${resena.user?.name || 'Usuario'}</p>
-                                    <div class="flex items-center gap-1">
+                                    <p class="font-bold text-gray-900">${resena.user?.name || 'Usuario'}</p>
+                                    <div class="flex items-center gap-0.5">
                                         ${Array.from({length: 5}, (_, i) => 
-                                            `<span class="${i < resena.calificacion ? 'text-yellow-500' : 'text-gray-300'}">★</span>`
+                                            `<span class="${i < resena.calificacion ? 'text-amber-500' : 'text-gray-300'} text-sm">★</span>`
                                         ).join('')}
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-xs text-gray-500">${new Date(resena.created_at).toLocaleDateString('es-ES')}</span>
+                            <span class="text-xs text-gray-400 font-medium">${new Date(resena.created_at).toLocaleDateString('es-ES')}</span>
                         </div>
-                        <p class="text-gray-700">${resena.comentario}</p>
+                        <p class="text-gray-600 leading-relaxed">${resena.comentario}</p>
                         ${resena.respuesta_empresa ? `
-                            <div class="mt-3 ml-4 pl-4 border-l-2 border-purple-300 bg-purple-50 p-3 rounded">
-                                <p class="text-xs font-semibold text-purple-800 mb-1">Respuesta de la empresa:</p>
-                                <p class="text-sm text-gray-700">${resena.respuesta_empresa}</p>
+                            <div class="mt-4 ml-4 pl-4 border-l-2 border-[#00A3E0]/30 bg-[#00A3E0]/5 p-4 rounded-lg">
+                                <p class="text-xs font-bold text-[#003B5C] mb-1.5">Respuesta de la empresa:</p>
+                                <p class="text-sm text-gray-600">${resena.respuesta_empresa}</p>
                             </div>
                         ` : ''}
                     </div>
                 `).join('');
             } else {
                 const resenasDiv = document.getElementById('resenas');
-                resenasDiv.innerHTML = '<div class="text-center py-8 text-gray-500">No hay reseñas todavía</div>';
+                resenasDiv.innerHTML = '<div class="text-center py-10 text-gray-400">No hay reseñas todavía</div>';
             }
         }
 
@@ -730,9 +818,9 @@
             stars.forEach((star, index) => {
                 if (index < selectedRating) {
                     star.classList.remove('text-gray-300');
-                    star.classList.add('text-yellow-500');
+                    star.classList.add('text-amber-500');
                 } else {
-                    star.classList.remove('text-yellow-500');
+                    star.classList.remove('text-amber-500');
                     star.classList.add('text-gray-300');
                 }
             });
@@ -853,6 +941,97 @@
                 btnWhatsApp.classList.remove('hidden');
             }
         });
+
+        // ==================== CARRITO DE COMPRAS ====================
+
+        // Cargar contador del carrito
+        async function cargarContadorCarrito() {
+            const token = localStorage.getItem('auth_token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/carrito/count`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const badge = document.getElementById('cart-badge');
+                    if (result.count > 0) {
+                        badge.textContent = result.count > 99 ? '99+' : result.count;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando carrito:', error);
+            }
+        }
+
+        // Añadir servicio al carrito
+        async function addToCart(servicioId) {
+            const token = localStorage.getItem('auth_token');
+            const userRole = localStorage.getItem('user_role');
+            
+            if (!token) {
+                alert('Debes iniciar sesión para agregar servicios al carrito');
+                window.location.href = '/login';
+                return;
+            }
+            
+            if (userRole !== 'cliente') {
+                alert('Solo los clientes pueden agregar servicios al carrito');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/carrito`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ servicio_id: servicioId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Actualizar contador
+                    const badge = document.getElementById('cart-badge');
+                    badge.textContent = result.cart_count > 99 ? '99+' : result.cart_count;
+                    badge.classList.remove('hidden');
+                    
+                    // Mostrar notificación
+                    showToast('✅ Servicio agregado al carrito', 'success');
+                } else {
+                    showToast(result.message || 'No se pudo agregar al carrito', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al agregar al carrito', 'error');
+            }
+        }
+
+        // Mostrar toast de notificación
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            toast.className = `fixed bottom-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fadeIn`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
     </script>
 
 </body>

@@ -164,6 +164,61 @@
             </div>
         </div>
 
+        <!-- Stats de Ventas -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg shadow-md p-6 text-white">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-green-100 text-sm font-medium">Total Órdenes</h3>
+                    <span class="text-2xl">🛒</span>
+                </div>
+                <p class="text-3xl font-bold" id="stat-ordenes-total">0</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-500 to-cyan-600 rounded-lg shadow-md p-6 text-white">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-blue-100 text-sm font-medium">Órdenes Completadas</h3>
+                    <span class="text-2xl">✅</span>
+                </div>
+                <p class="text-3xl font-bold" id="stat-ordenes-completadas">0</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg shadow-md p-6 text-white">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-yellow-100 text-sm font-medium">Pendientes</h3>
+                    <span class="text-2xl">⏳</span>
+                </div>
+                <p class="text-3xl font-bold" id="stat-ordenes-pendientes">0</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-mercarof-navy to-mercarof-cyan rounded-lg shadow-md p-6 text-white">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-mercarof-cyan-light text-sm font-medium">Volumen Total</h3>
+                    <span class="text-2xl">💰</span>
+                </div>
+                <p class="text-3xl font-bold" id="stat-volumen-total">$0</p>
+            </div>
+        </div>
+
+        <!-- Sección de Ventas Recientes -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">📊 Ventas Recientes</h2>
+                    <p class="text-gray-500 text-sm">Últimas 10 órdenes del marketplace</p>
+                </div>
+            </div>
+            
+            <div id="lista-ventas-admin" class="space-y-3">
+                <div class="text-center py-8 text-gray-500">
+                    Cargando ventas...
+                </div>
+            </div>
+
+            <a href="/admin/ventas" class="block mt-4 w-full text-center gradient-bg text-white font-semibold py-3 rounded-lg hover:shadow-lg transition-all">
+                Ver Todas las Ventas →
+            </a>
+        </div>
+
         <!-- Management Sections -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
@@ -519,7 +574,95 @@
 
             // Cargar estadísticas después de verificar autenticación
             await cargarEstadisticas();
+            
+            // Cargar reporte de ventas
+            await cargarReporteVentas();
         });
+
+        // ==================== REPORTE DE VENTAS ====================
+
+        async function cargarReporteVentas() {
+            try {
+                const response = await fetch(`${API_URL}/admin/reportes/ventas?estado=todos`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'application/json'
+                    }
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    // Actualizar stats
+                    document.getElementById('stat-ordenes-total').textContent = result.stats.total_ordenes;
+                    document.getElementById('stat-ordenes-completadas').textContent = result.stats.ordenes_completadas;
+                    document.getElementById('stat-ordenes-pendientes').textContent = result.stats.ordenes_pendientes;
+                    document.getElementById('stat-volumen-total').textContent = '$' + parseFloat(result.stats.volumen_total || 0).toFixed(2);
+
+                    // Renderizar solo las últimas 10
+                    renderizarVentasAdmin(result.data);
+                }
+            } catch (error) {
+                console.error('Error cargando ventas:', error);
+                document.getElementById('lista-ventas-admin').innerHTML = '<div class="text-center py-8 text-red-500">Error al cargar ventas</div>';
+            }
+        }
+
+        function renderizarVentasAdmin(ordenes) {
+            const container = document.getElementById('lista-ventas-admin');
+
+            if (!ordenes || ordenes.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="text-4xl mb-3">📦</div>
+                        <p class="text-gray-500">No hay órdenes registradas</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Solo mostrar las últimas 10
+            container.innerHTML = ordenes.slice(0, 10).map(orden => `
+                <div class="border rounded-xl p-3 hover:shadow-sm transition-all bg-gray-50">
+                    <div class="flex justify-between items-center">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs font-mono text-gray-500">${orden.numero_orden}</span>
+                                <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${getEstadoClasses(orden.estado)}">
+                                    ${getEstadoLabel(orden.estado)}
+                                </span>
+                            </div>
+                            <p class="font-semibold text-gray-900 truncate">${orden.empresa?.nombre_comercial || 'Empresa'}</p>
+                        </div>
+                        <div class="text-right ml-4">
+                            <p class="font-bold text-mercarof-navy">$${parseFloat(orden.total).toFixed(2)}</p>
+                            <p class="text-xs text-gray-500">${new Date(orden.created_at).toLocaleDateString('es-ES')}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getEstadoClasses(estado) {
+            const classes = {
+                'pendiente': 'bg-yellow-100 text-yellow-800',
+                'pagado': 'bg-blue-100 text-blue-800',
+                'confirmado': 'bg-cyan-100 text-cyan-800',
+                'completado': 'bg-green-100 text-green-800',
+                'cancelado': 'bg-red-100 text-red-800',
+            };
+            return classes[estado] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getEstadoLabel(estado) {
+            const labels = {
+                'pendiente': '⏳ Pendiente',
+                'pagado': '💳 Pagado',
+                'confirmado': '✓ Confirmado',
+                'completado': '✅ Completado',
+                'cancelado': '❌ Cancelado',
+            };
+            return labels[estado] || estado;
+        }
     </script>
 
     <!-- Modal Cerrar Sesión -->

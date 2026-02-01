@@ -72,6 +72,10 @@ Route::get('/admin/reportes', function () {
     return view('admin.reportes');
 })->name('admin.reportes');
 
+Route::get('/admin/ventas', function () {
+    return view('admin.ventas');
+})->name('admin.ventas');
+
 // ==================== API ADMIN CON SANCTUM (Bearer Token) ====================
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin/api')->name('admin.api.')->group(function () {
     
@@ -137,6 +141,14 @@ Route::get('/empresa/metricas', function () {
 
 Route::get('/empresa/resenas', function () {
     return view('empresa.resenas');
+});
+
+Route::get('/empresa/metodos-pago', function () {
+    return view('empresa.metodos-pago');
+});
+
+Route::get('/empresa/ventas', function () {
+    return view('empresa.ventas');
 });
 
 // Páginas de Cliente

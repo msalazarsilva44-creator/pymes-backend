@@ -32,6 +32,10 @@
         .main-bg {
             background-color: #f3f4f6;
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="main-bg">
@@ -45,6 +49,13 @@
                     <span class="text-sm text-gray-500">/ Dashboard Cliente</span>
                 </div>
                 <div class="flex items-center gap-4">
+                    <!-- Carrito de compras -->
+                    <a href="/mis-compras" class="relative p-2 text-gray-600 hover:text-mercarof-cyan transition-colors" title="Mi Carrito">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </a>
                     <span class="text-sm text-gray-600" id="user-name"></span>
                     <button onclick="cerrarSesion()" class="text-sm text-red-600 hover:text-red-700 font-medium">
                         Cerrar Sesión
@@ -153,6 +164,27 @@
 
     </div>
 
+    <!-- Modal Servicios -->
+    <div id="modal-servicios" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
+            <div class="p-4 border-b bg-gradient-to-r from-mercarof-navy to-mercarof-cyan">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white" id="modal-servicios-titulo">Servicios</h3>
+                    <button onclick="cerrarModalServicios()" class="text-white/80 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="modal-servicios-contenido" class="p-4 overflow-y-auto max-h-96">
+                <div class="text-center py-8">
+                    <div class="animate-spin w-8 h-8 border-4 border-mercarof-cyan border-t-transparent rounded-full mx-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_URL = 'http://localhost:8000/api';
 
@@ -195,7 +227,38 @@
 
             // Cargar empresas destacadas
             await cargarEmpresas();
+            
+            // Cargar contador del carrito
+            await cargarContadorCarrito();
         });
+
+        // Cargar contador del carrito
+        async function cargarContadorCarrito() {
+            const token = localStorage.getItem('auth_token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/carrito/count`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const badge = document.getElementById('cart-badge');
+                    if (result.count > 0) {
+                        badge.textContent = result.count > 99 ? '99+' : result.count;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando carrito:', error);
+            }
+        }
 
         // Cerrar sesión
         function cerrarSesion() {
@@ -216,7 +279,7 @@
                 
                 if (result.success && result.data.data && result.data.data.length > 0) {
                     container.innerHTML = result.data.data.map(empresa => `
-                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-all relative group">
                             <div class="flex items-start gap-3 mb-3">
                                 <div class="w-12 h-12 bg-mercarof-cyan bg-opacity-10 rounded-lg flex items-center justify-center flex-shrink-0">
                                     <span class="text-xl">${empresa.categoria?.icono || '🏢'}</span>
@@ -225,6 +288,14 @@
                                     <h4 class="font-bold text-gray-900 truncate">${empresa.nombre_comercial}</h4>
                                     <p class="text-sm text-gray-600">${empresa.categoria?.nombre || 'Servicio'}</p>
                                 </div>
+                                <!-- Botón carrito -->
+                                <button onclick="mostrarServiciosEmpresa(${empresa.id}, '${empresa.nombre_comercial.replace(/'/g, "\\'")}', event)" 
+                                        class="p-2 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white rounded-lg transition-all hover:scale-105 shadow-sm" 
+                                        title="Ver servicios">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </button>
                             </div>
                             <p class="text-sm text-gray-600 mb-3 line-clamp-2">${empresa.descripcion || 'Sin descripción'}</p>
                             <div class="flex items-center justify-between">
@@ -233,7 +304,7 @@
                                     <span class="text-sm font-semibold">${empresa.calificacion_promedio || '0.0'}</span>
                                     <span class="text-xs text-gray-500">(${empresa.total_resenas || 0})</span>
                                 </div>
-                                <a href="/empresa/${empresa.id}" class="text-sm text-mercarof-cyan hover:text-mercarof-cyan-dark font-medium">
+                                <a href="/perfil-empresa/${empresa.id}" class="text-sm text-mercarof-cyan hover:text-mercarof-cyan-dark font-medium">
                                     Ver más →
                                 </a>
                             </div>
@@ -246,6 +317,126 @@
                 console.error('Error cargando empresas:', error);
                 document.getElementById('empresas-destacadas').innerHTML = '<div class="col-span-full text-center py-8 text-red-500">Error cargando empresas</div>';
             }
+        }
+
+        // ==================== FUNCIONES DE CARRITO ====================
+
+        // Mostrar servicios de una empresa
+        async function mostrarServiciosEmpresa(empresaId, nombreEmpresa, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            document.getElementById('modal-servicios-titulo').textContent = nombreEmpresa;
+            document.getElementById('modal-servicios').classList.remove('hidden');
+            
+            const contenido = document.getElementById('modal-servicios-contenido');
+            contenido.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin w-8 h-8 border-4 border-mercarof-cyan border-t-transparent rounded-full mx-auto"></div>
+                    <p class="text-gray-500 mt-2 text-sm">Cargando servicios...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_URL}/empresas/${empresaId}`);
+                const result = await response.json();
+
+                if (result.success && result.data.servicios && result.data.servicios.length > 0) {
+                    contenido.innerHTML = result.data.servicios.map(servicio => `
+                        <div class="flex items-center justify-between p-3 border rounded-xl mb-2 hover:border-mercarof-cyan transition-all bg-gray-50">
+                            <div class="flex-1 min-w-0 mr-3">
+                                <h4 class="font-semibold text-gray-900 text-sm">${servicio.nombre}</h4>
+                                ${servicio.descripcion ? `<p class="text-xs text-gray-500 truncate">${servicio.descripcion}</p>` : ''}
+                                ${servicio.precio ? `<p class="text-mercarof-cyan font-bold text-sm mt-1">${servicio.precio}</p>` : ''}
+                            </div>
+                            <button onclick="agregarAlCarrito(${servicio.id})" 
+                                    class="p-2 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white rounded-lg transition-all hover:scale-105 flex-shrink-0"
+                                    title="Agregar al carrito">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    `).join('');
+                } else {
+                    contenido.innerHTML = `
+                        <div class="text-center py-8">
+                            <div class="text-4xl mb-3">📋</div>
+                            <p class="text-gray-500">Esta empresa no tiene servicios disponibles</p>
+                            <a href="/perfil-empresa/${empresaId}" class="text-mercarof-cyan hover:underline text-sm mt-2 inline-block">
+                                Ver perfil completo →
+                            </a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                contenido.innerHTML = `<div class="text-center py-8 text-red-500">Error al cargar servicios</div>`;
+            }
+        }
+
+        function cerrarModalServicios() {
+            document.getElementById('modal-servicios').classList.add('hidden');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modal-servicios').addEventListener('click', function(e) {
+            if (e.target === this) cerrarModalServicios();
+        });
+
+        // Agregar al carrito
+        async function agregarAlCarrito(servicioId) {
+            const token = localStorage.getItem('auth_token');
+            
+            if (!token) {
+                alert('Debes iniciar sesión para agregar servicios al carrito');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/carrito`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ servicio_id: servicioId })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Actualizar badge del carrito
+                    const badge = document.getElementById('cart-badge');
+                    badge.textContent = result.cart_count > 99 ? '99+' : result.cart_count;
+                    badge.classList.remove('hidden');
+                    
+                    // Notificación
+                    showToast('✅ Servicio agregado al carrito', 'success');
+                } else {
+                    showToast(result.message || 'No se pudo agregar', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al agregar al carrito', 'error');
+            }
+        }
+
+        // Toast de notificación
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            toast.className = `fixed bottom-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50`;
+            toast.style.animation = 'fadeIn 0.3s ease-out';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
         }
     </script>
 

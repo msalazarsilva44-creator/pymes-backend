@@ -303,6 +303,23 @@
                         <p class="text-sm text-gray-600">Responder clientes</p>
                     </div>
                 </a>
+
+                <a href="/empresa/metodos-pago" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
+                    <span class="text-2xl">💳</span>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-900">Métodos de Pago</p>
+                        <p class="text-sm text-gray-600">Configurar pagos</p>
+                    </div>
+                </a>
+
+                <a href="/empresa/ventas" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all relative">
+                    <span class="text-2xl">📊</span>
+                    <span id="badge-ordenes-pendientes" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1 flex items-center justify-center"></span>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-900">Ventas</p>
+                        <p class="text-sm text-gray-600">Órdenes y reportes</p>
+                    </div>
+                </a>
             </div>
         </div>
 
@@ -1391,6 +1408,34 @@
                 console.error('Error:', error);
             }
         }
+
+        // Cargar badge de órdenes pendientes
+        async function cargarBadgeOrdenes() {
+            try {
+                const response = await fetch(`${API_URL}/empresa/ordenes?estado=todos`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'application/json'
+                    }
+                });
+                const result = await response.json();
+
+                if (result.success && result.stats.pagadas > 0) {
+                    const badge = document.getElementById('badge-ordenes-pendientes');
+                    if (badge) {
+                        badge.textContent = result.stats.pagadas;
+                        badge.classList.remove('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando badge:', error);
+            }
+        }
+
+        // Inicializar badge al cargar
+        setTimeout(() => {
+            cargarBadgeOrdenes();
+        }, 500);
     </script>
 
     <!-- Script para validar botón de retroceder - INLINE MEJORADO -->

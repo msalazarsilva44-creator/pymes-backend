@@ -144,10 +144,11 @@
                         </svg>
                         <span class="font-medium hidden sm:inline">Mi Perfil</span>
                     </a>
-                    <a href="/mis-compras" class="flex items-center gap-2 text-gray-700 hover:text-mercarof-cyan">
+                    <a href="/mis-compras" class="flex items-center gap-2 text-gray-700 hover:text-mercarof-cyan relative">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
+                        <span id="cart-badge" class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
                         <span class="font-medium hidden sm:inline">Mis Compras</span>
                     </a>
                     <a href="/favoritos" class="flex items-center gap-2 text-gray-700 hover:text-mercarof-cyan relative">
@@ -278,6 +279,9 @@
 
             // Mostrar nombre del usuario
             document.getElementById('user-name').textContent = userData.name || 'Cliente';
+            
+            // Cargar contador del carrito
+            cargarContadorCarrito();
 
             // Configurar logo para redireccionar al dashboard según el rol
             const logoHome = document.getElementById('logo-home');
@@ -389,7 +393,17 @@
                     
                     <!-- Contenido -->
                     <div class="p-5">
-                        <h3 class="font-bold text-lg text-gray-900 mb-2 truncate">${nombreEmpresa}</h3>
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h3 class="font-bold text-lg text-gray-900 truncate flex-1">${nombreEmpresa}</h3>
+                            <!-- Botón Carrito -->
+                            <button onclick="mostrarServiciosEmpresa(${empresa.id}, '${nombreEmpresa.replace(/'/g, "\\'")}', event)" 
+                                    class="p-2 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white rounded-lg transition-all hover:scale-110 shadow-sm flex-shrink-0" 
+                                    title="Ver servicios y agregar al carrito">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </button>
+                        </div>
                         <p class="text-sm text-mercarof-cyan font-medium mb-2">${categoriaNombre}</p>
                         <p class="text-gray-600 text-sm mb-4 line-clamp-2">${empresa.descripcion || 'Sin descripción disponible'}</p>
                         
@@ -647,6 +661,186 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Servicios para Carrito -->
+    <div id="modal-servicios" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full max-h-[80vh] overflow-hidden shadow-2xl">
+            <div class="p-4 border-b bg-gradient-to-r from-mercarof-navy to-mercarof-cyan">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white" id="modal-servicios-titulo">Servicios</h3>
+                    <button onclick="cerrarModalServicios()" class="text-white/80 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="modal-servicios-contenido" class="p-4 overflow-y-auto max-h-96">
+                <div class="text-center py-8">
+                    <div class="animate-spin w-8 h-8 border-4 border-mercarof-cyan border-t-transparent rounded-full mx-auto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== FUNCIONES DE CARRITO ====================
+
+        // Cargar contador del carrito
+        async function cargarContadorCarrito() {
+            const token = localStorage.getItem('auth_token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/carrito/count`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                });
+                const result = await response.json();
+                
+                if (result.success && result.count > 0) {
+                    const badge = document.getElementById('cart-badge');
+                    if (badge) {
+                        badge.textContent = result.count > 99 ? '99+' : result.count;
+                        badge.classList.remove('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando carrito:', error);
+            }
+        }
+
+        // Mostrar servicios de una empresa
+        async function mostrarServiciosEmpresa(empresaId, nombreEmpresa, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            document.getElementById('modal-servicios-titulo').textContent = nombreEmpresa;
+            document.getElementById('modal-servicios').classList.remove('hidden');
+            
+            const contenido = document.getElementById('modal-servicios-contenido');
+            contenido.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin w-8 h-8 border-4 border-mercarof-cyan border-t-transparent rounded-full mx-auto"></div>
+                    <p class="text-gray-500 mt-2 text-sm">Cargando servicios...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${API_URL}/empresas/${empresaId}`);
+                const result = await response.json();
+
+                if (result.success && result.data.servicios && result.data.servicios.length > 0) {
+                    contenido.innerHTML = result.data.servicios.map(servicio => `
+                        <div class="flex items-center justify-between p-3 border rounded-xl mb-2 hover:border-mercarof-cyan transition-all bg-gray-50">
+                            <div class="flex-1 min-w-0 mr-3">
+                                <h4 class="font-semibold text-gray-900 text-sm">${servicio.nombre}</h4>
+                                ${servicio.descripcion ? `<p class="text-xs text-gray-500 truncate">${servicio.descripcion}</p>` : ''}
+                                ${servicio.precio ? `<p class="text-mercarof-cyan font-bold text-sm mt-1">${servicio.precio}</p>` : ''}
+                            </div>
+                            <button onclick="agregarAlCarritoDesdeModal(${servicio.id}, event)" 
+                                    class="p-2 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white rounded-lg transition-all hover:scale-105 flex-shrink-0"
+                                    title="Agregar al carrito">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    `).join('');
+                } else {
+                    contenido.innerHTML = `
+                        <div class="text-center py-8">
+                            <div class="text-4xl mb-3">📋</div>
+                            <p class="text-gray-500">Esta empresa no tiene servicios disponibles</p>
+                            <button onclick="verPerfilEmpresa(${empresaId}); cerrarModalServicios();" class="text-mercarof-cyan hover:underline text-sm mt-2 inline-block">
+                                Ver perfil completo →
+                            </button>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                contenido.innerHTML = `<div class="text-center py-8 text-red-500">Error al cargar servicios</div>`;
+            }
+        }
+
+        function cerrarModalServicios() {
+            document.getElementById('modal-servicios').classList.add('hidden');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modal-servicios').addEventListener('click', function(e) {
+            if (e.target === this) cerrarModalServicios();
+        });
+
+        // Agregar al carrito desde el modal
+        async function agregarAlCarritoDesdeModal(servicioId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const token = localStorage.getItem('auth_token');
+            
+            if (!token) {
+                alert('Debes iniciar sesión para agregar servicios al carrito');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/carrito`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ servicio_id: servicioId })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Actualizar badge del carrito si existe
+                    const badge = document.getElementById('cart-badge');
+                    if (badge) {
+                        badge.textContent = result.cart_count > 99 ? '99+' : result.cart_count;
+                        badge.classList.remove('hidden');
+                    }
+                    
+                    showToastCarrito('✅ Servicio agregado al carrito', 'success');
+                } else {
+                    showToastCarrito(result.message || 'No se pudo agregar', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToastCarrito('Error al agregar al carrito', 'error');
+            }
+        }
+
+        // Toast de notificación para carrito
+        function showToastCarrito(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            toast.className = `fixed bottom-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-[60]`;
+            toast.style.animation = 'fadeInUp 0.3s ease-out';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+    </script>
+
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 
     <!-- Script para validar botón de retroceder - INLINE MEJORADO -->
     <script>
