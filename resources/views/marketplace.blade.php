@@ -57,7 +57,7 @@
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
                 <a href="/" class="logo-container">
-                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo" class="h-10">
+                    <img src="{{ asset('logo-mercarof.jpeg') }}" alt="MERCAROF Logo" class="h-10">
                     <span class="text-2xl font-bold text-white">MERCAROF</span>
                 </a>
 

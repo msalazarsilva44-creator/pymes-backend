@@ -131,7 +131,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <div class="logo-container">
-                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo" class="h-10">
+                    <img src="{{ asset('logo-mercarof.jpeg') }}" alt="MERCAROF Logo" class="h-10">
                     <span class="text-2xl font-bold text-mercarof-navy">MERCAROF</span>
                 </div>
                 <div class="flex items-center gap-4">

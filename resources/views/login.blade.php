@@ -56,7 +56,7 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center">
                 <a href="/" class="logo-container">
-                    <img src="/logo-mercarof.jpeg" alt="MERCAROF Logo">
+                    <img src="{{ asset('logo-mercarof.jpeg') }}" alt="MERCAROF Logo">
                     <span class="text-2xl font-bold text-mercarof-navy">MERCAROF</span>
                 </a>
                 <a href="/" class="text-mercarof-navy hover:text-mercarof-cyan transition-colors">
