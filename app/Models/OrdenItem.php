@@ -13,14 +13,18 @@ class OrdenItem extends Model
 
     protected $fillable = [
         'orden_id',
+        'tipo',
         'servicio_id',
+        'producto_id',
         'nombre_servicio',
         'descripcion_servicio',
         'precio',
+        'cantidad',
     ];
 
     protected $casts = [
         'precio' => 'decimal:2',
+        'cantidad' => 'integer',
     ];
 
     /**
@@ -37,5 +41,10 @@ class OrdenItem extends Model
     public function servicio()
     {
         return $this->belongsTo(Servicio::class);
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class);
     }
 }

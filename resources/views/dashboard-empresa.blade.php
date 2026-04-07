@@ -295,6 +295,14 @@
                     </div>
                 </a>
 
+                <a href="/empresa/productos" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all">
+                    <span class="text-2xl">📦</span>
+                    <div class="text-left">
+                        <p class="font-semibold text-gray-900">Productos</p>
+                        <p class="text-sm text-gray-600">Precio, stock, línea básica</p>
+                    </div>
+                </a>
+
                 <a href="/empresa/resenas" class="flex items-center gap-3 p-4 border-2 border-gray-200 rounded-lg hover:border-mercarof-cyan hover:shadow-md transition-all relative">
                     <span class="text-2xl">💬</span>
                     <span id="badge-resenas-quick" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1"></span>

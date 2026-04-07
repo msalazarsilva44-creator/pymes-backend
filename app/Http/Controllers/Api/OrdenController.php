@@ -7,6 +7,7 @@ use App\Models\Carrito;
 use App\Models\Orden;
 use App\Models\OrdenItem;
 use App\Models\Empresa;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +39,7 @@ class OrdenController extends Controller
         $user = $request->user();
 
         // Obtener items del carrito para esta empresa
-        $itemsCarrito = Carrito::with('servicio')
+        $itemsCarrito = Carrito::with(['servicio', 'producto'])
             ->where('user_id', $user->id)
             ->where('empresa_id', $request->empresa_id)
             ->get();
@@ -56,6 +57,20 @@ class OrdenController extends Controller
 
         DB::beginTransaction();
         try {
+            foreach ($itemsCarrito as $citem) {
+                if ($citem->tipo === 'producto' && $citem->producto_id) {
+                    $p = Producto::where('id', $citem->producto_id)->lockForUpdate()->first();
+                    $necesita = (int) ($citem->cantidad ?? 1);
+                    if (!$p || $p->cantidad < $necesita) {
+                        DB::rollBack();
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Stock insuficiente' . ($p ? ' para: ' . $p->nombre : '')
+                        ], 400);
+                    }
+                }
+            }
+
             // Subir comprobante si existe
             $comprobantePath = null;
             if ($request->hasFile('comprobante_pago')) {
@@ -80,13 +95,31 @@ class OrdenController extends Controller
 
             // Crear items de la orden
             foreach ($itemsCarrito as $item) {
-                OrdenItem::create([
-                    'orden_id' => $orden->id,
-                    'servicio_id' => $item->servicio_id,
-                    'nombre_servicio' => $item->servicio->nombre,
-                    'descripcion_servicio' => $item->servicio->descripcion,
-                    'precio' => $item->precio,
-                ]);
+                if ($item->tipo === 'producto' && $item->producto) {
+                    $prod = $item->producto;
+                    OrdenItem::create([
+                        'orden_id' => $orden->id,
+                        'tipo' => 'producto',
+                        'servicio_id' => null,
+                        'producto_id' => $prod->id,
+                        'nombre_servicio' => $prod->nombre,
+                        'descripcion_servicio' => $prod->descripcion,
+                        'precio' => $item->precio,
+                        'cantidad' => $item->cantidad ?? 1,
+                    ]);
+                    Producto::where('id', $prod->id)->decrement('cantidad', $item->cantidad ?? 1);
+                } else {
+                    OrdenItem::create([
+                        'orden_id' => $orden->id,
+                        'tipo' => 'servicio',
+                        'servicio_id' => $item->servicio_id,
+                        'producto_id' => null,
+                        'nombre_servicio' => $item->servicio->nombre,
+                        'descripcion_servicio' => $item->servicio->descripcion,
+                        'precio' => $item->precio,
+                        'cantidad' => 1,
+                    ]);
+                }
             }
 
             // Eliminar items del carrito

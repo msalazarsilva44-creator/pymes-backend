@@ -397,7 +397,7 @@
                             ${(orden.items || []).map(item => `
                                 <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
                                     <div>
-                                        <p class="font-semibold text-gray-900">${item.nombre_servicio}</p>
+                                        <p class="font-semibold text-gray-900">${item.nombre_servicio}${item.cantidad > 1 ? ' ×' + item.cantidad : ''}</p>
                                         ${item.descripcion_servicio ? `<p class="text-xs text-gray-500">${item.descripcion_servicio}</p>` : ''}
                                     </div>
                                     <p class="font-bold text-mercarof-cyan">$${parseFloat(item.precio).toFixed(2)}</p>

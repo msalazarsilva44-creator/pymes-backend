@@ -206,7 +206,7 @@
                     <div class="bg-white rounded-xl shadow-sm p-12 text-center">
                         <div class="text-6xl mb-4">🛒</div>
                         <h3 class="text-xl font-bold text-gray-900 mb-2">Tu carrito está vacío</h3>
-                        <p class="text-gray-600 mb-6">Explora nuestros servicios y agrega los que necesites</p>
+                        <p class="text-gray-600 mb-6">Explora servicios y productos y agrega lo que necesites</p>
                         <a href="/dashboard/cliente" class="inline-block bg-mercarof-navy text-white font-semibold px-6 py-3 rounded-xl hover:bg-mercarof-navy-dark transition-all">
                             Explorar Servicios
                         </a>
@@ -229,7 +229,8 @@
                             ${grupo.items.map(item => `
                                 <div class="flex items-center justify-between py-3 border-b last:border-0">
                                     <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-900">${item.nombre}</h4>
+                                        <h4 class="font-semibold text-gray-900">${item.nombre}${item.tipo === 'producto' && item.cantidad > 1 ? ` ×${item.cantidad}` : ''}</h4>
+                                        ${item.tipo === 'producto' && item.es_basico ? '<span class="text-[10px] bg-gray-100 text-gray-600 px-1.5 rounded">Básico</span>' : ''}
                                         ${item.descripcion ? `<p class="text-sm text-gray-500">${item.descripcion}</p>` : ''}
                                     </div>
                                     <div class="flex items-center gap-4">
@@ -302,7 +303,7 @@
                     ${grupo.empresa.logo ? `<img src="${grupo.empresa.logo}" class="w-12 h-12 rounded-lg object-cover">` : '<div class="w-12 h-12 rounded-lg bg-mercarof-cyan/20 flex items-center justify-center text-2xl">🏢</div>'}
                     <div>
                         <h4 class="font-bold text-gray-900">${grupo.empresa.nombre_comercial}</h4>
-                        <p class="text-sm text-gray-500">${grupo.items.length} servicio(s)</p>
+                        <p class="text-sm text-gray-500">${grupo.items.length} línea(s) en el pedido</p>
                     </div>
                 </div>
             `;
@@ -501,7 +502,7 @@
                         <div class="space-y-2 mb-4">
                             ${orden.items.map(item => `
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">${item.nombre_servicio}</span>
+                                    <span class="text-gray-600">${item.nombre_servicio}${item.cantidad > 1 ? ` ×${item.cantidad}` : ''}</span>
                                     <span class="font-semibold">$${parseFloat(item.precio).toFixed(2)}</span>
                                 </div>
                             `).join('')}

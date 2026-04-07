@@ -183,6 +183,14 @@ class Empresa extends Model
     }
 
     /**
+     * Productos físicos / con stock
+     */
+    public function productos()
+    {
+        return $this->hasMany(Producto::class);
+    }
+
+    /**
      * Horarios
      */
     public function horarios()

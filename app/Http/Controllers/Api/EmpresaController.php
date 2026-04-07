@@ -8,6 +8,7 @@ use App\Models\Metrica;
 use App\Models\Notification;
 use App\Models\Suscripcion;
 use App\Models\Plan;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -78,6 +79,12 @@ class EmpresaController extends Controller
             },
             'servicios' => function($query) {
                 $query->where('activo', true);
+            },
+            'productos' => function($query) {
+                $query->where('activo', true)->orderBy('orden', 'asc')
+                    ->with(['imagenes' => function ($q) {
+                        $q->orderBy('orden', 'asc');
+                    }]);
             },
             'horarios',
             'resenas' => function($query) {
@@ -748,6 +755,224 @@ class EmpresaController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Servicio eliminado exitosamente'
+        ], 200);
+    }
+
+    /**
+     * Obtener productos de la empresa
+     */
+    public function getProductos(Request $request, $id)
+    {
+        $empresa = Empresa::findOrFail($id);
+        $productos = $empresa->productos()
+            ->where('activo', true)
+            ->with(['imagenes' => function ($q) {
+                $q->orderBy('orden', 'asc');
+            }])
+            ->orderBy('orden', 'asc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $productos
+        ], 200);
+    }
+
+    /**
+     * Crear producto
+     */
+    public function createProducto(Request $request, $id)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
+            'cantidad' => 'required|integer|min:0',
+            'es_basico' => 'sometimes|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $producto = $empresa->productos()->create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'precio' => $request->precio,
+            'cantidad' => (int) $request->cantidad,
+            'es_basico' => $request->boolean('es_basico', true),
+            'activo' => true,
+            'orden' => $empresa->productos()->count() + 1,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Producto creado exitosamente',
+            'data' => $producto
+        ], 201);
+    }
+
+    /**
+     * Actualizar producto
+     */
+    public function updateProducto(Request $request, $id, $productoId)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $producto = $empresa->productos()->findOrFail($productoId);
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'sometimes|required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'precio' => 'sometimes|required|numeric|min:0',
+            'cantidad' => 'sometimes|required|integer|min:0',
+            'es_basico' => 'sometimes|boolean',
+            'activo' => 'sometimes|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $producto->update($request->only(['nombre', 'descripcion', 'precio', 'cantidad', 'es_basico', 'activo']));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Producto actualizado exitosamente',
+            'data' => $producto->fresh()
+        ], 200);
+    }
+
+    /**
+     * Eliminar producto
+     */
+    public function deleteProducto(Request $request, $id, $productoId)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $producto = $empresa->productos()->findOrFail($productoId);
+        $producto->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Producto eliminado exitosamente'
+        ], 200);
+    }
+
+    /**
+     * Subir imagen de producto (máximo 5 por producto)
+     */
+    public function uploadProductoImagen(Request $request, $id, $productoId)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $producto = $empresa->productos()->findOrFail($productoId);
+
+        if ($producto->imagenes()->count() >= 5) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Máximo 5 imágenes por producto'
+            ], 400);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $file = $request->file('imagen');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $dir = 'productos/' . $empresa->id . '/' . $producto->id;
+        $path = $file->storeAs($dir, $filename, 'public');
+
+        $orden = $producto->imagenes()->max('orden') + 1;
+
+        $imagen = $producto->imagenes()->create([
+            'url' => '/storage/' . $path,
+            'orden' => $orden,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Imagen subida',
+            'data' => $imagen
+        ], 201);
+    }
+
+    /**
+     * Eliminar imagen de producto
+     */
+    public function deleteProductoImagen(Request $request, $id, $productoId, $imagenId)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $producto = $empresa->productos()->findOrFail($productoId);
+        $imagen = $producto->imagenes()->findOrFail($imagenId);
+
+        $filePath = str_replace('/storage/', '', $imagen->url);
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+        }
+
+        $imagen->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Imagen eliminada'
         ], 200);
     }
 

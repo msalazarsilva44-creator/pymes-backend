@@ -341,8 +341,20 @@
                 const response = await fetch(`${API_URL}/empresas/${empresaId}`);
                 const result = await response.json();
 
-                if (result.success && result.data.servicios && result.data.servicios.length > 0) {
-                    contenido.innerHTML = result.data.servicios.map(servicio => `
+                if (!result.success || !result.data) {
+                    contenido.innerHTML = `<div class="text-center py-8 text-red-500">Error al cargar el catálogo</div>`;
+                    return;
+                }
+
+                const emp = result.data;
+                const servs = emp.servicios && emp.servicios.length > 0;
+                const prods = emp.productos && emp.productos.length > 0;
+
+                if (result.success && (servs || prods)) {
+                    let html = '';
+                    if (servs) {
+                        html += '<p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Servicios</p>';
+                        html += emp.servicios.map(servicio => `
                         <div class="flex items-center justify-between p-3 border rounded-xl mb-2 hover:border-mercarof-cyan transition-all bg-gray-50">
                             <div class="flex-1 min-w-0 mr-3">
                                 <h4 class="font-semibold text-gray-900 text-sm">${servicio.nombre}</h4>
@@ -356,13 +368,35 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
                             </button>
-                        </div>
-                    `).join('');
+                        </div>`).join('');
+                    }
+                    if (prods) {
+                        html += '<p class="text-xs font-semibold text-gray-500 mb-2 mt-4 uppercase tracking-wide">Productos</p>';
+                        html += emp.productos.map(p => {
+                            const thumb = (p.imagenes && p.imagenes.length)
+                                ? `<img src="${p.imagenes[0].url}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0 border border-gray-200 shadow-sm" alt="">`
+                                : `<div class="w-14 h-14 rounded-lg bg-emerald-100 flex-shrink-0 flex items-center justify-center text-xl">📦</div>`;
+                            return `
+                        <div class="flex items-center gap-3 p-3 border rounded-xl mb-2 hover:border-emerald-300 transition-all bg-emerald-50/50">
+                            ${thumb}
+                            <div class="flex-1 min-w-0 mr-1">
+                                <div class="flex items-center gap-2 flex-wrap"><h4 class="font-semibold text-gray-900 text-sm">${p.nombre}</h4>${p.es_basico ? '<span class="text-[10px] bg-gray-200 px-1.5 rounded">Básico</span>' : ''}</div>
+                                ${p.descripcion ? `<p class="text-xs text-gray-500 truncate">${p.descripcion}</p>` : ''}
+                                <p class="text-mercarof-cyan font-bold text-sm mt-1">$${parseFloat(p.precio).toFixed(2)} · Stock ${p.cantidad}</p>
+                            </div>
+                            ${p.cantidad > 0 ? `<div class="flex items-center gap-2 flex-shrink-0">
+                                <input type="number" min="1" max="${p.cantidad}" value="1" id="dash-qty-${p.id}" class="w-14 px-1 py-1 border rounded text-center text-sm">
+                                <button onclick="agregarProductoCarritoDashboard(${p.id})" class="p-2 bg-mercarof-navy hover:bg-mercarof-navy-dark text-white rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
+                            </div>` : '<span class="text-xs text-red-500">Agotado</span>'}
+                        </div>`;
+                        }).join('');
+                    }
+                    contenido.innerHTML = html;
                 } else {
                     contenido.innerHTML = `
                         <div class="text-center py-8">
                             <div class="text-4xl mb-3">📋</div>
-                            <p class="text-gray-500">Esta empresa no tiene servicios disponibles</p>
+                            <p class="text-gray-500">No hay servicios ni productos disponibles</p>
                             <a href="/perfil-empresa/${empresaId}" class="text-mercarof-cyan hover:underline text-sm mt-2 inline-block">
                                 Ver perfil completo →
                             </a>
@@ -383,6 +417,36 @@
         document.getElementById('modal-servicios').addEventListener('click', function(e) {
             if (e.target === this) cerrarModalServicios();
         });
+
+        async function agregarProductoCarritoDashboard(productoId) {
+            const token = localStorage.getItem('auth_token');
+            if (!token) { alert('Debes iniciar sesión'); return; }
+            const input = document.getElementById('dash-qty-' + productoId);
+            let cantidad = input ? parseInt(input.value, 10) : 1;
+            if (!cantidad || cantidad < 1) cantidad = 1;
+            try {
+                const response = await fetch(`${API_URL}/carrito`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ producto_id: productoId, cantidad: cantidad })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    const badge = document.getElementById('cart-badge');
+                    badge.textContent = result.cart_count > 99 ? '99+' : result.cart_count;
+                    badge.classList.remove('hidden');
+                    showToast('✅ Producto agregado al carrito', 'success');
+                } else {
+                    showToast(result.message || 'No se pudo agregar', 'error');
+                }
+            } catch (e) {
+                showToast('Error al agregar', 'error');
+            }
+        }
 
         // Agregar al carrito
         async function agregarAlCarrito(servicioId) {

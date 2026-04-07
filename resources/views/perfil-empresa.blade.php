@@ -275,6 +275,19 @@
                     </div>
                 </div>
 
+                <!-- Productos -->
+                <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
+                    <h2 class="text-xl font-bold text-gray-900 mb-5 flex items-center gap-2.5">
+                        <span class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-lg">📦</span>
+                        <span>Productos</span>
+                    </h2>
+                    <div id="productos" class="space-y-3">
+                        <div class="text-center py-10 text-gray-400">
+                            No hay productos registrados
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Reseñas -->
                 <div class="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100/80">
                     <div class="flex items-center justify-between mb-5">
@@ -643,6 +656,67 @@
                     </div>
                 `).join('');
             }
+
+            // Productos
+            if (empresa.productos && empresa.productos.length > 0) {
+                const productosDiv = document.getElementById('productos');
+                productosDiv.innerHTML = empresa.productos.map(p => {
+                    const imgs = p.imagenes && p.imagenes.length ? p.imagenes : [];
+                    const mainUrl = imgs.length ? imgs[0].url : '';
+                    const galeriaHtml = imgs.length ? `
+                        <div class="mt-3 space-y-2">
+                            <div class="rounded-xl overflow-hidden bg-gray-100 max-h-56 aspect-video">
+                                <img id="prod-main-${p.id}" src="${mainUrl}" alt="${p.nombre}"
+                                    class="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
+                                    onclick="abrirModalFoto(document.getElementById('prod-main-${p.id}').src)">
+                            </div>
+                            ${imgs.length > 1 ? `
+                            <div class="flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-thin">
+                                ${imgs.map(im => `
+                                    <button type="button" onclick="setProdMainImg(${p.id}, this.getAttribute('data-u'))" data-u="${im.url.replace(/"/g, '&quot;')}"
+                                        class="flex-shrink-0 w-16 h-16 rounded-lg border-2 border-transparent hover:border-[#00A3E0] overflow-hidden snap-start shadow-sm">
+                                        <img src="${im.url}" alt="" class="w-full h-full object-cover">
+                                    </button>
+                                `).join('')}
+                            </div>` : ''}
+                        </div>
+                    ` : '';
+                    return `
+                    <div class="border border-gray-100 rounded-xl p-4 hover:border-emerald-200 hover:shadow-md transition-all duration-200 bg-gray-50/50 group">
+                        ${galeriaHtml}
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 ${imgs.length ? 'mt-3' : ''}">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h4 class="font-bold text-gray-900 group-hover:text-[#003B5C] transition-colors">${p.nombre}</h4>
+                                    ${p.es_basico ? '<span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full font-semibold">Básico</span>' : ''}
+                                </div>
+                                ${p.descripcion ? `<p class="text-sm text-gray-500 mt-1">${p.descripcion}</p>` : ''}
+                                <p class="text-xs text-gray-400 mt-1">Stock: ${p.cantidad}</p>
+                            </div>
+                            <div class="flex items-center gap-3 flex-shrink-0">
+                                <span class="text-[#00A3E0] font-bold text-lg whitespace-nowrap">$${parseFloat(p.precio).toFixed(2)}</span>
+                                ${isCliente && p.cantidad > 0 ? `
+                                    <div class="flex items-center gap-2">
+                                        <label class="text-xs text-gray-500 sr-only">Cantidad</label>
+                                        <input type="number" min="1" max="${p.cantidad}" value="1" id="qty-prod-${p.id}"
+                                            class="w-16 px-2 py-1.5 border border-gray-200 rounded-lg text-sm text-center font-semibold">
+                                        <button onclick="addToCartProducto(${p.id})" class="p-2 bg-[#003B5C] hover:bg-[#004D73] text-white rounded-lg transition-all duration-200 hover:scale-105" title="Agregar al carrito">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                ` : ''}
+                                ${isCliente && p.cantidad <= 0 ? '<span class="text-xs text-red-500 font-semibold">Agotado</span>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+            } else {
+                document.getElementById('productos').innerHTML = `
+                    <div class="text-center py-10 text-gray-400">No hay productos registrados</div>`;
+            }
             
             // Horarios
             if (empresa.horarios && empresa.horarios.length > 0) {
@@ -744,6 +818,11 @@
         }
 
         // Modal de foto
+        function setProdMainImg(productoId, url) {
+            const el = document.getElementById('prod-main-' + productoId);
+            if (el && url) el.src = url;
+        }
+
         function abrirModalFoto(url) {
             document.getElementById('modal-imagen').src = url;
             document.getElementById('modal-foto').classList.remove('hidden');
@@ -1011,6 +1090,48 @@
                     showToast('✅ Servicio agregado al carrito', 'success');
                 } else {
                     showToast(result.message || 'No se pudo agregar al carrito', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error al agregar al carrito', 'error');
+            }
+        }
+
+        async function addToCartProducto(productoId) {
+            const token = localStorage.getItem('auth_token');
+            const userRole = localStorage.getItem('user_role');
+            const qtyInput = document.getElementById('qty-prod-' + productoId);
+            let cantidad = qtyInput ? parseInt(qtyInput.value, 10) : 1;
+            if (!cantidad || cantidad < 1) cantidad = 1;
+
+            if (!token) {
+                alert('Debes iniciar sesión para comprar');
+                window.location.href = '/login';
+                return;
+            }
+            if (userRole !== 'cliente') {
+                alert('Solo los clientes pueden agregar productos al carrito');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/carrito`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ producto_id: productoId, cantidad: cantidad })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    const badge = document.getElementById('cart-badge');
+                    badge.textContent = result.cart_count > 99 ? '99+' : result.cart_count;
+                    badge.classList.remove('hidden');
+                    showToast('✅ Producto agregado al carrito', 'success');
+                } else {
+                    showToast(result.message || 'No se pudo agregar', 'error');
                 }
             } catch (error) {
                 console.error('Error:', error);

@@ -13,13 +13,17 @@ class Carrito extends Model
 
     protected $fillable = [
         'user_id',
+        'tipo',
         'servicio_id',
+        'producto_id',
         'empresa_id',
         'precio',
+        'cantidad',
     ];
 
     protected $casts = [
         'precio' => 'decimal:2',
+        'cantidad' => 'integer',
     ];
 
     /**
@@ -36,6 +40,11 @@ class Carrito extends Model
     public function servicio()
     {
         return $this->belongsTo(Servicio::class);
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class);
     }
 
     /**

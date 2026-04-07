@@ -135,6 +135,10 @@ Route::get('/empresa/servicios', function () {
     return view('empresa.servicios');
 });
 
+Route::get('/empresa/productos', function () {
+    return view('empresa.productos');
+});
+
 Route::get('/empresa/metricas', function () {
     return view('empresa.metricas');
 });

@@ -92,6 +92,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'updateServicio']);
     Route::delete('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'deleteServicio']);
 
+    // Productos de Empresa
+    Route::get('/empresas/{id}/productos', [EmpresaController::class, 'getProductos']);
+    Route::post('/empresas/{id}/productos', [EmpresaController::class, 'createProducto']);
+    Route::put('/empresas/{id}/productos/{productoId}', [EmpresaController::class, 'updateProducto']);
+    Route::delete('/empresas/{id}/productos/{productoId}', [EmpresaController::class, 'deleteProducto']);
+    Route::post('/empresas/{id}/productos/{productoId}/imagenes', [EmpresaController::class, 'uploadProductoImagen']);
+    Route::delete('/empresas/{id}/productos/{productoId}/imagenes/{imagenId}', [EmpresaController::class, 'deleteProductoImagen']);
+
     // Reseñas (cliente autenticado)
     Route::post('/empresas/{empresaId}/resenas', [ResenaController::class, 'store']);
     Route::post('/resenas/{id}/responder', [ResenaController::class, 'responder']);

@@ -242,6 +242,7 @@ class AuthController extends Controller
                 'plan',
                 'fotos',
                 'servicios',
+                'productos.imagenes',
                 'horarios'
             ]);
         }
