@@ -10,7 +10,7 @@ class CiudadController extends Controller
 {
     public function index()
     {
-        $ciudades = Ciudad::where('activa', true)
+        $ciudades = Ciudad::where('activo', true)
             ->withCount('empresas')
             ->orderBy('nombre')
             ->get();
