@@ -33,7 +33,7 @@ return new class extends Migration
         Schema::create('horarios', function (Blueprint $table) {
             $table->id();
             $table->foreignId('empresa_id')->constrained('empresas')->cascadeOnDelete();
-            $table->string('dia');
+            $table->string('dia_semana');
             $table->time('hora_apertura')->nullable();
             $table->time('hora_cierre')->nullable();
             $table->boolean('cerrado')->default(false);
