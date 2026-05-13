@@ -4,7 +4,10 @@
 
 set -e
 
-echo "==> Generando APP_KEY si no existe..."
+echo "==> Creando .env desde .env.example..."
+cp .env.example .env
+
+echo "==> Generando APP_KEY..."
 php artisan key:generate --force
 
 echo "==> Enlazando storage..."
@@ -17,7 +20,6 @@ echo "==> Ejecutando seeders..."
 php artisan db:seed --force
 
 echo "==> Optimizando para producción..."
-php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
