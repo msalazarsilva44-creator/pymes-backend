@@ -132,6 +132,38 @@ class CarritoController extends Controller
         return $this->agregarProducto($request, $user);
     }
 
+    /**
+     * Verificar si el carrito ya tiene items de otra empresa distinta.
+     * Si ?force=true, vacía el carrito actual antes de continuar.
+     * Retorna null si está OK, o un Response 409 con el conflicto.
+     */
+    protected function checkEmpresaConflict(Request $request, $user, $empresaIdNuevo)
+    {
+        $primerOtro = Carrito::with('empresa')
+            ->where('user_id', $user->id)
+            ->where('empresa_id', '!=', $empresaIdNuevo)
+            ->first();
+
+        if (!$primerOtro) {
+            return null;
+        }
+
+        if ($request->boolean('force')) {
+            Carrito::where('user_id', $user->id)->delete();
+            return null;
+        }
+
+        return response()->json([
+            'success' => false,
+            'conflict' => true,
+            'message' => 'Tu carrito tiene items de otra empresa',
+            'empresa_actual' => [
+                'id' => $primerOtro->empresa->id,
+                'nombre_comercial' => $primerOtro->empresa->nombre_comercial,
+            ],
+        ], 409);
+    }
+
     protected function agregarServicio(Request $request, $user)
     {
         $servicio = Servicio::with('empresa')->findOrFail($request->servicio_id);
@@ -148,6 +180,10 @@ class CarritoController extends Controller
                 'success' => false,
                 'message' => 'Esta empresa no está disponible'
             ], 400);
+        }
+
+        if ($conflict = $this->checkEmpresaConflict($request, $user, $servicio->empresa_id)) {
+            return $conflict;
         }
 
         $existente = Carrito::where('user_id', $user->id)
@@ -210,6 +246,10 @@ class CarritoController extends Controller
             ], 400);
         }
 
+        if ($conflict = $this->checkEmpresaConflict($request, $user, $producto->empresa_id)) {
+            return $conflict;
+        }
+
         if ($producto->cantidad < $cantidad) {
             return response()->json([
                 'success' => false,
@@ -257,6 +297,72 @@ class CarritoController extends Controller
             'data' => $carrito,
             'cart_count' => $count
         ], 201);
+    }
+
+    /**
+     * Actualizar la cantidad de un item del carrito (solo productos).
+     */
+    public function actualizarCantidad(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'cantidad' => 'required|integer|min:1|max:9999',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Datos inválidos',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $user = $request->user();
+        $cantidad = (int) $request->cantidad;
+
+        $item = Carrito::where('user_id', $user->id)->where('id', $id)->first();
+        if (!$item) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Item no encontrado'
+            ], 404);
+        }
+
+        if ($item->tipo === 'servicio') {
+            return response()->json([
+                'success' => false,
+                'message' => 'La cantidad de servicios no es editable'
+            ], 400);
+        }
+
+        $producto = Producto::find($item->producto_id);
+        if (!$producto) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Producto no disponible'
+            ], 400);
+        }
+
+        if ($producto->cantidad < $cantidad) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No hay stock suficiente (disponible: ' . $producto->cantidad . ')'
+            ], 400);
+        }
+
+        $precioUnit = (float) $producto->precio;
+        $item->update([
+            'cantidad' => $cantidad,
+            'precio' => round($precioUnit * $cantidad, 2),
+        ]);
+
+        $count = (int) Carrito::where('user_id', $user->id)->sum('cantidad');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cantidad actualizada',
+            'data' => $item->fresh(),
+            'cart_count' => $count,
+        ]);
     }
 
     /**

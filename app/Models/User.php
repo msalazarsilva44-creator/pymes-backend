@@ -22,6 +22,9 @@ class User extends Authenticatable
         'phone',
         'avatar',
         'direccion',
+        'ciudad_id',
+        'municipio_id',
+        'referencia_direccion',
         'is_active',
     ];
 
@@ -50,6 +53,22 @@ class User extends Authenticatable
     public function empresa()
     {
         return $this->hasOne(Empresa::class);
+    }
+
+    /**
+     * Ciudad de residencia del cliente
+     */
+    public function ciudad()
+    {
+        return $this->belongsTo(Ciudad::class);
+    }
+
+    /**
+     * Municipio de residencia del cliente
+     */
+    public function municipio()
+    {
+        return $this->belongsTo(Municipio::class);
     }
 
     /**

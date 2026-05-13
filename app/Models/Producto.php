@@ -40,4 +40,12 @@ class Producto extends Model
     {
         return $this->hasMany(ProductoImagen::class)->orderBy('orden', 'asc');
     }
+
+    /**
+     * Items de órdenes que incluyen este producto
+     */
+    public function ordenItems()
+    {
+        return $this->hasMany(OrdenItem::class);
+    }
 }

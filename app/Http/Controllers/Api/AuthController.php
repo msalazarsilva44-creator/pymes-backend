@@ -22,14 +22,14 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'apellido' => 'nullable|string|max:255',
-            'cedula' => 'required|string|size:11|regex:/^\d{11}$/|unique:users',
+            'cedula' => 'required|string|size:8|regex:/^\d{8}$/|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
             'direccion' => 'nullable|string',
         ], [
             'cedula.required' => 'La cédula es obligatoria',
-            'cedula.size' => 'La cédula debe tener exactamente 11 dígitos',
+            'cedula.size' => 'La cédula debe tener exactamente 8 dígitos',
             'cedula.regex' => 'La cédula debe contener solo números',
             'cedula.unique' => 'Esta cédula ya está registrada',
         ]);
@@ -80,7 +80,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|string|max:20',
-            
+
             // Empresa
             'nombre_comercial' => 'required|string|max:255',
             'rfc' => 'nullable|string|max:10',
@@ -92,6 +92,11 @@ class AuthController extends Controller
             'email_contacto' => 'required|email|max:255',
             'direccion' => 'required|string',
             'descripcion' => 'nullable|string',
+            'ofrece_productos' => 'required|boolean',
+            'ofrece_servicios' => 'required|boolean',
+        ], [
+            'ofrece_productos.required' => 'Debes indicar si ofreces productos',
+            'ofrece_servicios.required' => 'Debes indicar si ofreces servicios',
         ]);
 
         if ($validator->fails()) {
@@ -137,6 +142,8 @@ class AuthController extends Controller
             'rfc' => $request->rfc,
             'documento_rif' => $documento_rif_path,
             'descripcion' => $request->descripcion,
+            'ofrece_productos' => $request->ofrece_productos ?? false,
+            'ofrece_servicios' => $request->ofrece_servicios ?? false,
             'telefono' => $request->telefono,
             'email_contacto' => $request->email_contacto,
             'direccion' => $request->direccion,

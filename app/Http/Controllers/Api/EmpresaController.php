@@ -9,6 +9,7 @@ use App\Models\Notification;
 use App\Models\Suscripcion;
 use App\Models\Plan;
 use App\Models\Producto;
+use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -159,6 +160,8 @@ class EmpresaController extends Controller
             'direccion' => 'sometimes|required|string',
             'colonia' => 'nullable|string',
             'codigo_postal' => 'nullable|string|max:10',
+            'ofrece_productos' => 'sometimes|boolean',
+            'ofrece_servicios' => 'sometimes|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -185,6 +188,8 @@ class EmpresaController extends Controller
             'colonia',
             'codigo_postal',
             'activo',
+            'ofrece_productos',
+            'ofrece_servicios',
         ]));
 
         return response()->json([
@@ -641,7 +646,12 @@ class EmpresaController extends Controller
     public function getServicios(Request $request, $id)
     {
         $empresa = Empresa::findOrFail($id);
-        $servicios = $empresa->servicios()->where('activo', true)->orderBy('orden', 'asc')->get();
+        $servicios = $empresa->servicios()
+            ->with(['imagenes' => function ($q) {
+                $q->orderBy('orden', 'asc');
+            }])
+            ->orderBy('orden', 'asc')
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -663,6 +673,14 @@ class EmpresaController extends Controller
                 'success' => false,
                 'message' => 'No tienes permiso para editar esta empresa'
             ], 403);
+        }
+
+        // Límite máximo de servicios por empresa
+        if ($empresa->servicios()->count() >= 5) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Has alcanzado el límite máximo de 5 servicios por empresa. Elimina uno antes de crear otro.'
+            ], 400);
         }
 
         $validator = Validator::make($request->all(), [
@@ -755,6 +773,91 @@ class EmpresaController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Servicio eliminado exitosamente'
+        ], 200);
+    }
+
+    /**
+     * Subir imagen de servicio (máximo 4 por servicio)
+     */
+    public function uploadServicioImagen(Request $request, $id, $servicioId)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $servicio = $empresa->servicios()->findOrFail($servicioId);
+
+        if ($servicio->imagenes()->count() >= 4) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Máximo 4 imágenes por servicio'
+            ], 400);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $file = $request->file('imagen');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $dir = 'servicios/' . $empresa->id . '/' . $servicio->id;
+        $path = $file->storeAs($dir, $filename, 'public');
+
+        $orden = ($servicio->imagenes()->max('orden') ?? 0) + 1;
+
+        $imagen = $servicio->imagenes()->create([
+            'url' => '/storage/' . $path,
+            'orden' => $orden,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Imagen subida',
+            'data' => $imagen
+        ], 201);
+    }
+
+    /**
+     * Eliminar imagen de servicio
+     */
+    public function deleteServicioImagen(Request $request, $id, $servicioId, $imagenId)
+    {
+        $user = $request->user();
+        $empresa = Empresa::findOrFail($id);
+
+        if ($empresa->user_id !== $user->id && !$user->isAdmin()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permiso para editar esta empresa'
+            ], 403);
+        }
+
+        $servicio = $empresa->servicios()->findOrFail($servicioId);
+        $imagen = $servicio->imagenes()->findOrFail($imagenId);
+
+        $filePath = str_replace('/storage/', '', $imagen->url);
+        if (\Illuminate\Support\Facades\Storage::disk('public')->exists($filePath)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($filePath);
+        }
+
+        $imagen->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Imagen eliminada'
         ], 200);
     }
 
@@ -1277,10 +1380,262 @@ class EmpresaController extends Controller
                 'success' => false,
                 'message' => 'Error al procesar la solicitud',
                 'error' => $e->getMessage(), // Siempre mostrar el error para debugging
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
+            ], 500);
+        }
+    }
+
+    /**
+     * Obtener todos los productos de todas las empresas (Marketplace)
+     */
+    public function getAllProductos(Request $request)
+    {
+        try {
+            $perPage = (int) $request->input('per_page', 24);
+            $perPage = min($perPage, 48); // Máximo 48 por página
+
+            // Cache key basada en los parámetros de la request
+            $cacheKey = 'marketplace_productos_' . md5(json_encode($request->all()));
+            $cacheTTL = 120; // 2 minutos
+
+            $result = cache()->remember($cacheKey, $cacheTTL, function () use ($request, $perPage) {
+                $query = Producto::select('id', 'empresa_id', 'nombre', 'descripcion', 'precio', 'cantidad', 'activo', 'es_basico', 'created_at')
+                    ->with(['empresa' => function($q) {
+                        $q->select('id', 'nombre_comercial', 'logo', 'calificacion_promedio', 'ciudad_id', 'categoria_id');
+                    }, 'empresa.ciudad:id,nombre', 'empresa.categoria:id,nombre', 'imagenes'])
+                    ->where('activo', true);
+
+                // Consolidar todos los filtros de empresa en un solo whereHas
+                $query->whereHas('empresa', function($q) use ($request) {
+                    $q->where('activo', true)
+                      ->where('aprobado', true)
+                      ->where(function($subQ) {
+                          $subQ->where('ofrece_productos', true)
+                                ->orWhereNull('ofrece_productos');
+                      });
+
+                    if ($request->filled('categoria_id')) {
+                        $q->where('categoria_id', $request->categoria_id);
+                    }
+                    if ($request->filled('ciudad_id')) {
+                        $q->where('ciudad_id', $request->ciudad_id);
+                    }
+                });
+
+                // Filtro por búsqueda (nombre o descripción del producto)
+                if ($request->filled('search')) {
+                    $search = $request->search;
+                    $query->where(function($q) use ($search) {
+                        $q->where('nombre', 'LIKE', "%{$search}%")
+                          ->orWhere('descripcion', 'LIKE', "%{$search}%");
+                    });
+                }
+
+                // Filtro por rango de precio
+                if ($request->filled('precio_min')) {
+                    $query->where('precio', '>=', $request->precio_min);
+                }
+                if ($request->filled('precio_max')) {
+                    $query->where('precio', '<=', $request->precio_max);
+                }
+
+                // Ordenamiento
+                if ($request->filled('orden')) {
+                    switch ($request->orden) {
+                        case 'precio_asc':
+                            $query->orderBy('precio', 'asc');
+                            break;
+                        case 'precio_desc':
+                            $query->orderBy('precio', 'desc');
+                            break;
+                        case 'mejor_calificacion':
+                            $query->join('empresas', 'productos.empresa_id', '=', 'empresas.id')
+                                  ->orderBy('empresas.calificacion_promedio', 'desc')
+                                  ->select('productos.*');
+                            break;
+                        case 'mas_vendidos':
+                            $query->withCount(['ordenItems as veces_vendido' => function($q) {
+                                $q->whereHas('orden', function($oq) {
+                                    $oq->where('estado', 'completado');
+                                });
+                            }])->orderBy('veces_vendido', 'desc');
+                            break;
+                        default:
+                            $query->orderBy('created_at', 'desc');
+                    }
+                } else {
+                    $query->orderBy('created_at', 'desc');
+                }
+
+                $productos = $query->paginate($perPage);
+
+                return [
+                    'data' => $productos->items(),
+                    'pagination' => [
+                        'current_page' => $productos->currentPage(),
+                        'last_page' => $productos->lastPage(),
+                        'per_page' => $productos->perPage(),
+                        'total' => $productos->total(),
+                    ]
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $result['data'],
+                'pagination' => $result['pagination'],
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener productos',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Obtener empresas con sus servicios agrupados (Marketplace)
+     */
+    public function empresasConServicios(Request $request)
+    {
+        try {
+            $perPage = (int) $request->input('per_page', 24);
+            $perPage = min($perPage, 48); // Máximo 48 por página
+
+            // Cache key basada en los parámetros de la request
+            $cacheKey = 'marketplace_servicios_' . md5(json_encode($request->all()));
+            $cacheTTL = 120; // 2 minutos
+
+            $result = cache()->remember($cacheKey, $cacheTTL, function () use ($request, $perPage) {
+                $query = Empresa::select([
+                        'id', 'nombre_comercial', 'descripcion', 'logo',
+                        'categoria_id', 'ciudad_id', 'municipio_id',
+                        'calificacion_promedio', 'ofrece_servicios',
+                        'activo', 'aprobado', 'created_at'
+                    ])
+                    ->with(['servicios' => function($q) use ($request) {
+                        $q->select('id', 'empresa_id', 'nombre', 'precio', 'activo')
+                          ->where('activo', true);
+                        
+                        if ($request->filled('precio_min')) {
+                            $q->where('precio', '>=', $request->precio_min);
+                        }
+                        if ($request->filled('precio_max')) {
+                            $q->where('precio', '<=', $request->precio_max);
+                        }
+                    }])
+                    ->with(['ciudad:id,nombre', 'categoria:id,nombre', 'municipio:id,nombre'])
+                    ->withCount(['servicios as servicios_count' => function($q) {
+                        $q->where('activo', true);
+                    }])
+                    ->where('activo', true)
+                    ->where('aprobado', true)
+                    ->where('ofrece_servicios', true)
+                    ->whereHas('servicios', function($q) {
+                        $q->where('activo', true);
+                    });
+
+                // Filtro por ciudad
+                if ($request->filled('ciudad_id')) {
+                    $query->where('ciudad_id', $request->ciudad_id);
+                }
+
+                // Filtro por categoría de empresa
+                if ($request->filled('categoria_id')) {
+                    $query->where('categoria_id', $request->categoria_id);
+                }
+
+                // Búsqueda por nombre de empresa
+                if ($request->filled('search')) {
+                    $search = $request->search;
+                    $query->where(function($q) use ($search) {
+                        $q->where('nombre_comercial', 'LIKE', "%{$search}%")
+                          ->orWhere('descripcion', 'LIKE', "%{$search}%");
+                    });
+                }
+
+                // Ordenar
+                if ($request->filled('orden')) {
+                    switch ($request->orden) {
+                        case 'mejor_calificacion':
+                            $query->orderBy('calificacion_promedio', 'desc');
+                            break;
+                        case 'precio_asc':
+                            $query->orderBy(
+                                Servicio::selectRaw('MIN(CAST(precio AS DECIMAL(10,2)))')
+                                    ->whereColumn('empresa_id', 'empresas.id')
+                                    ->where('activo', true),
+                                'asc'
+                            );
+                            break;
+                        case 'precio_desc':
+                            $query->orderBy(
+                                Servicio::selectRaw('MAX(CAST(precio AS DECIMAL(10,2)))')
+                                    ->whereColumn('empresa_id', 'empresas.id')
+                                    ->where('activo', true),
+                                'desc'
+                            );
+                            break;
+                        case 'mas_vendidos':
+                            $query->withCount(['ordenes as ordenes_completadas' => function($q) {
+                                $q->where('estado', 'completado');
+                            }])->orderBy('ordenes_completadas', 'desc');
+                            break;
+                        default:
+                            $query->orderBy('created_at', 'desc');
+                    }
+                } else {
+                    $query->orderBy('created_at', 'desc');
+                }
+
+                $empresas = $query->paginate($perPage);
+
+                return [
+                    'data' => $empresas->items(),
+                    'pagination' => [
+                        'current_page' => $empresas->currentPage(),
+                        'last_page' => $empresas->lastPage(),
+                        'per_page' => $empresas->perPage(),
+                        'total' => $empresas->total(),
+                    ]
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $result['data'],
+                'pagination' => $result['pagination'],
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener empresas con servicios',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Obtener todos los servicios de todas las empresas
+     */
+    public function getAllServicios(Request $request)
+    {
+        try {
+            \Log::info('Iniciando getAllServicios - TEST SIN MODELO');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Test response without model',
+                'data' => ['test' => 'value']
+            ], 200);
+        } catch (\Exception $e) {
+            \Log::error('Error en getAllServicios: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener servicios',
+                'error' => $e->getMessage()
             ], 500);
         }
     }
 }
-

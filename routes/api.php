@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\CarritoController;
 use App\Http\Controllers\Api\OrdenController;
 use App\Http\Controllers\Api\MetodoPagoController;
+use App\Http\Controllers\Api\ClienteController;
+use App\Http\Controllers\Api\ReporteController;
+use App\Http\Controllers\Api\InventarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +28,7 @@ use App\Http\Controllers\Api\MetodoPagoController;
 Route::post('/auth/register/cliente', [AuthController::class, 'registerCliente']);
 Route::post('/auth/register/empresa', [AuthController::class, 'registerEmpresa']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/admin/login', [AuthController::class, 'login']);
 
 // Categorías
 Route::get('/categorias', [CategoriaController::class, 'index']);
@@ -43,8 +47,18 @@ Route::get('/planes/{id}', [PlanController::class, 'show']);
 
 // Empresas
 Route::get('/empresas', [EmpresaController::class, 'index']);
+Route::get('/empresas/con-servicios', [EmpresaController::class, 'empresasConServicios']);
 Route::get('/empresas/{id}', [EmpresaController::class, 'show']);
 Route::post('/empresas/{id}/clic', [EmpresaController::class, 'registrarClic']);
+
+// Productos y Servicios (Marketplace)
+Route::get('/productos/todos', [EmpresaController::class, 'getAllProductos']);
+Route::get('/servicios/todos', [PlanController::class, 'getAllServicios']);
+
+// Ruta de prueba
+Route::get('/test', function() {
+    return response()->json(['test' => 'working']);
+});
 
 // Reseñas
 Route::get('/empresas/{empresaId}/resenas', [ResenaController::class, 'index']);
@@ -61,6 +75,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/auth/me', [AuthController::class, 'me']);
     Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
     Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
+
+    // Cliente
+    Route::get('/cliente/perfil', [ClienteController::class, 'perfil']);
+    Route::put('/cliente/perfil', [ClienteController::class, 'actualizar']);
 
     // Empresas (solo propietario)
     Route::put('/empresas/{id}', [EmpresaController::class, 'update']);
@@ -91,6 +109,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/empresas/{id}/servicios', [EmpresaController::class, 'createServicio']);
     Route::put('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'updateServicio']);
     Route::delete('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'deleteServicio']);
+    Route::post('/empresas/{id}/servicios/{servicioId}/imagenes', [EmpresaController::class, 'uploadServicioImagen']);
+    Route::delete('/empresas/{id}/servicios/{servicioId}/imagenes/{imagenId}', [EmpresaController::class, 'deleteServicioImagen']);
 
     // Productos de Empresa
     Route::get('/empresas/{id}/productos', [EmpresaController::class, 'getProductos']);
@@ -123,6 +143,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/carrito', [CarritoController::class, 'index']);
     Route::get('/carrito/count', [CarritoController::class, 'count']);
     Route::post('/carrito', [CarritoController::class, 'store']);
+    Route::put('/carrito/{id}', [CarritoController::class, 'actualizarCantidad']);
     Route::delete('/carrito/{id}', [CarritoController::class, 'destroy']);
     Route::delete('/carrito', [CarritoController::class, 'clear']);
     Route::delete('/carrito/empresa/{empresaId}', [CarritoController::class, 'clearEmpresa']);
@@ -139,6 +160,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/empresa/ordenes/{id}/confirmar', [OrdenController::class, 'confirmar']);
     Route::put('/empresa/ordenes/{id}/completar', [OrdenController::class, 'completar']);
 
+    // Inventario (empresa)
+    Route::post('/empresa/productos/ingreso', [InventarioController::class, 'ingreso']);
+
+    // Reportes (empresa)
+    Route::get('/empresa/reportes/ventas', [ReporteController::class, 'ventas']);
+    Route::get('/empresa/reportes/ingresos-dia', [ReporteController::class, 'ingresosPorDia']);
+
     // Métodos de Pago (empresa)
     Route::get('/empresa/metodos-pago', [MetodoPagoController::class, 'index']);
     Route::post('/empresa/metodos-pago', [MetodoPagoController::class, 'store']);
@@ -146,6 +174,39 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Reportes Admin
     Route::get('/admin/reportes/ventas', [OrdenController::class, 'reportesAdmin']);
+
+    // Dashboard Admin
+    Route::get('/admin/dashboard', function() {
+        $totalUsuarios = \App\Models\User::count();
+        $totalEmpresas = \App\Models\Empresa::count();
+        $totalServicios = \App\Models\Servicio::count();
+        $nuevosHoy = \App\Models\User::whereDate('created_at', today())->count();
+        
+        return response()->json([
+            'total_usuarios' => $totalUsuarios,
+            'total_empresas' => $totalEmpresas,
+            'total_servicios' => $totalServicios,
+            'nuevos_hoy' => $nuevosHoy
+        ]);
+    });
+
+    // Admin - Usuarios
+    Route::get('/admin/usuarios', function() {
+        $usuarios = \App\Models\User::with('role')->get();
+        return response()->json(['data' => $usuarios]);
+    });
+
+    // Admin - Empresas
+    Route::get('/admin/empresas', function() {
+        $empresas = \App\Models\Empresa::with(['user', 'categoria', 'ciudad'])->get();
+        return response()->json(['data' => $empresas]);
+    });
+
+    // Admin - Servicios
+    Route::get('/admin/servicios', function() {
+        $servicios = \App\Models\Servicio::with('empresa')->get();
+        return response()->json(['data' => $servicios]);
+    });
 
 });
 

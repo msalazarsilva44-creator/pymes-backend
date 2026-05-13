@@ -10,12 +10,12 @@ return new class extends Migration
     {
         Schema::create('planes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); // Gratis, Básico, Premium
+            $table->string('nombre');
             $table->string('slug')->unique();
-            $table->decimal('precio_mensual', 8, 2)->default(0);
-            $table->decimal('precio_anual', 8, 2)->default(0);
-            $table->integer('posicion_prioridad')->default(0); // 0=último, 100=top
-            $table->integer('max_fotos')->default(1);
+            $table->decimal('precio_mensual', 10, 2)->default(0);
+            $table->decimal('precio_anual', 10, 2)->default(0);
+            $table->integer('posicion_prioridad')->default(0);
+            $table->integer('max_fotos')->default(3);
             $table->boolean('panel_metricas')->default(false);
             $table->boolean('notificaciones_push')->default(false);
             $table->boolean('verificacion_perfil')->default(false);
@@ -30,4 +30,3 @@ return new class extends Migration
         Schema::dropIfExists('planes');
     }
 };
-

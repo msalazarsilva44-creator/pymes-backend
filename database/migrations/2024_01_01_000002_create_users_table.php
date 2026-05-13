@@ -10,17 +10,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
+            $table->foreignId('ciudad_id')->nullable()->constrained('ciudades')->nullOnDelete();
+            $table->foreignId('municipio_id')->nullable()->constrained('municipios')->nullOnDelete();
             $table->string('name');
+            $table->string('apellido')->nullable();
+            $table->string('cedula')->nullable()->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
+            $table->text('direccion')->nullable();
+            $table->text('referencia_direccion')->nullable();
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
-            $table->timestamps();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -29,4 +35,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-

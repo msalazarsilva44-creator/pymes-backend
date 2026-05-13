@@ -33,5 +33,13 @@ class Servicio extends Model
     {
         return $this->belongsTo(Empresa::class);
     }
+
+    /**
+     * Imágenes del servicio (máximo 4)
+     */
+    public function imagenes()
+    {
+        return $this->hasMany(ServicioImagen::class)->orderBy('orden', 'asc');
+    }
 }
 

@@ -12,16 +12,23 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('estado')->nullable();
-            $table->string('pais')->default('México');
-            $table->string('codigo_postal')->nullable();
-            $table->boolean('activa')->default(true);
+            $table->string('pais')->default('Venezuela');
+            $table->boolean('activo')->default(true);
+            $table->timestamps();
+        });
+
+        Schema::create('municipios', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ciudad_id')->constrained('ciudades')->cascadeOnDelete();
+            $table->string('nombre');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('municipios');
         Schema::dropIfExists('ciudades');
     }
 };
-

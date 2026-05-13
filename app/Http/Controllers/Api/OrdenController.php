@@ -24,8 +24,15 @@ class OrdenController extends Controller
             'empresa_id' => 'required|exists:empresas,id',
             'metodo_pago' => 'required|in:paypal,binance,transferencia,pago_movil',
             'referencia_pago' => 'nullable|string|max:100',
-            'comprobante_pago' => 'nullable|image|max:5120', // 5MB max
+            // Comprobante obligatorio para todos los métodos soportados (no hay efectivo)
+            'comprobante_pago' => 'required|image|max:5120', // 5MB max
             'notas_cliente' => 'nullable|string|max:500',
+            'tipo_entrega' => 'required|in:digital,fisica',
+            'telefono_contacto' => 'required|string|max:40',
+            'direccion_entrega' => 'required_if:tipo_entrega,fisica|nullable|string|max:500',
+            'ciudad_entrega' => 'required_if:tipo_entrega,fisica|nullable|string|max:150',
+            'municipio_entrega' => 'nullable|string|max:150',
+            'referencia_entrega' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -79,6 +86,7 @@ class OrdenController extends Controller
             }
 
             // Crear orden
+            $tipoEntrega = $request->tipo_entrega;
             $orden = Orden::create([
                 'numero_orden' => Orden::generarNumeroOrden(),
                 'user_id' => $user->id,
@@ -90,6 +98,12 @@ class OrdenController extends Controller
                 'referencia_pago' => $request->referencia_pago,
                 'comprobante_pago' => $comprobantePath,
                 'notas_cliente' => $request->notas_cliente,
+                'tipo_entrega' => $tipoEntrega,
+                'direccion_entrega' => $tipoEntrega === 'fisica' ? $request->direccion_entrega : null,
+                'ciudad_entrega' => $tipoEntrega === 'fisica' ? $request->ciudad_entrega : null,
+                'municipio_entrega' => $tipoEntrega === 'fisica' ? $request->municipio_entrega : null,
+                'referencia_entrega' => $tipoEntrega === 'fisica' ? $request->referencia_entrega : null,
+                'telefono_contacto' => $request->telefono_contacto,
                 'pagado_at' => $comprobantePath ? now() : null,
             ]);
 

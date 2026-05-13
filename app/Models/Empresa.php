@@ -21,6 +21,8 @@ class Empresa extends Model
         'rfc',
         'documento_rif',
         'descripcion',
+        'ofrece_productos',
+        'ofrece_servicios',
         'logo',
         'banner',
         'telefono',
@@ -70,7 +72,14 @@ class Empresa extends Model
         'boost_hasta' => 'datetime',
         'penalizada' => 'boolean',
         'penalizada_at' => 'datetime',
+        'ofrece_productos' => 'boolean',
+        'ofrece_servicios' => 'boolean',
     ];
+
+    /**
+     * Atributos calculados a incluir en la serialización JSON.
+     */
+    protected $appends = ['status', 'modules'];
 
     /**
      * Usuario propietario
@@ -369,6 +378,33 @@ class Empresa extends Model
             return 'Inactiva';
         }
         return 'Activa';
+    }
+
+    /**
+     * Status normalizado para el frontend: 'pendiente' | 'aprobado' | 'rechazado'.
+     * Derivado de los flags `aprobado` y `motivo_rechazo`.
+     */
+    public function getStatusAttribute(): string
+    {
+        if ($this->aprobado) {
+            return 'aprobado';
+        }
+        if (!empty($this->motivo_rechazo)) {
+            return 'rechazado';
+        }
+        return 'pendiente';
+    }
+
+    /**
+     * Módulos disponibles para esta empresa.
+     * Derivado de los flags `ofrece_productos` y `ofrece_servicios`.
+     */
+    public function getModulesAttribute(): array
+    {
+        return [
+            'products' => (bool) $this->ofrece_productos,
+            'services' => (bool) $this->ofrece_servicios,
+        ];
     }
 
     /**
