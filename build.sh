@@ -4,6 +4,9 @@
 
 set -e
 
+echo "==> DEBUG vars DB: HOST='${DB_HOST:-VACIO}' PORT='${DB_PORT:-VACIO}' DB='${DB_DATABASE:-VACIO}' USER='${DB_USERNAME:-VACIO}'"
+echo "==> DEBUG DATABASE_URL='${DATABASE_URL:-VACIO}'"
+
 echo "==> Inyectando variables de entorno en .env..."
 [ -n "$DB_HOST" ]      && sed -i "s|^DB_HOST=.*|DB_HOST=${DB_HOST}|" .env
 [ -n "$DB_PORT" ]      && sed -i "s|^DB_PORT=.*|DB_PORT=${DB_PORT}|" .env
