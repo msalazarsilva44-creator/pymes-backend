@@ -24,10 +24,19 @@ return new class extends Migration
             $table->boolean('activo')->default(true);
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('ciudad_id')->references('id')->on('ciudades')->nullOnDelete();
+            $table->foreign('municipio_id')->references('id')->on('municipios')->nullOnDelete();
+        });
     }
 
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['ciudad_id']);
+            $table->dropForeign(['municipio_id']);
+        });
         Schema::dropIfExists('municipios');
         Schema::dropIfExists('ciudades');
     }

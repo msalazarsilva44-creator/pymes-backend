@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
-            $table->foreignId('ciudad_id')->nullable()->constrained('ciudades')->nullOnDelete();
-            $table->foreignId('municipio_id')->nullable()->constrained('municipios')->nullOnDelete();
+            $table->unsignedBigInteger('ciudad_id')->nullable();
+            $table->unsignedBigInteger('municipio_id')->nullable();
             $table->string('name');
             $table->string('apellido')->nullable();
             $table->string('cedula')->nullable()->unique();
