@@ -20,11 +20,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('fotos_empresa', function (Blueprint $table) {
+        Schema::create('fotos_empresas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('empresa_id')->constrained('empresas')->cascadeOnDelete();
             $table->string('url');
-            $table->string('titulo')->nullable();
+            $table->string('descripcion')->nullable();
+            $table->boolean('es_principal')->default(false);
             $table->integer('orden')->default(0);
             $table->timestamps();
         });
@@ -42,21 +43,23 @@ return new class extends Migration
         Schema::create('metricas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('empresa_id')->constrained('empresas')->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('tipo');
-            $table->string('fuente')->nullable();
+            $table->date('fecha')->nullable();
             $table->string('ip')->nullable();
             $table->string('user_agent')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('origen')->nullable();
             $table->timestamps();
         });
 
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('empresa_id')->nullable()->constrained('empresas')->nullOnDelete();
             $table->string('tipo');
             $table->string('titulo');
             $table->text('mensaje')->nullable();
             $table->json('data')->nullable();
+            $table->boolean('leida')->default(false);
             $table->timestamp('leida_at')->nullable();
             $table->timestamps();
         });
@@ -67,7 +70,7 @@ return new class extends Migration
         Schema::dropIfExists('notifications');
         Schema::dropIfExists('metricas');
         Schema::dropIfExists('horarios');
-        Schema::dropIfExists('fotos_empresa');
+        Schema::dropIfExists('fotos_empresas');
         Schema::dropIfExists('resenas');
     }
 };

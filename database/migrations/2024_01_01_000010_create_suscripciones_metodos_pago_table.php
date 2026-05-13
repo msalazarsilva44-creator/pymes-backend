@@ -36,13 +36,34 @@ return new class extends Migration
             $table->id();
             $table->foreignId('empresa_id')->constrained('empresas')->cascadeOnDelete();
             $table->string('tipo');
-            $table->string('nombre_titular')->nullable();
-            $table->string('numero_cuenta')->nullable();
-            $table->string('banco')->nullable();
-            $table->string('cedula_rif')->nullable();
-            $table->string('telefono')->nullable();
-            $table->string('email')->nullable();
             $table->boolean('activo')->default(true);
+            // PayPal
+            $table->string('paypal_email')->nullable();
+            // Binance
+            $table->string('binance_email')->nullable();
+            $table->string('binance_id')->nullable();
+            // Transferencia bancaria
+            $table->string('banco_nombre')->nullable();
+            $table->string('banco_cuenta')->nullable();
+            $table->string('banco_titular')->nullable();
+            $table->string('banco_cedula')->nullable();
+            $table->string('banco_tipo_cuenta')->nullable();
+            // Pago Móvil
+            $table->string('pago_movil_banco')->nullable();
+            $table->string('pago_movil_cedula')->nullable();
+            $table->string('pago_movil_telefono')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('carrito', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('empresa_id')->nullable()->constrained('empresas')->nullOnDelete();
+            $table->foreignId('servicio_id')->nullable()->constrained('servicios')->nullOnDelete();
+            $table->foreignId('producto_id')->nullable()->constrained('productos')->nullOnDelete();
+            $table->string('tipo')->nullable();
+            $table->decimal('precio', 10, 2)->default(0);
+            $table->integer('cantidad')->default(1);
             $table->timestamps();
         });
 
@@ -61,6 +82,7 @@ return new class extends Migration
 
     public function down(): void
     {
+        Schema::dropIfExists('carrito');
         Schema::dropIfExists('inventario_movimientos');
         Schema::dropIfExists('metodos_pago_empresa');
         Schema::dropIfExists('suscripciones');

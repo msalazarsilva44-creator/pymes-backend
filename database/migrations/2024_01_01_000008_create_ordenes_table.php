@@ -37,18 +37,12 @@ return new class extends Migration
         Schema::create('orden_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('orden_id')->constrained('ordenes')->cascadeOnDelete();
+            $table->string('tipo')->nullable();
+            $table->foreignId('servicio_id')->nullable()->constrained('servicios')->nullOnDelete();
             $table->foreignId('producto_id')->nullable()->constrained('productos')->nullOnDelete();
-            $table->string('nombre_producto');
-            $table->integer('cantidad')->default(1);
-            $table->decimal('precio_unitario', 10, 2)->default(0);
-            $table->decimal('subtotal', 10, 2)->default(0);
-            $table->timestamps();
-        });
-
-        Schema::create('carritos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('producto_id')->constrained('productos')->cascadeOnDelete();
+            $table->string('nombre_servicio')->nullable();
+            $table->text('descripcion_servicio')->nullable();
+            $table->decimal('precio', 10, 2)->default(0);
             $table->integer('cantidad')->default(1);
             $table->timestamps();
         });
@@ -56,7 +50,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('carritos');
         Schema::dropIfExists('orden_items');
         Schema::dropIfExists('ordenes');
     }

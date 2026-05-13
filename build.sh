@@ -1,18 +1,14 @@
 #!/usr/bin/env bash
 
+# Script de inicio para Render — se ejecuta dentro del contenedor Docker antes de levantar Nginx/PHP-FPM
+
 set -e
 
-echo "==> Instalando dependencias..."
-composer install --no-dev --optimize-autoloader
-
-echo "==> Generando APP_KEY..."
+echo "==> Generando APP_KEY si no existe..."
 php artisan key:generate --force
 
-echo "==> Limpiando caché..."
-php artisan config:clear
-php artisan cache:clear
-php artisan route:clear
-php artisan view:clear
+echo "==> Enlazando storage..."
+php artisan storage:link || true
 
 echo "==> Ejecutando migraciones..."
 php artisan migrate --force
@@ -20,12 +16,10 @@ php artisan migrate --force
 echo "==> Ejecutando seeders..."
 php artisan db:seed --force
 
-echo "==> Enlazando storage..."
-php artisan storage:link
-
-echo "==> Optimizando..."
+echo "==> Optimizando para producción..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-echo "==> Deploy completado!"
+echo "==> Iniciando servicios..."
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
