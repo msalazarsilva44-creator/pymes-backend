@@ -32,6 +32,9 @@ WORKDIR /var/www/html
 # Copiar archivos del proyecto
 COPY . .
 
+# Crear .env base desde .env.example
+RUN cp .env.example .env
+
 # Instalar dependencias PHP
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 

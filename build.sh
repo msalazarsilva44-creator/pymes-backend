@@ -4,9 +4,6 @@
 
 set -e
 
-echo "==> Creando .env desde .env.example..."
-cp .env.example .env
-
 echo "==> Generando APP_KEY..."
 php artisan key:generate --force
 
