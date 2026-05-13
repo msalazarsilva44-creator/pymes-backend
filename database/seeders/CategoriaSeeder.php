@@ -29,13 +29,17 @@ class CategoriaSeeder extends Seeder
         ];
 
         foreach ($categorias as $categoria) {
-            Categoria::create([
-                'nombre' => $categoria['nombre'],
-                'slug' => Str::slug($categoria['nombre']),
-                'descripcion' => $categoria['descripcion'],
-                'icono' => $categoria['icono'],
-                'activa' => true,
-            ]);
+            $slug = Str::slug($categoria['nombre']);
+            Categoria::firstOrCreate(
+                ['slug' => $slug],
+                [
+                    'nombre' => $categoria['nombre'],
+                    'slug' => $slug,
+                    'descripcion' => $categoria['descripcion'],
+                    'icono' => $categoria['icono'],
+                    'activa' => true,
+                ]
+            );
         }
 
         $this->command->info('✅ Categorías creadas exitosamente');

@@ -12,9 +12,10 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('slug')->unique();
+            $table->text('descripcion')->nullable();
             $table->string('icono')->nullable();
             $table->string('color')->nullable();
-            $table->boolean('activo')->default(true);
+            $table->boolean('activa')->default(true);
             $table->timestamps();
         });
     }

@@ -16,9 +16,8 @@ class UserSeeder extends Seeder
         $empresaRole = Role::where('name', 'empresa')->first();
 
         // Admin
-        User::create([
+        User::firstOrCreate(['email' => 'admin@servilocal.com'], [
             'name' => 'Administrador',
-            'email' => 'admin@servilocal.com',
             'password' => Hash::make('password'),
             'role_id' => $adminRole->id,
             'phone' => '3331234567',
@@ -26,9 +25,8 @@ class UserSeeder extends Seeder
         ]);
 
         // Cliente de prueba
-        User::create([
+        User::firstOrCreate(['email' => 'cliente@test.com'], [
             'name' => 'Juan Pérez',
-            'email' => 'cliente@test.com',
             'password' => Hash::make('password'),
             'role_id' => $clienteRole->id,
             'phone' => '3339876543',
@@ -43,12 +41,11 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($empresas as $empresa) {
-            User::create([
+            User::firstOrCreate(['email' => $empresa['email']], [
                 'name' => $empresa['name'],
-                'email' => $empresa['email'],
                 'password' => Hash::make('password'),
                 'role_id' => $empresaRole->id,
-                'phone' => '333' . rand(1000000, 9999999),
+                'phone' => '04120000000',
                 'is_active' => true,
             ]);
         }

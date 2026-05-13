@@ -52,7 +52,7 @@ class PlanSeeder extends Seeder
         ];
 
         foreach ($planes as $plan) {
-            Plan::create($plan);
+            Plan::firstOrCreate(['slug' => $plan['slug']], $plan);
         }
 
         $this->command->info('✅ Planes creados exitosamente');

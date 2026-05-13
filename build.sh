@@ -20,10 +20,14 @@ echo "==> Enlazando storage..."
 php artisan storage:link || true
 
 echo "==> Ejecutando migraciones..."
-php artisan migrate --force
-
-echo "==> Ejecutando seeders..."
-php artisan db:seed --force
+if [ "${FRESH_MIGRATE}" = "true" ]; then
+    echo "==> FRESH_MIGRATE=true — limpiando y recreando tablas..."
+    php artisan migrate:fresh --force --seed
+else
+    php artisan migrate --force
+    echo "==> Ejecutando seeders..."
+    php artisan db:seed --force
+fi
 
 echo "==> Optimizando para producción..."
 php artisan route:cache

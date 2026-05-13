@@ -37,7 +37,7 @@ class CiudadSeeder extends Seeder
         ];
 
         foreach ($estados as $estado) {
-            Ciudad::create($estado);
+            Ciudad::firstOrCreate(['nombre' => $estado['nombre'], 'pais' => $estado['pais']], $estado);
         }
 
         $this->command->info('✅ Estados de Venezuela creados exitosamente');
