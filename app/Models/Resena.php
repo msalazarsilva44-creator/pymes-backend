@@ -49,7 +49,7 @@ class Resena extends Model
      */
     public function scopeVisibles($query)
     {
-        return $query->where('visible', true);
+        return $query->where('activo', true);
     }
 
     /**
