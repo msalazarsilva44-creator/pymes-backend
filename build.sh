@@ -31,7 +31,7 @@ fi
 
 echo "==> Optimizando para producción..."
 php artisan route:cache
-php artisan view:cache
+php artisan view:cache || true
 
 echo "==> Iniciando servicios..."
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
