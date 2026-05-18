@@ -23,6 +23,10 @@ class Plan extends Model
         'verificacion_perfil',
         'descripcion',
         'activo',
+        'caracteristicas',
+        'color_badge',
+        'destacado',
+        'orden',
     ];
 
     protected $casts = [
@@ -32,6 +36,8 @@ class Plan extends Model
         'notificaciones_push' => 'boolean',
         'verificacion_perfil' => 'boolean',
         'activo' => 'boolean',
+        'caracteristicas' => 'array',
+        'destacado' => 'boolean',
     ];
 
     /**

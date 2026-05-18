@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\MetodoPagoController;
 use App\Http\Controllers\Api\ClienteController;
 use App\Http\Controllers\Api\ReporteController;
 use App\Http\Controllers\Api\InventarioController;
+use App\Http\Controllers\Api\AdminMembresiaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,9 @@ Route::get('/municipios/{ciudadId}', [CiudadController::class, 'getMunicipios'])
 // Planes
 Route::get('/planes', [PlanController::class, 'index']);
 Route::get('/planes/{id}', [PlanController::class, 'show']);
+
+// Membresías activas (público — consumido por PagoEmpresa.tsx)
+Route::get('/membresias/activas', [AdminMembresiaController::class, 'activas']);
 
 // Empresas
 Route::get('/empresas', [EmpresaController::class, 'index']);
@@ -207,6 +211,13 @@ Route::middleware('auth:sanctum')->group(function () {
         $servicios = \App\Models\Servicio::with('empresa')->get();
         return response()->json(['data' => $servicios]);
     });
+
+    // Admin - Membresías (CRUD sobre tabla planes)
+    Route::get('/admin/membresias', [AdminMembresiaController::class, 'index']);
+    Route::post('/admin/membresias', [AdminMembresiaController::class, 'store']);
+    Route::put('/admin/membresias/{id}', [AdminMembresiaController::class, 'update']);
+    Route::delete('/admin/membresias/{id}', [AdminMembresiaController::class, 'destroy']);
+    Route::patch('/admin/membresias/{id}/toggle', [AdminMembresiaController::class, 'toggle']);
 
 });
 
