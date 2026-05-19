@@ -20,6 +20,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('suscripciones:enviar-recordatorios')
                  ->daily()
                  ->at('09:00');
+
+        // Limpiar tokens Sanctum expirados diariamente
+        $schedule->command('sanctum:prune-expired --hours=24')->daily();
     }
 
     protected function commands(): void
