@@ -74,7 +74,7 @@ class EmpresaController extends Controller
             'categoria',
             'ciudad',
             'plan',
-            'suscripcionActiva', // Incluir suscripción activa
+            'suscripcionVigente',
             'fotos' => function($query) {
                 $query->orderBy('es_principal', 'desc')->orderBy('orden', 'asc');
             },

@@ -9,6 +9,7 @@ use App\Models\Metrica;
 use App\Models\Suscripcion;
 use App\Models\Categoria;
 use App\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -586,15 +587,35 @@ class AdminController extends Controller
                 ], 400);
             }
 
+            $now = now();
+
+            $ultimaActiva = Suscripcion::where('empresa_id', $suscripcion->empresa_id)
+                ->where('estado', 'activa')
+                ->orderByDesc('fecha_fin')
+                ->first();
+
+            $base = $now->copy();
+            $fechaInicio = $now->copy();
+
+            if ($ultimaActiva && $ultimaActiva->fecha_fin) {
+                $fechaFinAnterior = Carbon::parse($ultimaActiva->fecha_fin);
+                if ($fechaFinAnterior->isFuture()) {
+                    $base = $fechaFinAnterior->copy();
+                    $fechaInicio = $fechaFinAnterior->copy();
+                }
+            }
+
+            $fechaFin = $suscripcion->tipo_periodo === 'anual'
+                ? $base->copy()->addYear()
+                : $base->copy()->addMonth();
+
             // Actualizar estado de la suscripción
             $suscripcion->update([
                 'estado' => 'activa',
                 'aprobada_por' => auth()->id(),
-                'aprobada_at' => now(),
-                'fecha_inicio' => now(),
-                'fecha_fin' => $suscripcion->tipo_periodo === 'mensual' 
-                    ? now()->addMonth() 
-                    : now()->addYear()
+                'aprobada_at' => $now,
+                'fecha_inicio' => $fechaInicio,
+                'fecha_fin' => $fechaFin,
             ]);
 
             // Actualizar el plan de la empresa

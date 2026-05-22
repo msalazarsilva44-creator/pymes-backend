@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -79,7 +80,7 @@ class Empresa extends Model
     /**
      * Atributos calculados a incluir en la serialización JSON.
      */
-    protected $appends = ['status', 'modules'];
+    protected $appends = ['status', 'modules', 'suscripcion'];
 
     /**
      * Usuario propietario
@@ -157,6 +158,14 @@ class Empresa extends Model
     }
 
     /**
+     * Suscripción más reciente (por fecha de fin)
+     */
+    public function suscripcionVigente()
+    {
+        return $this->hasOne(Suscripcion::class)->latest('fecha_fin');
+    }
+
+    /**
      * Última suscripción registrada (cualquier estado)
      */
     public function ultimaSuscripcion()
@@ -213,6 +222,51 @@ class Empresa extends Model
             'slug' => $planModel->slug ?? null,
             'color_badge' => $color,
             'estado_suscripcion' => $estado,
+        ];
+    }
+
+    /**
+     * Información de suscripción para el dashboard de empresa
+     */
+    public function getSuscripcionAttribute(): array
+    {
+        $plan = $this->relationLoaded('plan') ? $this->plan : $this->plan()->first();
+        $suscripcion = $this->relationLoaded('suscripcionVigente')
+            ? $this->getRelation('suscripcionVigente')
+            : $this->suscripcionVigente()->first();
+
+        if (!$this->plan_id || !$plan) {
+            return [
+                'plan_nombre'    => 'Sin plan',
+                'plan_color'     => 'slate',
+                'estado_acceso'  => 'sin_plan',
+                'fecha_fin'      => null,
+                'vence_legible'  => null,
+                'dias_restantes' => null,
+            ];
+        }
+
+        $fechaFin = $suscripcion && $suscripcion->fecha_fin ? Carbon::parse($suscripcion->fecha_fin) : null;
+        $hoy = now()->startOfDay();
+        $diasRestantes = $fechaFin ? $hoy->diffInDays($fechaFin, false) : null;
+
+        $estadoAcceso = match (true) {
+            is_null($suscripcion) => 'pendiente_pago',
+            $suscripcion->estado === 'pendiente_aprobacion' => 'en_revision',
+            $suscripcion->estado === 'rechazada' => 'pendiente_pago',
+            $fechaFin && $diasRestantes < 0 => 'vencida',
+            $fechaFin && $diasRestantes <= 5 => 'por_vencer',
+            $suscripcion->estado === 'activa' => 'activa',
+            default => 'pendiente_pago',
+        };
+
+        return [
+            'plan_nombre'    => $plan->nombre ?? 'Sin plan',
+            'plan_color'     => $plan->color_badge ?? 'blue',
+            'estado_acceso'  => $estadoAcceso,
+            'fecha_fin'      => $fechaFin?->toDateString(),
+            'vence_legible'  => $fechaFin?->format('d/m/Y'),
+            'dias_restantes' => $diasRestantes,
         ];
     }
 

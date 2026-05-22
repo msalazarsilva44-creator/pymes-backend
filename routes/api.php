@@ -85,49 +85,69 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/cliente/perfil', [ClienteController::class, 'perfil']);
     Route::put('/cliente/perfil', [ClienteController::class, 'actualizar']);
 
-    // Empresas (solo propietario)
-    Route::put('/empresas/{id}', [EmpresaController::class, 'update']);
-    Route::get('/empresas/{id}/metricas', [EmpresaController::class, 'metricas']);
-    
-    // Suscripciones (empresa solicita plan)
+    // Suscripciones (empresa solicita plan) - siempre accesible autenticado
     Route::post('/suscripciones/solicitar', [EmpresaController::class, 'solicitarSuscripcion']);
 
-    // Horarios de Empresa
-    Route::get('/empresas/{id}/horarios', [EmpresaController::class, 'getHorarios']);
-    Route::post('/empresas/{id}/horarios', [EmpresaController::class, 'saveHorarios']);
+    // Acciones del panel de la empresa (requieren suscripción activa)
+    Route::middleware('suscripcion.activa')->group(function () {
+        // Empresas (solo propietario)
+        Route::put('/empresas/{id}', [EmpresaController::class, 'update']);
+        Route::get('/empresas/{id}/metricas', [EmpresaController::class, 'metricas']);
 
-    // Logo de Empresa
-    Route::post('/empresas/{id}/logo', [EmpresaController::class, 'uploadLogo']);
-    Route::delete('/empresas/{id}/logo', [EmpresaController::class, 'deleteLogo']);
+        // Horarios de Empresa
+        Route::get('/empresas/{id}/horarios', [EmpresaController::class, 'getHorarios']);
+        Route::post('/empresas/{id}/horarios', [EmpresaController::class, 'saveHorarios']);
 
-    // Banner de Empresa
-    Route::post('/empresas/{id}/banner', [EmpresaController::class, 'uploadBanner']);
-    Route::delete('/empresas/{id}/banner', [EmpresaController::class, 'deleteBanner']);
+        // Logo de Empresa
+        Route::post('/empresas/{id}/logo', [EmpresaController::class, 'uploadLogo']);
+        Route::delete('/empresas/{id}/logo', [EmpresaController::class, 'deleteLogo']);
 
-    // Galería de Empresa
-    Route::get('/empresas/{id}/fotos', [EmpresaController::class, 'getFotos']);
-    Route::post('/empresas/{id}/fotos', [EmpresaController::class, 'uploadFoto']);
-    Route::delete('/empresas/{id}/fotos/{fotoId}', [EmpresaController::class, 'deleteFoto']);
+        // Banner de Empresa
+        Route::post('/empresas/{id}/banner', [EmpresaController::class, 'uploadBanner']);
+        Route::delete('/empresas/{id}/banner', [EmpresaController::class, 'deleteBanner']);
 
-    // Servicios de Empresa
-    Route::get('/empresas/{id}/servicios', [EmpresaController::class, 'getServicios']);
-    Route::post('/empresas/{id}/servicios', [EmpresaController::class, 'createServicio']);
-    Route::put('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'updateServicio']);
-    Route::delete('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'deleteServicio']);
-    Route::post('/empresas/{id}/servicios/{servicioId}/imagenes', [EmpresaController::class, 'uploadServicioImagen']);
-    Route::delete('/empresas/{id}/servicios/{servicioId}/imagenes/{imagenId}', [EmpresaController::class, 'deleteServicioImagen']);
+        // Galería de Empresa
+        Route::get('/empresas/{id}/fotos', [EmpresaController::class, 'getFotos']);
+        Route::post('/empresas/{id}/fotos', [EmpresaController::class, 'uploadFoto']);
+        Route::delete('/empresas/{id}/fotos/{fotoId}', [EmpresaController::class, 'deleteFoto']);
 
-    // Productos de Empresa
-    Route::get('/empresas/{id}/productos', [EmpresaController::class, 'getProductos']);
-    Route::post('/empresas/{id}/productos', [EmpresaController::class, 'createProducto']);
-    Route::put('/empresas/{id}/productos/{productoId}', [EmpresaController::class, 'updateProducto']);
-    Route::delete('/empresas/{id}/productos/{productoId}', [EmpresaController::class, 'deleteProducto']);
-    Route::post('/empresas/{id}/productos/{productoId}/imagenes', [EmpresaController::class, 'uploadProductoImagen']);
-    Route::delete('/empresas/{id}/productos/{productoId}/imagenes/{imagenId}', [EmpresaController::class, 'deleteProductoImagen']);
+        // Servicios de Empresa
+        Route::get('/empresas/{id}/servicios', [EmpresaController::class, 'getServicios']);
+        Route::post('/empresas/{id}/servicios', [EmpresaController::class, 'createServicio']);
+        Route::put('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'updateServicio']);
+        Route::delete('/empresas/{id}/servicios/{servicioId}', [EmpresaController::class, 'deleteServicio']);
+        Route::post('/empresas/{id}/servicios/{servicioId}/imagenes', [EmpresaController::class, 'uploadServicioImagen']);
+        Route::delete('/empresas/{id}/servicios/{servicioId}/imagenes/{imagenId}', [EmpresaController::class, 'deleteServicioImagen']);
 
-    // Reseñas (cliente autenticado)
-    Route::post('/empresas/{empresaId}/resenas', [ResenaController::class, 'store']);
-    Route::post('/resenas/{id}/responder', [ResenaController::class, 'responder']);
+        // Productos de Empresa
+        Route::get('/empresas/{id}/productos', [EmpresaController::class, 'getProductos']);
+        Route::post('/empresas/{id}/productos', [EmpresaController::class, 'createProducto']);
+        Route::put('/empresas/{id}/productos/{productoId}', [EmpresaController::class, 'updateProducto']);
+        Route::delete('/empresas/{id}/productos/{productoId}', [EmpresaController::class, 'deleteProducto']);
+        Route::post('/empresas/{id}/productos/{productoId}/imagenes', [EmpresaController::class, 'uploadProductoImagen']);
+        Route::delete('/empresas/{id}/productos/{productoId}/imagenes/{imagenId}', [EmpresaController::class, 'deleteProductoImagen']);
+
+        // Reseñas (cliente autenticado respondiendo como empresa)
+        Route::post('/empresas/{empresaId}/resenas', [ResenaController::class, 'store']);
+        Route::post('/resenas/{id}/responder', [ResenaController::class, 'responder']);
+
+        // Órdenes (empresa)
+        Route::get('/empresa/ordenes', [OrdenController::class, 'ordenesEmpresa']);
+        Route::put('/empresa/ordenes/{id}/confirmar', [OrdenController::class, 'confirmar']);
+        Route::put('/empresa/ordenes/{id}/completar', [OrdenController::class, 'completar']);
+
+        // Inventario (empresa)
+        Route::post('/empresa/productos/ingreso', [InventarioController::class, 'ingreso']);
+
+        // Reportes (empresa)
+        Route::get('/empresa/reportes/ventas', [ReporteController::class, 'ventas']);
+        Route::get('/empresa/reportes/ingresos-dia', [ReporteController::class, 'ingresosPorDia']);
+
+        // Métodos de Pago (empresa)
+        Route::get('/empresa/metodos-pago', [MetodoPagoController::class, 'index']);
+        Route::post('/empresa/metodos-pago', [MetodoPagoController::class, 'store']);
+        Route::delete('/empresa/metodos-pago/{tipo}', [MetodoPagoController::class, 'destroy']);
+    });
 
     // Admin - Verificación de Empresas
     Route::post('/admin/empresas/{id}/verificar', [EmpresaController::class, 'verificarEmpresa']);

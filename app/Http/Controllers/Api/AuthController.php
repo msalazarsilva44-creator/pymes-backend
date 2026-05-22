@@ -244,9 +244,10 @@ class AuthController extends Controller
         // Si es empresa, cargar datos de la empresa
         if ($user->isEmpresa() && $user->empresa) {
             $user->empresa = $user->empresa->load([
-                'categoria', 
-                'ciudad', 
+                'categoria',
+                'ciudad',
                 'plan',
+                'suscripcionVigente',
                 'fotos',
                 'servicios',
                 'productos.imagenes',
