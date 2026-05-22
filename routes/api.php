@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\ClienteController;
 use App\Http\Controllers\Api\ReporteController;
 use App\Http\Controllers\Api\InventarioController;
 use App\Http\Controllers\Api\AdminMembresiaController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -202,9 +203,33 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Admin - Empresas
     Route::get('/admin/empresas', function() {
-        $empresas = \App\Models\Empresa::with(['user', 'categoria', 'ciudad'])->get();
-        return response()->json(['data' => $empresas]);
+        $empresas = \App\Models\Empresa::with([
+            'user',
+            'categoria',
+            'ciudad',
+            'plan',
+            'suscripcionActiva',
+            'suscripcionActiva.plan',
+            'ultimaSuscripcion',
+            'ultimaSuscripcion.plan',
+        ])->get();
+
+        $data = $empresas->map(function ($empresa) {
+            $payload = $empresa->toArray();
+            $payload['plan'] = $empresa->resolvePlanPanel();
+
+            unset($payload['suscripcion_activa'], $payload['ultima_suscripcion']);
+
+            return $payload;
+        });
+
+        return response()->json(['data' => $data]);
     });
+
+    // Admin - Suscripciones
+    Route::get('/admin/suscripciones/pendientes', [AdminController::class, 'suscripcionesPendientes']);
+    Route::post('/admin/suscripciones/{id}/aprobar', [AdminController::class, 'aprobarSuscripcion']);
+    Route::post('/admin/suscripciones/{id}/rechazar', [AdminController::class, 'rechazarSuscripcion']);
 
     // Admin - Servicios
     Route::get('/admin/servicios', function() {

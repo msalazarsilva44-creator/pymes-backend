@@ -157,6 +157,66 @@ class Empresa extends Model
     }
 
     /**
+     * Última suscripción registrada (cualquier estado)
+     */
+    public function ultimaSuscripcion()
+    {
+        return $this->hasOne(Suscripcion::class)->latest();
+    }
+
+    /**
+     * Datos normalizados del plan para panel administrativo
+     */
+    public function resolvePlanPanel(): array
+    {
+        $default = [
+            'nombre' => 'Sin plan',
+            'slug' => null,
+            'color_badge' => 'slate',
+            'estado_suscripcion' => 'sin_plan',
+        ];
+
+        $planModel = $this->plan ?: optional($this->ultimaSuscripcion)->plan;
+
+        if (!$planModel) {
+            return $default;
+        }
+
+        $color = $planModel->color_badge ?? 'slate';
+        $allowedColors = ['blue', 'violet', 'emerald', 'amber', 'rose', 'slate'];
+        if (!in_array($color, $allowedColors, true)) {
+            $color = 'slate';
+        }
+
+        $estado = 'sin_plan';
+        $now = now();
+
+        if ($this->relationLoaded('suscripcionActiva') && $this->suscripcionActiva) {
+            $activa = $this->suscripcionActiva;
+            $estado = ($activa->fecha_fin && $activa->fecha_fin->lt($now)) ? 'vencida' : 'activa';
+        } elseif ($this->relationLoaded('ultimaSuscripcion') && $this->ultimaSuscripcion) {
+            $ultima = $this->ultimaSuscripcion;
+
+            if ($ultima->estado === 'activa') {
+                $estado = ($ultima->fecha_fin && $ultima->fecha_fin->lt($now)) ? 'vencida' : 'activa';
+            } elseif ($ultima->estado === 'pendiente_aprobacion') {
+                $estado = 'en_revision';
+            } elseif ($ultima->estado === 'pendiente_pago') {
+                $estado = 'pendiente_pago';
+            } elseif ($ultima->estado === 'rechazada') {
+                $estado = 'sin_plan';
+            }
+        }
+
+        return [
+            'nombre' => $planModel->nombre ?? 'Sin plan',
+            'slug' => $planModel->slug ?? null,
+            'color_badge' => $color,
+            'estado_suscripcion' => $estado,
+        ];
+    }
+
+    /**
      * Obtener días restantes de suscripción
      */
     public function diasRestantesSuscripcion()
